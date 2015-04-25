@@ -3,19 +3,19 @@ package com.example.tommyhui.evcapplication.overview;
 import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.ViewConfiguration;
+import android.view.MenuItem;
 import android.widget.ImageView;
+
 import android.widget.SearchView;
 import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.R;
-
-import java.lang.reflect.Field;
 
 public class OverviewActivity extends ActionBarActivity {
 
@@ -44,11 +44,16 @@ public class OverviewActivity extends ActionBarActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.overview_options_menu, menu);
 
-/*        // Get the SearchView and set the searchable configuration
+        // Get the SearchView and set the searchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        SearchView searchView = (SearchView) menu.findItem(R.id.overview_action_search).getActionView();
 
-        searchView.setIconifiedByDefault(false);*/
+        MenuItem searchItem = menu.findItem(R.id.overview_action_search);
+        SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+//        SearchView searchView = (SearchView) menu.findItem(R.id.overview_action_search);
+        Log.v("test-logging", "R.id.overview_action_search : " +  menu.findItem(R.id.overview_action_search));
+
+
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
 //        // Associate searchable configuration with the SearchView
 //        SearchManager searchManager =
