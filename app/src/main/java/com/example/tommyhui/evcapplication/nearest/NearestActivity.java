@@ -33,18 +33,6 @@ public class NearestActivity extends ActionBarActivity {
         ImageView myImgView = (ImageView)findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.map_icon);
 
-        /*Display Action Bar's Icon*/
-        try {
-            ViewConfiguration config = ViewConfiguration.get(this);
-            Field menuKeyField = ViewConfiguration.class
-                    .getDeclaredField("sHasPermanentMenuKey");
-            if (menuKeyField != null) {
-                menuKeyField.setAccessible(true);
-                menuKeyField.setBoolean(config, false);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
