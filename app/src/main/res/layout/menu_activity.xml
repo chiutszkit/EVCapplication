@@ -1,0 +1,165 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/menu"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/light_yellow"
+    android:orientation="vertical" >
+
+    <!--First  row-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:baselineAligned="false"
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="1"
+        android:orientation="horizontal"
+        android:gravity="center">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/menu_grid_overview"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/menu_grid_icon_overview"
+                android:src="@drawable/overview_icon"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_width="150sp"
+                android:layout_height="150sp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/menu_description_overview"/>
+            <TextView
+                android:id="@+id/menu_grid_text_overview"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="0.025"
+                android:textSize="25sp"
+                android:layout_marginTop="10sp"
+                android:text="@string/menu_overview"/>
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/menu_grid_search"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/menu_grid_icon_search"
+                android:src="@drawable/search_icon"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_width="150sp"
+                android:layout_height="150sp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/menu_description_search"/>
+            <TextView
+                android:id="@+id/menu_grid_text_search"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="0.05"
+                android:textSize="25sp"
+                android:layout_marginTop="10sp"
+
+                android:text="@string/menu_search"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--Second row-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:baselineAligned="false"
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal" >
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:id="@+id/menu_grid_favourite"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/menu_grid_icon_favourite"
+                android:src="@drawable/favorite_icon"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_width="150sp"
+                android:layout_height="150sp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/menu_description_favourite"/>
+            <TextView
+                android:id="@+id/menu_grid_text_favourite"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="0.025"
+                android:textSize="25sp"
+                android:layout_marginTop="10sp"
+                android:text="@string/menu_favourite"/>
+        </LinearLayout>
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:id="@+id/menu_grid_nearest"
+            android:layout_height="wrap_content"
+            >
+            <ImageView
+                android:id="@+id/menu_grid_icon_nearest"
+                android:src="@drawable/map_icon"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_width="150sp"
+                android:layout_height="150sp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/menu_description_nearest"/>
+            <TextView
+                android:id="@+id/menu_grid_text_nearest"
+                android:gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="0sp"
+                android:layout_weight="0.025"
+                android:textSize="25sp"
+                android:layout_marginTop="10sp"
+                android:text="@string/menu_nearest"/>
+        </LinearLayout>
+    </LinearLayout>
+    <!--Third row-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:baselineAligned="false"
+        android:layout_width="match_parent"
+        android:layout_height="0sp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:orientation="horizontal" >
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:id="@+id/menu_grid_about"
+            android:layout_height="wrap_content">
+            <ImageView
+                android:id="@+id/menu_grid_icon_about"
+                android:src="@drawable/about_icon"
+                android:layout_gravity="center"
+                android:layout_weight="1"
+                android:layout_width="150sp"
+                android:layout_height="150sp"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/menu_description_about"/>
+            <TextView
+                android:id="@+id/menu_grid_text_about"
+                android:layout_gravity="center"
+                android:layout_width="wrap_content"
+                android:layout_height="0sp"
+                android:layout_weight="0.025"
+                android:textSize="25sp"
+                android:layout_marginTop="10sp"
+                android:text="@string/menu_about"/>
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

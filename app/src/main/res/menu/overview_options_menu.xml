@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:evcapplication="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/overview_action_search"
+        android:icon="@drawable/small_search_icon"
+        android:orderInCategory="10"
+        android:actionViewClass="android.widget.SearchView"
+        evcapplication:showAsAction="ifRoom|collapseActionView"
+        android:title="Search"/>
+</menu>

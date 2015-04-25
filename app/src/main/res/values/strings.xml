@@ -1,0 +1,69 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">EV Charging Station Helper</string>
+    <string name="description_icon">EV Charging Station Helper\'s icon</string>
+    <string name="home_slogan">Go Green, Go Electric</string>
+
+    <!-- Home Page-->
+    <string name="home_swipe">Please swipe to enter</string>
+
+    <!-- Menu Page-->
+    <string name="menu_overview">Overview</string>
+    <string name="menu_search">Search</string>
+    <string name="menu_favourite">Favourite</string>
+    <string name="menu_nearest">Nearest</string>
+    <string name="menu_about">About</string>
+    <string name="menu_description_overview">Overview\'s button</string>
+    <string name="menu_description_search">Search\'s button</string>
+    <string name="menu_description_favourite">Favourtie\'s button</string>
+    <string name="menu_description_nearest">Nearest\'s button</string>
+    <string name="menu_description_about">About\'s button</string>
+
+    <!-- Nearest Page-->
+    <string name="nearest_userlocation">You are now in</string>
+    <string name="nearest_nearestlocation">The nearest charging station is in</string>
+
+    <!-- Search Result Page-->
+    <string name="search_result_title">Search Result</string>
+    <string name="search_result_searchagain">Search Again</string>
+
+    <!-- About Page-->
+    <string name="about_author">Author</string>
+    <string name="about_telephone">Call Me</string>
+    <string name="about_email">Email Me</string>
+    <string name="about_version">Version</string>
+    <string name="about_date">Release Date</string>
+
+    <string name="about_author_name">Hui Yiu Wing (Tommy) 53032539</string>
+    <string name="about_author_tel">+85298490124</string>
+    <string name="about_author_email">aesops0124@gmail.com</string>
+    <string name="about_app_version">1.0</string>
+    <string name="about_app_date">June 1, 2015</string>
+    <!-- Search Page-->
+    <string name="search_view_title">Type whatever you want &#8230;</string>
+    <string name="map_searching_message">系統正搜索你的位置</string>
+    <string name="map_help_message">請鍵入國家名稱(e.g.美國)在搜索列</string>
+    <string name="overview_getting_info">正在擷取資訊</string>
+    <string name="search_the_web">Google Search</string>
+
+    <!-- Overview Page-->
+    <string name="list_overview">List</string>
+    <string name="list_history">History</string>
+
+    <!-- Favorites Page-->
+	<string name="add_to_favorites">Add to favorites</string>
+	<string name="no_favorites_title">你沒有「我的最愛」</string>
+	<string name="no_faovrites_text">請到任何一個城市/國家的即時天氣版面上按Add To Favorites
+	    ，以新増自己的最愛</string>
+	<string name="search_option">搜尋國家</string>
+	<string name="overview_option">選擇國家</string>
+	<string name="go_to_favorites">Go to favorites</string>
+	<string name="ok">OK</string>
+	<string name="favorite_added">已新增為「我的最愛」</string>
+	<string name="favorite_added_message">請按下面的選項以繼續</string>
+	<string name="favorite_possible_duplicated">已在「我的最愛」列表中</string>
+	<string name="favorite_possible_duplicated_message">由於先前已將此地方納入為「我的最愛」，因此剛才的動作會被取消</string>
+
+
+</resources>
