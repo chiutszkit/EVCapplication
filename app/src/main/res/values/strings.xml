@@ -40,8 +40,8 @@
     <string name="about_author_email">aesops0124@gmail.com</string>
     <string name="about_app_version">1.0</string>
     <string name="about_app_date">June 1, 2015</string>
+
     <!-- Search Page-->
-    <string name="search_view_title">Type whatever you want &#8230;</string>
     <string name="map_searching_message">系統正搜索你的位置</string>
     <string name="map_help_message">請鍵入國家名稱(e.g.美國)在搜索列</string>
     <string name="overview_getting_info">正在擷取資訊</string>
@@ -50,6 +50,7 @@
     <!-- Overview Page-->
     <string name="list_overview">List</string>
     <string name="list_history">History</string>
+    <string name="overview_search_view_title">Search Charging Station &#8230;</string>
 
     <!-- Favorites Page-->
 	<string name="add_to_favorites">Add to favorites</string>

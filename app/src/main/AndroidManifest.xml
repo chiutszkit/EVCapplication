@@ -38,7 +38,7 @@
         <!-- <meta-data android:name="android.app.default_searchable" android:value="com.example.interactivemap.search.SearchPlaceActivity"/> -->
 
 
-        <!-- <meta-data android:name="android.app.searchable" android:resource="@xml/searchable"/> -->
+        <!-- <meta-data android:name="android.app.overviewSearchable" android:resource="@xml/overviewSearchable"/> -->
 
         <activity
             android:name=".HomeActivity"
@@ -56,7 +56,7 @@
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
-            <meta-data android:name="android.app.searchable" android:resource="@xml/searchable" />
+            <meta-data android:name="android.app.searchable" android:resource="@xml/overviewSearchable" />
         </activity>
 
         <activity android:name=".search.SearchActivity"/>

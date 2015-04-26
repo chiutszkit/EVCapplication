@@ -44,7 +44,7 @@ public class OverviewActivity extends ActionBarActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.overview_options_menu, menu);
 
-        // Get the SearchView and set the searchable configuration
+        // Get the SearchView and set the overviewSearchable configuration
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 
         MenuItem searchItem = menu.findItem(R.id.overview_action_search);
@@ -55,7 +55,7 @@ public class OverviewActivity extends ActionBarActivity {
 
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
-//        // Associate searchable configuration with the SearchView
+//        // Associate overviewSearchable configuration with the SearchView
 //        SearchManager searchManager =
 //                (SearchManager) getSystemService(Context.SEARCH_SERVICE);
 //        SearchView searchView =
