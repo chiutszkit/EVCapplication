@@ -1,22 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Pressed -->
     <item android:state_pressed="true">
-        <!-- Pressed -->
         <shape android:shape="rectangle">
             <corners android:radius="2sp"/>
             <solid android:color="@color/light_green"/>
-            <stroke
-                android:width="2dp"
-                android:color="@color/black"
-                />
         </shape>
     </item>
+    <!-- Default -->
     <item>
-        <!-- Default -->
         <shape android:shape="rectangle">
-
             <solid android:color="@color/white"/>
-
         </shape>
     </item>
 </selector>

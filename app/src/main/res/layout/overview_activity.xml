@@ -15,7 +15,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/overview_tab_background_selector"
+            android:background="@drawable/selectable_background_actionbar"
             android:textOn="@string/list_overview"
             android:textOff="@string/list_overview" />
 
@@ -24,7 +24,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:background="@drawable/overview_tab_background_selector"
+            android:background="@drawable/selectable_background_actionbar"
             android:textOn="@string/list_history"
             android:textOff="@string/list_history" />
 

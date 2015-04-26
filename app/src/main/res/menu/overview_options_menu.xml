@@ -1,9 +1,14 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:evcapplication="http://schemas.android.com/apk/res-auto">
     <item
+        android:id="@+id/overview_status_text"
+        evcapplication:actionViewClass="android.support.v7.widget.TextView"
+        evcapplication:showAsAction="always"
+        android:title="[Address]"/>
+    <item
         android:id="@+id/overview_action_search"
         android:icon="@drawable/small_search_icon"
-        evcapplication:actionViewClass="android.widget.SearchView"
+        evcapplication:actionViewClass="android.support.v7.widget.SearchView"
         evcapplication:showAsAction="always"
         android:title="Search" />
 </menu>

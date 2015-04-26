@@ -37,7 +37,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:textSize="25dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="20dp"
                 android:text="@string/menu_overview"/>
         </LinearLayout>
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -63,7 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:textSize="25dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="20dp"
                 android:text="@string/menu_search"/>
         </LinearLayout>
     </LinearLayout>
@@ -99,7 +99,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:textSize="25dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="20dp"
                 android:text="@string/menu_favourite"/>
         </LinearLayout>
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -125,7 +125,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:textSize="25dp"
-                android:layout_marginBottom="30dp"
+                android:layout_marginBottom="20dp"
                 android:text="@string/menu_nearest"/>
         </LinearLayout>
     </LinearLayout>
