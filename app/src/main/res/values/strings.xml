@@ -14,19 +14,23 @@
     <string name="menu_favourite">Favourite</string>
     <string name="menu_nearest">Nearest</string>
     <string name="menu_about">About</string>
-    <string name="menu_description_overview">Overview\'s button</string>
-    <string name="menu_description_search">Search\'s button</string>
-    <string name="menu_description_favourite">Favourtie\'s button</string>
-    <string name="menu_description_nearest">Nearest\'s button</string>
-    <string name="menu_description_about">About\'s button</string>
+    <string name="menu_share">Share</string>
+
+
+    <string name="menu_description_overview">Find out all charging stations</string>
+    <string name="menu_description_search">Search your wanted charging stations</string>
+    <string name="menu_description_favourite">Save your favourite record</string>
+    <string name="menu_description_nearest">Find the nearest charging station</string>
+    <string name="menu_description_about">About this apps</string>
+    <string name="menu_description_share">Share this app to others</string>
 
     <!-- Nearest Page-->
-    <string name="nearest_userlocation">You are now in</string>
-    <string name="nearest_nearestlocation">The nearest charging station is in</string>
+    <string name="nearest_userLocation">You are now in</string>
+    <string name="nearest_nearestLocation">The nearest charging station is in</string>
 
     <!-- Search Result Page-->
     <string name="search_result_title">Search Result</string>
-    <string name="search_result_searchagain">Search Again</string>
+    <string name="search_result_searchAgain">Search Again</string>
 
     <!-- About Page-->
     <string name="about_author">Author</string>
@@ -51,12 +55,12 @@
     <string name="list_overview">List</string>
     <string name="list_history">History</string>
     <string name="overview_search_view_title">Search Here...</string>
-    <string name="overview_search_message">請鍵入國家名稱(e.g.美國)在搜索列</string>
+    <!--<string name="overview_search_message">請鍵入國家名稱(e.g.美國)在搜索列</string>-->
 
     <!-- Favorites Page-->
 	<string name="add_to_favorites">Add to favorites</string>
 	<string name="no_favorites_title">你沒有「我的最愛」</string>
-	<string name="no_faovrites_text">請到任何一個城市/國家的即時天氣版面上按Add To Favorites
+	<string name="no_favorites_text">請到任何一個城市/國家的即時天氣版面上按Add To Favorites
 	    ，以新増自己的最愛</string>
 	<string name="search_option">搜尋國家</string>
 	<string name="overview_option">選擇國家</string>

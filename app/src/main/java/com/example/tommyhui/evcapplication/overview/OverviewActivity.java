@@ -1,21 +1,14 @@
 package com.example.tommyhui.evcapplication.overview;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.SearchView.OnQueryTextListener;
-import android.support.v7.widget.SearchView.OnSuggestionListener;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -48,15 +41,20 @@ public class OverviewActivity extends ActionBarActivity {
         /*Set Action Bar's Icon*/
         ImageView myImgView = (ImageView)findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.overview_icon);
+
+
+//        mListView = (ListView) findViewById(R.id.list_view);
+//        mListView.setAdapter(new ArrayAdapter<String>(this,
+//                android.R.layout.simple_list_item_1,
+//                mStrings));
+//        mListView.setTextFilterEnabled(true);
+//        setupSearchView();
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.overview_options_menu, menu);
-
-        result = menu.findItem(R.id.overview_status_text);
-        result.setVisible(false);
 
 //        // Get the SearchView and set the overview_searchable configuration
 //        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
@@ -65,6 +63,9 @@ public class OverviewActivity extends ActionBarActivity {
         searchItem = menu.findItem(R.id.overview_action_search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setQueryHint(getResources().getString(R.string.overview_search_view_title));
+
+        result = menu.findItem(R.id.overview_status_text);
+        result.setVisible(false);
 
 //        Log.v("test-logging", "R.id.overview_action_search : " +  menu.findItem(R.id.overview_action_search));
 

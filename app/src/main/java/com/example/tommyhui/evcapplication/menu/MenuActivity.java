@@ -7,7 +7,6 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,7 +18,6 @@ import com.example.tommyhui.evcapplication.nearest.NearestActivity;
 import com.example.tommyhui.evcapplication.overview.OverviewActivity;
 import com.example.tommyhui.evcapplication.search.SearchActivity;
 
-import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
 public class MenuActivity extends ActionBarActivity {
@@ -48,14 +46,15 @@ public class MenuActivity extends ActionBarActivity {
         findViewById(R.id.menu_grid_favourite).setOnClickListener(mGlobal_OnClickListener);
         findViewById(R.id.menu_grid_nearest).setOnClickListener(mGlobal_OnClickListener);
         findViewById(R.id.menu_grid_about).setOnClickListener(mGlobal_OnClickListener);
+        findViewById(R.id.menu_grid_share).setOnClickListener(mGlobal_OnClickListener);
     }
     final View.OnClickListener mGlobal_OnClickListener = new View.OnClickListener() {
         public void onClick(final View v) {
             switch (v.getId()) {
                 case R.id.menu_grid_overview:
-                    Intent overviewintent = new Intent();
-                    overviewintent.setClass(MenuActivity.this, OverviewActivity.class);
-                    startActivity(overviewintent);
+                    Intent overviewIntent = new Intent();
+                    overviewIntent.setClass(MenuActivity.this, OverviewActivity.class);
+                    startActivity(overviewIntent);
                     break;
                 case R.id.menu_grid_search:
                     Intent searchPlaceIntent = new Intent();
@@ -77,11 +76,36 @@ public class MenuActivity extends ActionBarActivity {
                     aboutIntent.setClass(MenuActivity.this, AboutActivity.class);
                     startActivity(aboutIntent);
                     break;
+                case R.id.menu_grid_share:
+                    shareApp();
+                    break;
                 default:
             }
         }
     };
+    public void shareApp() {
+        //create the send intent
+        Intent shareIntent =
+                new Intent(android.content.Intent.ACTION_SEND);
 
+        //set the type
+        shareIntent.setType("text/plain");
+
+        //add a subject
+        shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
+                "Check out this app!");
+
+        //build the body of the message to be shared
+        String shareMessage = getString(R.string.app_name) + " - A easy way to find the nearest charging station in HK.";
+
+        //add the message
+        shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,
+                shareMessage);
+
+        //start the chooser for sharing
+        startActivity(Intent.createChooser(shareIntent,
+                "Share via"));
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

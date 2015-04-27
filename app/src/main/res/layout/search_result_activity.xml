@@ -18,6 +18,6 @@
         android:layout_weight="0.5"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:text="@string/search_result_searchagain"
+        android:text="@string/search_result_searchAgain"
         android:id="@+id/search_result_button_searchagain"/>
 </LinearLayout>

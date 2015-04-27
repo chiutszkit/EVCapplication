@@ -81,13 +81,13 @@ public class AboutActivity extends ActionBarActivity {
                         startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + getString(R.string.about_author_tel))));
                         break;
                     case 2:
-                        Intent intent = new Intent(Intent.ACTION_SEND);
-                        intent.setType("text/plain");
-                        intent.putExtra(Intent.EXTRA_EMAIL, R.string.about_author_email);
-                        intent.putExtra(Intent.EXTRA_SUBJECT, "Email enquiry on EVC application");
-                        intent.putExtra(Intent.EXTRA_TEXT, "My enquiries or thoughts are...");
+                        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+                        emailIntent.setType("text/plain");
+                        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {getString(R.string.about_author_email)});
+                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Email Enquiry on EVC application");
+                        emailIntent.putExtra(Intent.EXTRA_TEXT, "I would like to ask ...");
 
-                        startActivity(Intent.createChooser(intent, "Send Email"));
+                        startActivity(Intent.createChooser(emailIntent, "Send Email"));
                         break;
                     default:
                 }
