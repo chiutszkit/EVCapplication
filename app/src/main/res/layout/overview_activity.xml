@@ -1,9 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+
+    <!-- dim background mask : visible when search view is enabled-->
+    <View
+        android:id="@+id/overview_dim_background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#66000000"
+        android:visibility="invisible"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,5 +45,5 @@
    	    android:layout_weight="1" >
 
     </android.support.v4.view.ViewPager>
-    
-</LinearLayout>
+
+</RelativeLayout>

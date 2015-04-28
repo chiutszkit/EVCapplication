@@ -5,10 +5,10 @@
         evcapplication:actionViewClass="android.support.v7.widget.TextView"
         evcapplication:showAsAction="always"
         android:title="[Address]"/>
-    <item
-        android:id="@+id/overview_action_search"
+
+    <item android:id="@+id/action_search_trigger"
         android:icon="@drawable/small_search_icon"
-        evcapplication:actionViewClass="android.support.v7.widget.SearchView"
-        evcapplication:showAsAction="ifRoom|collapseActionView"
-        android:title="Search" />
+        android:title="@string/action_search_trigger"
+        android:orderInCategory="100"
+        evcapplication:showAsAction="always" />
 </menu>

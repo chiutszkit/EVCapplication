@@ -176,7 +176,7 @@
             android:orientation="vertical"
             android:layout_height="match_parent">
 
-            <ImageView
+            <!--<ImageView
                 android:id="@+id/menu_grid_icon_share"
                 android:src="@drawable/share_icon"
                 android:layout_gravity="center"
@@ -185,7 +185,7 @@
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:layout_marginTop="10dp"
-                android:contentDescription="@string/menu_description_share"/>
+                android:contentDescription="@string/menu_description_share"/>-->
             <TextView
                 android:id="@+id/menu_grid_text_share"
                 android:gravity="center_horizontal"

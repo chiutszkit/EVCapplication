@@ -11,7 +11,7 @@
         android:orientation="horizontal">
 
         <ImageButton
-            android:id="@+id/contacts_search_back_btn"
+            android:id="@+id/overview_search_back_btn"
             android:background="?attr/selectableItemBackground"
             android:src="@drawable/ic_action_back"
             android:layout_width="wrap_content"
@@ -19,7 +19,7 @@
             android:padding="5dp"/>
 
         <AutoCompleteTextView
-            android:id="@+id/contacts_search_search_field"
+            android:id="@+id/overview_search_search_field"
             android:background="@android:color/transparent"
             android:layout_gravity="center_vertical"
             android:layout_width="0dp"
@@ -38,7 +38,7 @@
             android:completionThreshold="1"/>
 
         <ImageButton
-            android:id="@+id/contacts_search_clear_btn"
+            android:id="@+id/overview_search_clear_btn"
             android:background="?attr/selectableItemBackground"
             android:src="@drawable/ic_action_cancel"
             android:layout_width="wrap_content"
@@ -48,7 +48,7 @@
     </LinearLayout>
 
     <View
-        android:id="@+id/group_search_divider"
+        android:id="@+id/overview_search_divider"
         android:layout_width="match_parent"
         android:layout_height="2px"
         android:background="@color/colorPrimary"

@@ -13,31 +13,31 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.example.tommyhui.evcapplication.R;
+
 import java.util.ArrayList;
 
 public class OverviewSearchAutoCompleteAdapter extends BaseAdapter implements Filterable {
 
     class GroupSearchListViewHolder {
 
-        private ImageView avatarView;
         public TextView displayNameView;
         private LinearLayout dropdownItemLayout;
 
         public GroupSearchListViewHolder(View v) {
-            avatarView = (ImageView) v.findViewById(R.id.listitem_group_avatar);
             displayNameView = (TextView) v.findViewById(R.id.listitem_group_displayname);
             dropdownItemLayout = (LinearLayout) v.findViewById(R.id.group_search_dropdown_item_layout);
         }
     }
 
-    private ArrayList<DummyGroup> resultList;
-    private ArrayList<DummyGroup> originalList;
+    private ArrayList<String> resultList;
+    private ArrayList<String> originalList;
     private Context mContext;
     private LayoutInflater mLayoutInflater;
     private int leftPaddingWidth = -1;
     private int dropdownHeight = -1;
 
-    public OverviewSearchAutoCompleteAdapter(Context context, ArrayList<DummyGroup> originalList) {
+    public OverviewSearchAutoCompleteAdapter(Context context, ArrayList<String> originalList) {
         this.mContext = context;
         this.mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -52,11 +52,11 @@ public class OverviewSearchAutoCompleteAdapter extends BaseAdapter implements Fi
     }
 
     @Override
-    public DummyGroup getItem(int index) {
+    public String getItem(int index) {
         return resultList.get(index);
     }
 
-    public ArrayList<DummyGroup> getmList(){
+    public ArrayList<String> getmList(){
         return resultList;
     }
 
@@ -70,7 +70,7 @@ public class OverviewSearchAutoCompleteAdapter extends BaseAdapter implements Fi
         View v = convertView;
 
         if (convertView == null) {
-            v = mLayoutInflater.inflate(R.layout.list_item_group_search, parent, false);
+            v = mLayoutInflater.inflate(R.layout.list_item_overview_search, parent, false);
 
             GroupSearchListViewHolder viewHolder = new GroupSearchListViewHolder(v);
             v.setTag(viewHolder);
@@ -81,26 +81,15 @@ public class OverviewSearchAutoCompleteAdapter extends BaseAdapter implements Fi
 
     private void bindView(View v, int position) {
 
-        DummyGroup groupItem = getItem(position);
+        String item = getItem(position);
 
         final GroupSearchListViewHolder viewHolder = (GroupSearchListViewHolder) v.getTag();
 
-        viewHolder.avatarView.setImageBitmap(getRoundAvatar(groupItem.getAvatarId()));
-        //viewHolder.displayNameView.setText(groupItem.getDisplayName() + " Group");
-        viewHolder.displayNameView.setText(groupItem.getDisplayName());
+        viewHolder.displayNameView.setText(item);
 
         if(leftPaddingWidth != -1){
             viewHolder.displayNameView.setPadding(leftPaddingWidth,0,0,0);
         }
-
-        //dropdownHeight = viewHolder.dropdownItemLayout.getHeight();
-        int layoutPadding = viewHolder.dropdownItemLayout.getPaddingTop() + viewHolder.dropdownItemLayout.getPaddingBottom();
-
-        ViewGroup.LayoutParams imageViewParams = viewHolder.avatarView.getLayoutParams();
-        int imageViewhHeight = imageViewParams.height;
-        int imageViewhWidth = imageViewParams.width;
-
-        dropdownHeight = layoutPadding + imageViewhHeight + imageViewhWidth;
 
     }
 
@@ -142,30 +131,20 @@ public class OverviewSearchAutoCompleteAdapter extends BaseAdapter implements Fi
     }
 
     //---SearchView user input filtering---//
-    public ArrayList<DummyGroup> autocomplete(String s){
+    public ArrayList<String> autocomplete(String s){
         if(!s.isEmpty()) {
-            ArrayList<DummyGroup> newGroupItemList = new ArrayList<DummyGroup>();
+            ArrayList<String> newItemList = new ArrayList<String>();
 
-            for (DummyGroup groupItem : originalList) {
-                String groupName = groupItem.getDisplayName();
+            for (String item : originalList) {
 
-                if (groupName.toLowerCase().contains(s.toLowerCase())) {
-                    newGroupItemList.add(groupItem);
+                if (item.toLowerCase().contains(s.toLowerCase())) {
+                    newItemList.add(item);
                 }
             }
-            return newGroupItemList;
+            return newItemList;
         }
         else{
             return originalList;
         }
-    }
-
-    private Bitmap getRoundAvatar(int avatar) {
-        Bitmap bm = BitmapFactory.decodeResource(mContext.getResources(), avatar);
-        Bitmap output = BitmapUtils.getCircleBitmap(bm);
-        if (output != null && output != bm) {
-            bm.recycle();
-        }
-        return output;
     }
 }
