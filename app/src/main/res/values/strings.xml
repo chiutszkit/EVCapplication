@@ -55,7 +55,6 @@
     <string name="list_overview">List</string>
     <string name="list_history">History</string>
     <string name="overview_search_view_title">Search Here...</string>
-    <string name="action_search_trigger">Search Trigger</string>
     <!--<string name="overview_search_message">請鍵入國家名稱(e.g.美國)在搜索列</string>-->
 
     <!-- Favorites Page-->
