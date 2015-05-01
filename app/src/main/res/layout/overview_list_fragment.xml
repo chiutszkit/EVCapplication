@@ -5,7 +5,7 @@
     android:orientation="vertical" >
     
 	<se.emilsjolander.stickylistheaders.ExpandableStickyListHeadersListView
-        android:id="@+id/overview_history_list"
+        android:id="@+id/overview_list_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@color/white"
