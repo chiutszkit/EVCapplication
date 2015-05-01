@@ -1,13 +1,14 @@
 package com.example.tommyhui.evcapplication.database;
 
+import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -17,42 +18,29 @@ public class MyDBHelper extends SQLiteOpenHelper {
     public static final String TABLE_NAME = "ChargingStation";
 
     public static final int VERSION = 1;
-    private static MyDBHelper database;
 
     private static final String KEY_ID = "id";
     private static final String KEY_ADDRESS = "address";
+    private static final String KEY_DISTRICT = "district";
     private static final String KEY_CHARGINGSTATION = "chargingStation";
     private static final String KEY_TYPE = "type";
     private static final String KEY_SOCKET = "socket";
     private static final String KEY_QUANTITY = "quantity";
 
-    private static final String[] COLUMNS = {KEY_ID,KEY_ADDRESS,KEY_CHARGINGSTATION,KEY_TYPE,KEY_SOCKET,KEY_QUANTITY};
-/*    public MyDBHelper(Context context, String name, CursorFactory factory,
-                      int version) {
-        super(context, name, factory, version);
-    }*/
+    private static final String[] COLUMNS = {KEY_ID,KEY_ADDRESS,KEY_DISTRICT,KEY_CHARGINGSTATION,KEY_TYPE,KEY_SOCKET,KEY_QUANTITY};
+
     public MyDBHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 
-
-/*    // 需要資料庫的元件呼叫這個方法，這個方法在一般的應用都不需要修改
-    public static MyDBHelper getDatabase(Context context) {
-        if (database == null || !database.isOpen()) {
-            database = new MyDBHelper(context, DATABASE_NAME,
-                    null, VERSION).getWritableDatabase();
-        }
-        return database;
-    }*/
-
     @Override
     public void onCreate(SQLiteDatabase db) {
-        // 建立應用程式需要的表格
-        // 待會再回來完成它
-        final String DATABASE_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "( " +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT, " +
-                "address TEXT, " +
-                "chargingStation TEXT, " +
+
+        final String DATABASE_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
+                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
+                "address TEXT," +
+                "district TEXT," +
+                "chargingStation TEXT," +
                 "type TEXT," +
                 "socket TEXT," +
                 "quantity INTEGER" +
@@ -63,17 +51,13 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // 刪除原有的表格
-        // 待會再回來完成它
         db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
-        // 呼叫onCreate建立新版的表格
         onCreate(db);
     }
 
     @Override
        public void onOpen(SQLiteDatabase db) {
         super.onOpen(db);
-        // TODO 每次成功打開數據庫後首先被執行
     }
 
     @Override
@@ -91,6 +75,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
         // 2. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
         values.put(KEY_ADDRESS, cs.getAddress()); // get address
+        values.put(KEY_DISTRICT, cs.getDistrict()); // get district
         values.put(KEY_CHARGINGSTATION, cs.getChargingStation()); // get charging station
         values.put(KEY_TYPE, cs.getType()); // get type
         values.put(KEY_SOCKET, cs.getSocket()); // get socket
@@ -128,10 +113,11 @@ public class MyDBHelper extends SQLiteOpenHelper {
         ItemCS cs = new ItemCS();
         cs.setId(Integer.parseInt(cursor.getString(0)));
         cs.setAddress(cursor.getString(1));
-        cs.setChargingStation(cursor.getString(2));
-        cs.setType(cursor.getString(3));
-        cs.setSocket(cursor.getString(4));
-        cs.setQuantity(Integer.parseInt(cursor.getString(5)));
+        cs.setDistrict(cursor.getString(2));
+        cs.setChargingStation(cursor.getString(3));
+        cs.setType(cursor.getString(4));
+        cs.setSocket(cursor.getString(5));
+        cs.setQuantity(Integer.parseInt(cursor.getString(6)));
 
         //log
         Log.d("getCS("+id+")", cs.toString());
@@ -140,7 +126,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
         return cs;
     }
     public List<ItemCS> getAllCSes() {
-        List<ItemCS> cses = new LinkedList<ItemCS>();
+        List<ItemCS> cses = new LinkedList<>();
 
         // 1. build the query
         String query = "SELECT  * FROM " + TABLE_NAME;
@@ -150,16 +136,17 @@ public class MyDBHelper extends SQLiteOpenHelper {
         Cursor cursor = db.rawQuery(query, null);
 
         // 3. go over each row, build book and add it to list
-        ItemCS cs = null;
+        ItemCS cs;
         if (cursor.moveToFirst()) {
             do {
                 cs = new ItemCS();
                 cs.setId(Integer.parseInt(cursor.getString(0)));
                 cs.setAddress(cursor.getString(1));
-                cs.setChargingStation(cursor.getString(2));
-                cs.setType(cursor.getString(3));
-                cs.setSocket(cursor.getString(4));
-                cs.setQuantity(Integer.parseInt(cursor.getString(5)));
+                cs.setDistrict(cursor.getString(2));
+                cs.setChargingStation(cursor.getString(3));
+                cs.setType(cursor.getString(4));
+                cs.setSocket(cursor.getString(5));
+                cs.setQuantity(Integer.parseInt(cursor.getString(6)));
 
                 // Add book to books
                 cses.add(cs);
@@ -167,6 +154,38 @@ public class MyDBHelper extends SQLiteOpenHelper {
         }
 
         Log.d("getAllCSes()", cses.toString());
+
+        // return books
+        return cses;
+    }
+    public ArrayList<ItemCS> searchListCSes(Activity activity, String query) {
+        ArrayList<ItemCS> cses = new ArrayList<>();
+
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + "address" + " LIKE '%" + query + "%'"
+                + " OR " + "chargingStation" + " LIKE '%" + query + "%'";
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+
+        ItemCS cs;
+        if (cursor.moveToFirst()) {
+            do {
+                cs = new ItemCS();
+                cs.setId(Integer.parseInt(cursor.getString(0)));
+                cs.setAddress(cursor.getString(1));
+                cs.setDistrict(cursor.getString(2));
+                cs.setChargingStation(cursor.getString(3));
+                cs.setType(cursor.getString(4));
+                cs.setSocket(cursor.getString(5));
+                cs.setQuantity(Integer.parseInt(cursor.getString(6)));
+
+                // Add book to books
+                cses.add(cs);
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        db.close();
 
         // return books
         return cses;
@@ -179,6 +198,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
         // 2. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
         values.put("address", cs.getAddress());
+        values.put("district", cs.getDistrict());
         values.put("chargingStation", cs.getChargingStation());
         values.put("type", cs.getType());
         values.put("socket", cs.getSocket());

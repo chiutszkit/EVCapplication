@@ -1,8 +1,5 @@
 package com.example.tommyhui.evcapplication.overview;
 
-import android.database.MatrixCursor;
-import android.database.sqlite.SQLiteDatabase;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -11,39 +8,35 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AutoCompleteTextView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.adapter.ChargingStationListViewAdapter;
-import com.example.tommyhui.evcapplication.database.MyDBHelper;
 import com.example.tommyhui.evcapplication.database.ItemCS;
-import com.example.tommyhui.evcapplication.utils.SearchUtil;
+import com.example.tommyhui.evcapplication.database.MyDBHelper;
 
 import java.util.ArrayList;
-import java.util.List;
-import java.util.Locale;
 
 public class OverviewActivity extends ActionBarActivity {
 
     private MenuItem searchItem;
     private SearchView searchView;
 
+    private MyDBHelper db;
+
     private String[] address;
+    private String[] district;
     private String[] chargingStation;
     private String[] type;
     private String[] socket;
     private int[] quantity;
 
-    private ArrayList<ItemCS> ItemCSes = new ArrayList<ItemCS>();
+    private ArrayList<ItemCS> ItemCSes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,24 +56,22 @@ public class OverviewActivity extends ActionBarActivity {
         myImgView.setImageResource(R.drawable.overview_icon);
 
         /*Set Up Database*/
-        MyDBHelper db = new MyDBHelper(this);
+        db = new MyDBHelper(this);
         db.getWritableDatabase();
 
         address = getResources().getStringArray(R.array.address);
+        district = getResources().getStringArray(R.array.district);
         chargingStation = getResources().getStringArray(R.array.chargingStation);
         type = getResources().getStringArray(R.array.type);
         socket = getResources().getStringArray(R.array.socket);
         quantity = getResources().getIntArray(R.array.quantity);
 
         for (int i = 0; i < address.length; i++) {
-            db.addCS(new ItemCS(address[i], chargingStation[i], type[i], socket[i], quantity[i]));
-            ItemCSes.add(i, new ItemCS(address[i], chargingStation[i], type[i], socket[i], quantity[i]));
+            db.addCS(new ItemCS(address[i], district[i], chargingStation[i], type[i], socket[i], quantity[i]));
+            ItemCSes.add(i, new ItemCS(address[i], district[i], chargingStation[i], type[i], socket[i], quantity[i]));
         }
 
-        ItemCS list = db.getCS(1);
-        Toast.makeText(getApplicationContext(), list.toString(), Toast.LENGTH_LONG).show();
-        //輔助類名
-
+        /*Display the list of overview*/
         ListView mListView = (ListView) findViewById(R.id.overview_list_view);
         mListView.setAdapter(new ChargingStationListViewAdapter(this, ItemCSes));
         mListView.setTextFilterEnabled(true);
@@ -102,7 +93,7 @@ public class OverviewActivity extends ActionBarActivity {
         LinearLayout linearLayout2 = (LinearLayout) linearLayout1.getChildAt(2);
         LinearLayout linearLayout3 = (LinearLayout) linearLayout2.getChildAt(1);
         AutoCompleteTextView autoComplete = (AutoCompleteTextView) linearLayout3.getChildAt(0);
-        autoComplete.setDropDownHeight(0);
+//        autoComplete.setDropDownHeight(0);
 
         searchView.setQueryHint(getResources().getString(R.string.overview_search_view_title));
 
@@ -114,7 +105,11 @@ public class OverviewActivity extends ActionBarActivity {
             @Override
             /*When texts are changed*/
             public boolean onQueryTextChange(String query) {
-                setSuggestionForSearch(query);
+//                setSuggestionForSearch(query);
+                ListView mListView = (ListView) findViewById(R.id.overview_list_view);
+                ArrayList<ItemCS> SearchResult = db.searchListCSes(OverviewActivity.this, query);
+                mListView.setAdapter(new ChargingStationListViewAdapter(OverviewActivity.this, SearchResult));
+                mListView.setTextFilterEnabled(true);
                 return true;
             }
             @Override
@@ -123,9 +118,12 @@ public class OverviewActivity extends ActionBarActivity {
                 // TODO Auto-generated method stub
 
                 /*Clear the Query and Display the Result*/
-                searchView.setQuery("", false);
+                searchView.setQuery(query, false);
                 searchView.clearFocus();
-
+                ListView mListView = (ListView) findViewById(R.id.overview_list_view);
+                ArrayList<ItemCS> SearchResult = db.searchListCSes(OverviewActivity.this, query);
+                mListView.setAdapter(new ChargingStationListViewAdapter(OverviewActivity.this, SearchResult));
+                mListView.setTextFilterEnabled(true);
                 Toast.makeText(getApplicationContext(), "Please wait...", Toast.LENGTH_SHORT).show();
                 return false;
             }
@@ -134,40 +132,40 @@ public class OverviewActivity extends ActionBarActivity {
     }
 
 
-        protected void setSuggestionForSearch(String query) {
-            // TODO Auto-generated method stub
-            ArrayList<ItemCS> suggestionArray;
-
-            suggestionArray = getListOfChargingStations();
-
+//        protected void setSuggestionForSearch(String query) {
+//            // TODO Auto-generated method stub
+//
+//            ArrayList<ItemCS> suggestionArray;
+//            suggestionArray = getListOfChargingStations();
+//
 //            searchView.setSuggestionsAdapter(SearchUtil
 //                    .getCursorAdapter(OverviewActivity.this, suggestionArray,
 //                            query));
-
-            searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-
-                @Override
-                public boolean onSuggestionClick(int position) {
-
-                    showSearchResult(SearchUtil
-                            .getItemTag((MatrixCursor) searchView
-                                    .getSuggestionsAdapter().getItem(position)));
-                    return false;
-                }
-
-                @Override
-                public boolean onSuggestionSelect(int position) {
-                    return false;
-                }
-            });
-
-        }
-
-        private ArrayList<ItemCS> getListOfChargingStations() {
-            // TODO Auto-generated method stub
-
-            ArrayList<ItemCS> items = ItemCSes;
-
+//
+//            searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+//
+//                @Override
+//                public boolean onSuggestionClick(int position) {
+//
+//                    showSearchResult(SearchUtil
+//                            .getItemTag((MatrixCursor) searchView
+//                                    .getSuggestionsAdapter().getItem(position)));
+//                    return false;
+//                }
+//
+//                @Override
+//                public boolean onSuggestionSelect(int position) {
+//                    return false;
+//                }
+//            });
+//
+//        }
+//
+//        private ArrayList<ItemCS> getListOfChargingStations() {
+//            // TODO Auto-generated method stub
+//
+//            ArrayList<ItemCS> items = ItemCSes;
+//
 //            String[] isoCountries = Locale.getISOCountries();
 //            for (int i = 0; i < items.size(); i++)
 //                ItemCS item = items.get(i);
@@ -180,18 +178,18 @@ public class OverviewActivity extends ActionBarActivity {
 //                }
 //            }
 //
-            return items;
-
-        }
-        protected void showSearchResult(String itemTag) {
-            // TODO Auto-generated method stub
-
-            /*Clear the Query and Display the Result*/
-            searchView.setQuery("", false);
-            searchView.clearFocus();
-            searchView.onActionViewCollapsed();
-
-            Toast.makeText(getApplicationContext(), "Please wait...", Toast.LENGTH_SHORT).show();
-        }
+//            return items;
+//
+//        }
+//        protected void showSearchResult(String itemTag) {
+//            // TODO Auto-generated method stub
+//
+//            /*Clear the Query and Display the Result*/
+//            searchView.setQuery("", false);
+//            searchView.clearFocus();
+//            searchView.onActionViewCollapsed();
+//
+//            Toast.makeText(getApplicationContext(), "Please wait...", Toast.LENGTH_SHORT).show();
+//        }
 
 }

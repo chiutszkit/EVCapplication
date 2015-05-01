@@ -5,25 +5,24 @@ import java.util.ArrayList;
 public class ItemCS {
     private int id;
     private String address;
+    private String district;
     private String chargingStation;
     private String type;
     private String socket;
     private int quantity;
-    private boolean isDisplayed;
 
     private ArrayList<ItemCS> itemList;
 
     public ItemCS(){}
 
-
-    public ItemCS(String address, String chargingStation, String type, String socket, int quantity) {
+    public ItemCS(String address, String district, String chargingStation, String type, String socket, int quantity) {
         super();
         this.address = address;
+        this.district = district;
         this.chargingStation = chargingStation;
         this.type = type;
         this.socket = socket;
         this.quantity = quantity;
-        this.isDisplayed = false;
     }
 
     /*Getter and Setter*/
@@ -34,14 +33,6 @@ public class ItemCS {
 
     public void setItemList(ArrayList<ItemCS> itemList) {
         this.itemList = itemList;
-    }
-
-    public boolean isDisplayed() {
-        return isDisplayed;
-    }
-
-    public void setDisplayed(boolean isSelected) {
-        this.isDisplayed = isSelected;
     }
 
     public int getId() {
@@ -61,12 +52,19 @@ public class ItemCS {
     }
 
     public String getType() {
-
         return type;
     }
 
     public String getAddress() {
         return address;
+    }
+
+    public String getDistrict() {
+        return district;
+    }
+
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public void setId(int id) {

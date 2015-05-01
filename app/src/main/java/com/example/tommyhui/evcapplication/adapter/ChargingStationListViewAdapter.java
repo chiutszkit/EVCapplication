@@ -1,15 +1,14 @@
 package com.example.tommyhui.evcapplication.adapter;
 
-import com.example.tommyhui.evcapplication.R;
-import com.example.tommyhui.evcapplication.database.ItemCS;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.tommyhui.evcapplication.R;
+import com.example.tommyhui.evcapplication.database.ItemCS;
 
 import java.util.ArrayList;
 
@@ -47,16 +46,18 @@ public class ChargingStationListViewAdapter extends BaseAdapter{
         View rowView = inflater.inflate(R.layout.overview_list_view_list_item_layout, parent, false);
 
         TextView address = (TextView) rowView.findViewById(R.id.overview_list_view_item_address);
+        TextView district = (TextView) rowView.findViewById(R.id.overview_list_view_item_district);
         TextView chargingStation = (TextView) rowView.findViewById(R.id.overview_list_view_item_chargingStation);
         TextView type = (TextView) rowView.findViewById(R.id.overview_list_view_item_type);
         TextView socket = (TextView) rowView.findViewById(R.id.overview_list_view_item_socket);
-        TextView quantity = (TextView) rowView.findViewById(R.id.overview_list_view_item_quantity);
+//        TextView quantity = (TextView) rowView.findViewById(R.id.overview_list_view_item_quantity);
 
         address.setText(itemList.get(position).getAddress());
+        district.setText(itemList.get(position).getDistrict());
         chargingStation.setText(itemList.get(position).getChargingStation());
         type.setText(itemList.get(position).getType());
         socket.setText(itemList.get(position).getSocket());
-        quantity.setText(Integer.toString(itemList.get(position).getQuantity()));
+//        quantity.setText(Integer.toString(itemList.get(position).getQuantity()));
 
         return rowView;
     }

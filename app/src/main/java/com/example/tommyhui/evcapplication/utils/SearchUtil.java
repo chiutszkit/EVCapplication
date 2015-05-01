@@ -10,7 +10,7 @@ import android.support.v4.widget.SimpleCursorAdapter;
 import com.example.tommyhui.evcapplication.R;
 
 public class SearchUtil {
-	public static SimpleCursorAdapter getCursorAdapter(Context mContext,ArrayList<String> suggestionArray,String keyword)
+	public static SimpleCursorAdapter getCursorAdapter(Context mContext, ArrayList<String> suggestionArray, String keyword)
 	{
 		String[] columnNames = {"_id","text"};
 	    MatrixCursor cursor = new MatrixCursor(columnNames);

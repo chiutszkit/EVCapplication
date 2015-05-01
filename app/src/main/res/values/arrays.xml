@@ -2,9 +2,9 @@
 <resources>
     <string-array name="address">
         <item>9 Edinburgh Place, Central</item>
-        <item>1/F., Yee Fung Street, Chai Wan</item>
+        <item>Yee Fung Street, Chai Wan</item>
         <item>2 Yi Nga Drive, Ap Lei Chau</item>
-        <item>Chai Wan Yi Fung Street, Stanley</item>
+        <item>23 Carmel Road, Stanley</item>
         <item>118 Queensway Peak Road, Admiralty</item>
         <item>60 Wyndham Street, Central</item>
         <item>3 Garden Road, Admiralty</item>
@@ -70,6 +70,77 @@
         <item>100 Cyberport Road, Cyberport</item>
         <item>183 Queen\'s Road East, Wan Chai</item>
         <item>2-38 Yun Ping Road, Causeway Bay</item>
+    </string-array>
+    <string-array name="district">
+        <item> Central</item>
+        <item> Chai Wan</item>
+        <item> Ap Lei Chau</item>
+        <item> Stanley</item>
+        <item> Admiralty</item>
+        <item> Central</item>
+        <item> Admiralty</item>
+        <item> Central</item>
+        <item> Central</item>
+        <item> Central</item>
+        <item> Central</item>
+        <item> Central</item>
+        <item> Central</item>
+        <item> Central</item>
+        <item> Central</item>
+        <item> Central</item>
+        <item> Admiralty</item>
+        <item> Admiralty</item>
+        <item> Shau Kei Wan</item>
+        <item> Tin Hau</item>
+        <item> Tin Hau</item>
+        <item> Taikoo Shing</item>
+        <item> North Point</item>
+        <item> Chai Wan</item>
+        <item> Chai Wan</item>
+        <item> Shau Kei Wan</item>
+        <item> Quarry Bay</item>
+        <item> Quarry Bay</item>
+        <item> Quarry Bay</item>
+        <item> Taikoo Shing</item>
+        <item> Chai Wan</item>
+        <item> North Point</item>
+        <item> North Point</item>
+        <item> Shau Kei Wan</item>
+        <item> Shau Kei Wan</item>
+        <item> North Point</item>
+        <item> Paradise Mall</item>
+        <item> Tai Hang</item>
+        <item> Cyberport</item>
+        <item> Happy Valley</item>
+        <item> Wan Chai</item>
+        <item> Wan Chai</item>
+        <item> Wan Chai</item>
+        <item> Causeway Bay</item>
+        <item> Causeway Bay</item>
+        <item> Causeway Bay</item>
+        <item> Wan Chai</item>
+        <item> Wan Chai</item>
+        <item> Wan Chai</item>
+        <item> Wan Chai</item>
+        <item> Wan Chai</item>
+        <item> Central</item>
+        <item> Central</item>
+        <item> Sheung Wan</item>
+        <item> Central</item>
+        <item> Admiralty</item>
+        <item> Central</item>
+        <item> Central</item>
+        <item> Tin Hau</item>
+        <item> Quarry Bay</item>
+        <item> North Point</item>
+        <item> Shau Kei Wan</item>
+        <item> Wan Chai</item>
+        <item> Wan Chai</item>
+        <item> Cyberport</item>
+        <item> Wan Chai</item>
+        <item> Cyberport</item>
+        <item> Wan Chai</item>
+        <item> Causeway Bay</item>
     </string-array>
     <string-array name="chargingStation">
         <item>Star Ferry Car Park</item>
@@ -214,75 +285,75 @@
         <item>Quick - Others</item>
     </string-array>
     <string-array name="socket">
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Dual Sockets</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
-        <item>EV Charger with Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Dual Sockets</item>
+        <item>Single Socket</item>
+        <item>Dual Sockets</item>
+        <item>Single Socket</item>
+        <item>Dual Sockets</item>
+        <item>Single Socket</item>
+        <item>Dual Sockets</item>
+        <item>Single Socket</item>
+        <item>Dual Sockets</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Dual Sockets</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Dual Sockets</item>
+        <item>Single Socket</item>
+        <item>Dual Sockets</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Dual Sockets</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Dual Sockets</item>
+        <item>Dual Sockets</item>
+        <item>Dual Sockets</item>
+        <item>Dual Sockets</item>
+        <item>Dual Sockets</item>
+        <item>Dual Sockets</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Dual Sockets</item>
+        <item>Single Socket</item>
+        <item>Dual Sockets</item>
+        <item>Dual Sockets</item>
+        <item>Dual Sockets</item>
+        <item>Dual Sockets</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
+        <item>Single Socket</item>
     </string-array>
     <integer-array name="quantity">
         <item>1</item>
