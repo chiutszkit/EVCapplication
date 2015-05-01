@@ -4,5 +4,5 @@
     android:includeInGlobalSearch="true"
     android:label="@string/overview_search_view_title"
     android:hint="@string/overview_search_view_title"
-   	android:searchSuggestThreshold="1"  >
+   	android:searchSuggestThreshold="2"  >
 </searchable>

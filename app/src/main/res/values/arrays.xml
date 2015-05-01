@@ -1,4 +1,358 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    
+    <string-array name="address">
+        <item>9 Edinburgh Place, Central</item>
+        <item>1/F., Yee Fung Street, Chai Wan</item>
+        <item>2 Yi Nga Drive, Ap Lei Chau</item>
+        <item>Chai Wan Yi Fung Street, Stanley</item>
+        <item>118 Queensway Peak Road, Admiralty</item>
+        <item>60 Wyndham Street, Central</item>
+        <item>3 Garden Road, Admiralty</item>
+        <item>16-18 Queen\'s Road, Central</item>
+        <item>9 Edinburgh Place, Central</item>
+        <item>9 Edinburgh Place, Central</item>
+        <item>1 Edinburgh Place, Central</item>
+        <item>1 Edinburgh Place, Central</item>
+        <item>2 Rumsey Street, Central</item>
+        <item>2 Rumsey Street, Central</item>
+        <item>2 Murray Road, Central</item>
+        <item>2 Murray Road, Central</item>
+        <item>66 Queensway, Admiralty</item>
+        <item>66 Queensway, Admiralty</item>
+        <item>Oi Tung Estate, Shau Kei Wan</item>
+        <item>Lau Sin Street &amp; Electric Road, Tin Hau</item>
+        <item>Lau Sin Street &amp; Electric Road, Tin Hau</item>
+        <item>18 Taikoo Shing Road, Taikoo Shing</item>
+        <item>148 Electric Road, North Point</item>
+        <item>50 Wing Tai Road, Chai Wan</item>
+        <item>28 Siu Sai Wan Road, Chai Wan</item>
+        <item>68 Hing Man Street, Shau Kei Wan</item>
+        <item>22 Westlands Road, Quarry Bay</item>
+        <item>979 King\'s Road, Quarry Bay</item>
+        <item>Taikoo Place, Quarry Bay</item>
+        <item>1 Kornhill Road, Tai koo</item>
+        <item>29-31 Cheung Lee Street, Chai Wan</item>
+        <item>33 Java Road, North Point</item>
+        <item>33 Java Road, North Point</item>
+        <item>1 Po Man Street, Shau Kei Wan</item>
+        <item>1 Po Man Street, Shau Kei Wan</item>
+        <item>183 Electric Road, North Point</item>
+        <item>Shing Tai Road, Paradise Mall</item>
+        <item>2 - 38 Lai Tak Tsuen Road, Tai Hang</item>
+        <item>100 Cyberport Road, Cyberport</item>
+        <item>12 Broadwood Road, Happy Valley</item>
+        <item>23 Harbour Road, Wan Chai</item>
+        <item>183 Queen\'s Road East, Wan Chai</item>
+        <item>213 Queen\'s Road East, Wan Chai</item>
+        <item>1 Stadium Path, Causeway Bay</item>
+        <item>255-257 Gloucester Road, Causeway Bay</item>
+        <item>1 Matheson Street, Causeway Bay</item>
+        <item>7 Gloucester Road, Wan Chai</item>
+        <item>7 Gloucester Road, Wan Chai</item>
+        <item>23 Harbour Road, Wan Chai</item>
+        <item>1 Expo Drive, Wanchai</item>
+        <item>6-8 Harbour Road, Wan Chai</item>
+        <item>9 Edinburgh Place, Central</item>
+        <item>1 Edinburgh Place, Central</item>
+        <item>2 Rumsey Street, Sheung Wan</item>
+        <item>2 Murray Road, Central</item>
+        <item>66 Queensway, Admiralty</item>
+        <item>1 Harbour View Street, Central</item>
+        <item>8 Finance Street, Central</item>
+        <item>Lau Sin Street &amp; Electric Road, Tin Hau</item>
+        <item>683 King\'s Road, Quarry Bay</item>
+        <item>33 Java Road, North Point</item>
+        <item>1 Po Man Street, Shau Kei Wan</item>
+        <item>7 Gloucester Road, Wan Chai</item>
+        <item>6-8 Harbour Road, Wan Chai</item>
+        <item>100 Cyberport Road, Cyberport 1</item>
+        <item>183 Queen\'s Road East, Wan Chai</item>
+        <item>100 Cyberport Road, Cyberport</item>
+        <item>183 Queen\'s Road East, Wan Chai</item>
+        <item>2-38 Yun Ping Road, Causeway Bay</item>
+    </string-array>
+    <string-array name="chargingStation">
+        <item>Star Ferry Car Park</item>
+        <item>Yue Wan Estate Carpark</item>
+        <item>Ex-Operational Headquarters of Hongkong Electric</item>
+        <item>Stanley Plaza Car Park</item>
+        <item>The Peak Galleria</item>
+        <item>The Centrium</item>
+        <item>Citibank Plaza</item>
+        <item>New World Tower</item>
+        <item>Star Ferry Car Park</item>
+        <item>Star Ferry Car Park</item>
+        <item>City Hall Car Park</item>
+        <item>City Hall Car Park</item>
+        <item>Rumsey Street Car Park</item>
+        <item>Rumsey Street Car Park</item>
+        <item>Murray Road Car Park</item>
+        <item>Murray Road Car Park</item>
+        <item>Queensway Government Offices</item>
+        <item>Queensway Government Offices</item>
+        <item>Oi Tung Estate</item>
+        <item>Tin Hau Car Park</item>
+        <item>Tin Hau Car Park</item>
+        <item>Cityplaza</item>
+        <item>148 Electric Road</item>
+        <item>Cornell Centre</item>
+        <item>Island Resort Mall </item>
+        <item>Marina House</item>
+        <item>Oxford House </item>
+        <item>Dorset House</item>
+        <item>One Island East </item>
+        <item>Kornhill Plaza (south)</item>
+        <item>Trend Centre </item>
+        <item>North Point Government Offices</item>
+        <item>North Point Government Offices</item>
+        <item>Shau Kei Wan Car Park</item>
+        <item>Shau Kei Wan Car Park</item>
+        <item>AIA Tower </item>
+        <item>Paradise Mall (West)</item>
+        <item>Lai Tak Tsuen</item>
+        <item>Cyberport Tower 2</item>
+        <item>Broadwood Twelve</item>
+        <item>Great Eagle Centre</item>
+        <item>Hopewell Centre </item>
+        <item>Wu Chung House </item>
+        <item>Olympic House </item>
+        <item>Sino Plaza</item>
+        <item>Times Square</item>
+        <item>Wanchai Tower and Immigration Tower</item>
+        <item>Wanchai Tower and Immigration Tower</item>
+        <item>Convention Plaza (Harbour Road) Carpark </item>
+        <item>Convention Plaza (Expo Drive Central Road) Carpark </item>
+        <item>Shui On Centre</item>
+        <item>Star Ferry Car Park</item>
+        <item>City Hall Car Park</item>
+        <item>Rumsey Street Car Park</item>
+        <item>Murray Road Car Park</item>
+        <item>Queensway Government Offices</item>
+        <item>One International Finance Centre</item>
+        <item>Two International Finance Centre</item>
+        <item>Tin Hau Car Park</item>
+        <item>Kerry Centre</item>
+        <item>North Point Government Offices</item>
+        <item>Shau Kei Wan Car Park</item>
+        <item>Wanchai Tower and Immigration Tower</item>
+        <item>Shui On Centre</item>
+        <item>Le Meridien Cyberport</item>
+        <item>Hopewell Centre</item>
+        <item>Cyberport Tower 2</item>
+        <item>Hopewell Centre</item>
+        <item>Lee Garden 2 </item>
+    </string-array>
+    <string-array name="type">
+        <item>Quick - CHAdeMO</item>
+        <item>Quick - CHAdeMO</item>
+        <item>Quick - CHAdeMO</item>
+        <item>Quick - CHAdeMO</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Standard - 13A</item>
+        <item>Medium - IEC 62196</item>
+        <item>Medium - IEC 62196</item>
+        <item>Medium - IEC 62196</item>
+        <item>Medium - IEC 62196</item>
+        <item>Medium - IEC 62196</item>
+        <item>Medium - IEC 62196</item>
+        <item>Medium - IEC 62196</item>
+        <item>Medium - IEC 62196</item>
+        <item>Medium - IEC 62196</item>
+        <item>Medium - IEC 62196</item>
+        <item>Medium - IEC 62196</item>
+        <item>Medium - IEC 62196</item>
+        <item>Medium - SAE J1772</item>
+        <item>Medium - Others</item>
+        <item>Medium - Others</item>
+        <item>Quick - Others</item>
+        <item>Quick - Others</item>
+        <item>Quick - Others</item>
+    </string-array>
+    <string-array name="socket">
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Dual Sockets</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+        <item>EV Charger with Single Socket</item>
+    </string-array>
+    <integer-array name="quantity">
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>2</item>
+        <item>1</item>
+        <item>30</item>
+        <item>8</item>
+        <item>24</item>
+        <item>6</item>
+        <item>30</item>
+        <item>5</item>
+        <item>29</item>
+        <item>6</item>
+        <item>14</item>
+        <item>6</item>
+        <item>1</item>
+        <item>32</item>
+        <item>6</item>
+        <item>1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>4</item>
+        <item>1</item>
+        <item>2</item>
+        <item>2</item>
+        <item>1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>9</item>
+        <item>6</item>
+        <item>30</item>
+        <item>5</item>
+        <item>2</item>
+        <item>1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>9</item>
+        <item>1</item>
+        <item>2</item>
+        <item>16</item>
+        <item>18</item>
+        <item>12</item>
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+        <item>8</item>
+        <item>6</item>
+        <item>5</item>
+        <item>6</item>
+        <item>6</item>
+        <item>1</item>
+        <item>2</item>
+        <item>6</item>
+        <item>2</item>
+        <item>6</item>
+        <item>5</item>
+        <item>12</item>
+        <item>1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>6</item>
+        <item>6</item>
+        <item>2</item>
+    </integer-array>
 </resources>

@@ -20,4 +20,5 @@
         android:textColor="@color/black"
         android:id="@+id/action_bar_title"
         android:textSize="20sp" />
+
 </LinearLayout>

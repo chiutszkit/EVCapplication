@@ -5,6 +5,6 @@
         android:id="@+id/overview_action_search"
         android:icon="@drawable/small_search_icon"
         evcapplication:actionViewClass="android.support.v7.widget.SearchView"
-        evcapplication:showAsAction="ifRoom|collapseActionView"
+        evcapplication:showAsAction="always"
         android:title="Quick Search" />
 </menu>
