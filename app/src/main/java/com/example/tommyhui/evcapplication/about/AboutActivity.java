@@ -53,7 +53,7 @@ public class AboutActivity extends ActionBarActivity {
         }
 
         /*Display the List View*/
-        final ListView listview = (ListView) findViewById(R.id.about_listView);
+        final ListView listview = (ListView) findViewById(R.id.about_list_view);
 
         int[] aboutTitle = new int[]{
                 R.string.about_author, R.string.about_telephone, R.string.about_email, R.string.about_version, R.string.about_date
@@ -101,18 +101,4 @@ public class AboutActivity extends ActionBarActivity {
         inflater.inflate(R.menu.default_options_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
-    /*@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
 }

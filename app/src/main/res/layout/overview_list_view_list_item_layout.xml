@@ -13,7 +13,7 @@
 
         <ImageView
         android:id="@+id/menu_grid_icon_share"
-        android:src="@drawable/share_icon"
+        android:src="@drawable/map_icon"
         android:layout_marginLeft="15dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"

@@ -25,9 +25,9 @@ public class SearchUtil {
 	    	}
 	    }               
 	    String[] from = {"text"}; 
-	    int[] to = {R.id.text};
+	    int[] to = {R.id.query_text};
 	    
-		SimpleCursorAdapter dataAdapter = new SimpleCursorAdapter(mContext, R.layout.search_item, cursor, from, to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
+		SimpleCursorAdapter dataAdapter = new SimpleCursorAdapter(mContext, R.layout.query_item, cursor, from, to, SimpleCursorAdapter.FLAG_REGISTER_CONTENT_OBSERVER);
 		return dataAdapter;
 	}
 	public static String getItemTag(MatrixCursor item)

@@ -160,12 +160,15 @@ public class MyDBHelper extends SQLiteOpenHelper {
     }
     public ArrayList<ItemCS> searchListCSes(Activity activity, String query) {
         ArrayList<ItemCS> cses = new ArrayList<>();
+        cses.clear();
 
-        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + "address" + " LIKE '%" + query + "%'"
+        String sql = "SELECT distinct * FROM " + TABLE_NAME + " WHERE " + "address" + " LIKE '%" + query + "%'"
                 + " OR " + "chargingStation" + " LIKE '%" + query + "%'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
+
+        Log.d("Debug", "Count = " + cursor.getCount());
 
         ItemCS cs;
         if (cursor.moveToFirst()) {

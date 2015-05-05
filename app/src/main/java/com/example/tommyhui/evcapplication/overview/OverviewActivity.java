@@ -1,5 +1,6 @@
 package com.example.tommyhui.evcapplication.overview;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
@@ -8,17 +9,18 @@ import android.support.v7.widget.SearchView;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.AutoCompleteTextView;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tommyhui.evcapplication.R;
-import com.example.tommyhui.evcapplication.adapter.ChargingStationListViewAdapter;
+import com.example.tommyhui.evcapplication.adapter.OverviewListViewAdapter;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.database.MyDBHelper;
+import com.example.tommyhui.evcapplication.search.SearchItemActivity;
 
 import java.util.ArrayList;
 
@@ -37,25 +39,26 @@ public class OverviewActivity extends ActionBarActivity {
     private int[] quantity;
 
     private ArrayList<ItemCS> ItemCSes = new ArrayList<>();
+    private ArrayList<ItemCS> QueryItemCSes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.overview_activity);
 
-        /*Use Customized Action Bar*/
+        /*To Use Customized Action Bar*/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
-        /*Set Action Bar's Title*/
+        /*To Set Action Bar's Title*/
         TextView title = (TextView)findViewById(R.id.action_bar_title);
         title.setText("Overview");
 
-        /*Set Action Bar's Icon*/
+        /*To Set Action Bar's Icon*/
         ImageView myImgView = (ImageView)findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.overview_icon);
 
-        /*Set Up Database*/
+        /*To Set Up Database*/
         db = new MyDBHelper(this);
         db.getWritableDatabase();
 
@@ -66,54 +69,72 @@ public class OverviewActivity extends ActionBarActivity {
         socket = getResources().getStringArray(R.array.socket);
         quantity = getResources().getIntArray(R.array.quantity);
 
+        ItemCSes.clear();
         for (int i = 0; i < address.length; i++) {
             db.addCS(new ItemCS(address[i], district[i], chargingStation[i], type[i], socket[i], quantity[i]));
             ItemCSes.add(i, new ItemCS(address[i], district[i], chargingStation[i], type[i], socket[i], quantity[i]));
         }
 
-        /*Display the list of overview*/
-        ListView mListView = (ListView) findViewById(R.id.overview_list_view);
-        mListView.setAdapter(new ChargingStationListViewAdapter(this, ItemCSes));
-        mListView.setTextFilterEnabled(true);
+        QueryItemCSes = ItemCSes;
+
+        /*To Display the List of Overview*/
+        final ListView listview = (ListView) findViewById(R.id.overview_list_view);
+        listview.setAdapter(new OverviewListViewAdapter(this, QueryItemCSes));
+        listview.setTextFilterEnabled(true);
+
+        /*To Handle the Click of item of CS*/
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+
+                ItemCS cs = QueryItemCSes.get(position);
+
+                Intent searchItemIntent = new Intent();
+                searchItemIntent.setClass(OverviewActivity.this, SearchItemActivity.class);
+
+                Bundle bundle = new Bundle();
+
+                bundle.putString("address", cs.getAddress());
+                bundle.putString("chargingStation", cs.getChargingStation());
+                bundle.putString("type", cs.getType());
+                bundle.putString("socket", cs.getSocket());
+                bundle.putInt("quantity", cs.getQuantity());
+
+                searchItemIntent.putExtras(bundle);
+                startActivity(searchItemIntent);
+            }
+        });
     }
 
-        @Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.overview_options_menu, menu);
 
-
-        /*Expand Search Bar*/
+        /*To Expand Search Bar*/
         searchItem = menu.findItem(R.id.overview_action_search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
-        /*Hide dropdown pop up*/
-        LinearLayout linearLayout1 = (LinearLayout) searchView.getChildAt(0);
-        LinearLayout linearLayout2 = (LinearLayout) linearLayout1.getChildAt(2);
-        LinearLayout linearLayout3 = (LinearLayout) linearLayout2.getChildAt(1);
-        AutoCompleteTextView autoComplete = (AutoCompleteTextView) linearLayout3.getChildAt(0);
-//        autoComplete.setDropDownHeight(0);
-
         searchView.setQueryHint(getResources().getString(R.string.overview_search_view_title));
-
-//        Log.v("test-logging", "R.id.overview_action_search : " +  menu.findItem(R.id.overview_action_search));
-
 
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
-            /*When texts are changed*/
+            /*To Handle the Case When Texts on SearchView are changed*/
             public boolean onQueryTextChange(String query) {
 //                setSuggestionForSearch(query);
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
-                ArrayList<ItemCS> SearchResult = db.searchListCSes(OverviewActivity.this, query);
-                mListView.setAdapter(new ChargingStationListViewAdapter(OverviewActivity.this, SearchResult));
+                QueryItemCSes = db.searchListCSes(OverviewActivity.this, query);
+                mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, QueryItemCSes));
                 mListView.setTextFilterEnabled(true);
                 return true;
             }
+
             @Override
-            /*When texts are submit*/
+            /*To Handle the Case When texts on SearchView are submit*/
             public boolean onQueryTextSubmit(String query) {
                 // TODO Auto-generated method stub
 
@@ -122,13 +143,20 @@ public class OverviewActivity extends ActionBarActivity {
                 searchView.clearFocus();
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
                 ArrayList<ItemCS> SearchResult = db.searchListCSes(OverviewActivity.this, query);
-                mListView.setAdapter(new ChargingStationListViewAdapter(OverviewActivity.this, SearchResult));
+                mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, SearchResult));
                 mListView.setTextFilterEnabled(true);
                 Toast.makeText(getApplicationContext(), "Please wait...", Toast.LENGTH_SHORT).show();
                 return false;
             }
         });
         return true;
+
+//        /*Hide dropdown pop up of  SearchView*/
+//        LinearLayout linearLayout1 = (LinearLayout) searchView.getChildAt(0);
+//        LinearLayout linearLayout2 = (LinearLayout) linearLayout1.getChildAt(2);
+//        LinearLayout linearLayout3 = (LinearLayout) linearLayout2.getChildAt(1);
+//        AutoCompleteTextView autoComplete = (AutoCompleteTextView) linearLayout3.getChildAt(0);
+//        autoComplete.setDropDownHeight(0);
     }
 
 

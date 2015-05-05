@@ -11,6 +11,4 @@
         android:background="@color/white"
         android:layout_weight="0.22">
     </ListView>
-
-
 </LinearLayout>

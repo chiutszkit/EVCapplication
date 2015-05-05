@@ -12,11 +12,11 @@ import com.example.tommyhui.evcapplication.database.ItemCS;
 
 import java.util.ArrayList;
 
-public class ChargingStationListViewAdapter extends BaseAdapter{
+public class OverviewListViewAdapter extends BaseAdapter{
     private final Context context;
     private final ArrayList<ItemCS> itemList;
 
-    public ChargingStationListViewAdapter(Context context, ArrayList<ItemCS> itemList){
+    public OverviewListViewAdapter(Context context, ArrayList<ItemCS> itemList){
         this.context = context;
         this.itemList = itemList;
     }

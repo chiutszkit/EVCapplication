@@ -5,7 +5,7 @@
     android:background="@color/light_yellow"
     android:orientation="vertical" >
     <ListView
-        android:id="@+id/about_listView"
+        android:id="@+id/about_list_view"
         android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
