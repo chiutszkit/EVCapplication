@@ -1,39 +1,27 @@
 package com.example.tommyhui.evcapplication.database;
 
-import java.util.ArrayList;
-
 public class ItemCS {
     private int id;
     private String address;
     private String district;
-    private String chargingStation;
+    private String description;
     private String type;
     private String socket;
     private int quantity;
 
-    private ArrayList<ItemCS> itemList;
-
     public ItemCS(){}
 
-    public ItemCS(String address, String district, String chargingStation, String type, String socket, int quantity) {
+    public ItemCS(String address, String district, String description, String type, String socket, int quantity) {
         super();
         this.address = address;
         this.district = district;
-        this.chargingStation = chargingStation;
+        this.description = description;
         this.type = type;
         this.socket = socket;
         this.quantity = quantity;
     }
 
     /*Getter and Setter*/
-
-    public ArrayList<ItemCS> getItemList() {
-        return itemList;
-    }
-
-    public void setItemList(ArrayList<ItemCS> itemList) {
-        this.itemList = itemList;
-    }
 
     public int getId() {
         return id;
@@ -43,8 +31,8 @@ public class ItemCS {
         return socket;
     }
 
-    public String getChargingStation() {
-        return chargingStation;
+    public String getDescription() {
+        return description;
     }
 
     public int getQuantity() {
@@ -75,8 +63,8 @@ public class ItemCS {
         this.address = address;
     }
 
-    public void setChargingStation(String chargingStation) {
-        this.chargingStation = chargingStation;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
 
@@ -95,7 +83,7 @@ public class ItemCS {
     @Override
     public String toString() {
         return "Charging Station [address=" + address + ", " +
-                                    "chargingStation=" + chargingStation + "," +
+                                    "description=" + description + "," +
                                     "type=" + type + "," +
                                     "socket=" + socket + "," +
                                     "quantity=" + quantity + "]";

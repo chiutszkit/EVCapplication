@@ -142,7 +142,7 @@
         <item> Wan Chai</item>
         <item> Causeway Bay</item>
     </string-array>
-    <string-array name="chargingStation">
+    <string-array name="description">
         <item>Star Ferry Car Park</item>
         <item>Yue Wan Estate Carpark</item>
         <item>Ex-Operational Headquarters of Hongkong Electric</item>

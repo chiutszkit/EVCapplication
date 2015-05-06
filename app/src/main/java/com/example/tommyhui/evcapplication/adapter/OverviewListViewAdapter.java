@@ -54,7 +54,7 @@ public class OverviewListViewAdapter extends BaseAdapter{
 
         address.setText(itemList.get(position).getAddress());
         district.setText(itemList.get(position).getDistrict());
-        chargingStation.setText(itemList.get(position).getChargingStation());
+        chargingStation.setText(itemList.get(position).getDescription());
         type.setText(itemList.get(position).getType());
         socket.setText(itemList.get(position).getSocket());
 //        quantity.setText(Integer.toString(itemList.get(position).getQuantity()));

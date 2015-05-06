@@ -9,12 +9,10 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
 
 public class MyDBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "charging_station_list.db";
+    public static final String DATABASE_NAME = "charging_station_list";
     public static final String TABLE_NAME = "ChargingStation";
 
     public static final int VERSION = 1;
@@ -22,12 +20,12 @@ public class MyDBHelper extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_ADDRESS = "address";
     private static final String KEY_DISTRICT = "district";
-    private static final String KEY_CHARGINGSTATION = "chargingStation";
+    private static final String KEY_DESCRIPTION = "chargingStation";
     private static final String KEY_TYPE = "type";
     private static final String KEY_SOCKET = "socket";
     private static final String KEY_QUANTITY = "quantity";
 
-    private static final String[] COLUMNS = {KEY_ID,KEY_ADDRESS,KEY_DISTRICT,KEY_CHARGINGSTATION,KEY_TYPE,KEY_SOCKET,KEY_QUANTITY};
+    private static final String[] COLUMNS = {KEY_ID,KEY_ADDRESS,KEY_DISTRICT, KEY_DESCRIPTION,KEY_TYPE,KEY_SOCKET,KEY_QUANTITY};
 
     public MyDBHelper(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
@@ -40,7 +38,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
                 KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
                 KEY_ADDRESS + " TEXT," +
                 KEY_DISTRICT + " TEXT," +
-                KEY_CHARGINGSTATION + " TEXT," +
+                KEY_DESCRIPTION + " TEXT," +
                 KEY_TYPE + " TEXT," +
                 KEY_SOCKET + " TEXT," +
                 KEY_QUANTITY + " INTEGER" +
@@ -76,7 +74,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_ADDRESS, cs.getAddress()); // get address
         values.put(KEY_DISTRICT, cs.getDistrict()); // get district
-        values.put(KEY_CHARGINGSTATION, cs.getChargingStation()); // get charging station
+        values.put(KEY_DESCRIPTION, cs.getDescription()); // get charging station
         values.put(KEY_TYPE, cs.getType()); // get type
         values.put(KEY_SOCKET, cs.getSocket()); // get socket
         values.put(KEY_QUANTITY, cs.getQuantity()); // get quantity
@@ -111,17 +109,21 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
         // 4. build book object
         ItemCS cs = new ItemCS();
-        cs.setId(Integer.parseInt(cursor.getString(0)));
         cs.setAddress(cursor.getString(1));
         cs.setDistrict(cursor.getString(2));
-        cs.setChargingStation(cursor.getString(3));
+        cs.setDescription(cursor.getString(3));
         cs.setType(cursor.getString(4));
         cs.setSocket(cursor.getString(5));
-        cs.setQuantity(Integer.parseInt(cursor.getString(6)));
+        cs.setQuantity(cursor.getInt(6));
+
+        cs.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID)));
+
 
         //log
         Log.d("getCS("+id+")", cs.toString());
-        cursor.close();
+
+        if(cursor != null)
+            cursor.close();
         // 5. return book
         return cs;
     }
@@ -131,9 +133,10 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
         // 1. build the query
         String query = "SELECT * FROM " + TABLE_NAME;
+//        String query = "SELECT *  FROM " + TABLE_NAME + " WHERE " + "chargingStation ='Star Ferry Car Park'";
 
         // 2. get reference to writable DB
-        SQLiteDatabase db = this.getWritableDatabase();
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(query, null);
 
         // 3. go over each row, build book and add it to list
@@ -141,10 +144,10 @@ public class MyDBHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 cs = new ItemCS();
-                cs.setId(Integer.parseInt(cursor.getString(0)));
+                cs.setId(cursor.getInt(0));
                 cs.setAddress(cursor.getString(1));
                 cs.setDistrict(cursor.getString(2));
-                cs.setChargingStation(cursor.getString(3));
+                cs.setDescription(cursor.getString(3));
                 cs.setType(cursor.getString(4));
                 cs.setSocket(cursor.getString(5));
                 cs.setQuantity(Integer.parseInt(cursor.getString(6)));
@@ -154,9 +157,11 @@ public class MyDBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
-        cursor.close();
+        if (cursor != null)
+            cursor.close();
+
         Log.d("getAllCSes()", cses.toString());
-        db.close();
+
         // return books
         return cses;
     }
@@ -174,15 +179,13 @@ public class MyDBHelper extends SQLiteOpenHelper {
     }
 
     public ArrayList<ItemCS> searchListCSes(Activity activity, String query) {
+
         ArrayList<ItemCS> cses = new ArrayList<>();
 
-//        String sql = "SELECT DISTINCT id, address, district, chargingStation, type, socket, quantity  FROM " + TABLE_NAME + " WHERE " + "chargingStation ='Star Ferry Car Park'";
-
-        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + "address" + " LIKE '%" + query + "%'"
+        String sql = "SELECT DISTINCT * FROM " + TABLE_NAME + " WHERE " + "address" + " LIKE '%" + query + "%'"
                 + " OR " + "chargingStation" + " LIKE '%" + query + "%'";
 
-
-        SQLiteDatabase db = this.getReadableDatabase();
+        SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
 
         Log.d("Debug", "Count = " + cursor.getCount());
@@ -195,17 +198,16 @@ public class MyDBHelper extends SQLiteOpenHelper {
                 cs.setId(Integer.parseInt(cursor.getString(0)));
                 cs.setAddress(cursor.getString(1));
                 cs.setDistrict(cursor.getString(2));
-                cs.setChargingStation(cursor.getString(3));
+                cs.setDescription(cursor.getString(3));
                 cs.setType(cursor.getString(4));
                 cs.setSocket(cursor.getString(5));
                 cs.setQuantity(Integer.parseInt(cursor.getString(6)));
 
                 // Add book to books
                 cses.add(cs);
-            } while (cursor.moveToNext() & cursor.getInt(0) < 70);
+            } while (cursor.moveToNext());
         }
 
-//        Log.d("Debug", "getCountOfCSes = " + count);
 
         cursor.close();
         db.close();
@@ -222,7 +224,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("address", cs.getAddress());
         values.put("district", cs.getDistrict());
-        values.put("chargingStation", cs.getChargingStation());
+        values.put("chargingStation", cs.getDescription());
         values.put("type", cs.getType());
         values.put("socket", cs.getSocket());
         values.put("quantity ", cs.getQuantity());
@@ -255,5 +257,14 @@ public class MyDBHelper extends SQLiteOpenHelper {
         //log
         Log.d("deleteBook", cs.toString());
 
+    }
+    public void clear()
+    {
+        SQLiteDatabase db = this.getWritableDatabase();
+        db.delete(TABLE_NAME, null, null);
+
+        db.execSQL("delete from "+ TABLE_NAME);
+
+        db.close();
     }
 }

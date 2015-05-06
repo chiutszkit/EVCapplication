@@ -6,7 +6,6 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -34,7 +33,7 @@ public class OverviewActivity extends ActionBarActivity {
 
     private String[] address;
     private String[] district;
-    private String[] chargingStation;
+    private String[] description;
     private String[] type;
     private String[] socket;
     private int[] quantity;
@@ -63,22 +62,20 @@ public class OverviewActivity extends ActionBarActivity {
         /*To Set Up Database*/
         db = new MyDBHelper(this);
         db.getWritableDatabase();
+        db.clear();
 
         address = getResources().getStringArray(R.array.address);
         district = getResources().getStringArray(R.array.district);
-        chargingStation = getResources().getStringArray(R.array.chargingStation);
+        description = getResources().getStringArray(R.array.description);
         type = getResources().getStringArray(R.array.type);
         socket = getResources().getStringArray(R.array.socket);
         quantity = getResources().getIntArray(R.array.quantity);
 
-        ItemCSes.clear();
-
         for (int i = 0; i < address.length; i++) {
-            db.addCS(new ItemCS(address[i], district[i], chargingStation[i], type[i], socket[i], quantity[i]));
-            ItemCSes.add(i, new ItemCS(address[i], district[i], chargingStation[i], type[i], socket[i], quantity[i]));
+            db.addCS(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
+            ItemCSes.add(i, new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
         }
 
-        QueryItemCSes.clear();
         QueryItemCSes = ItemCSes;
 
         /*To Display the List of Overview*/
@@ -101,7 +98,7 @@ public class OverviewActivity extends ActionBarActivity {
                 Bundle bundle = new Bundle();
 
                 bundle.putString("address", cs.getAddress());
-                bundle.putString("chargingStation", cs.getChargingStation());
+                bundle.putString("description", cs.getDescription());
                 bundle.putString("type", cs.getType());
                 bundle.putString("socket", cs.getSocket());
                 bundle.putInt("quantity", cs.getQuantity());
@@ -123,18 +120,20 @@ public class OverviewActivity extends ActionBarActivity {
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
         searchView.setQueryHint(getResources().getString(R.string.overview_search_view_title));
-
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
             /*To Handle the Case When Texts on SearchView are changed*/
             public boolean onQueryTextChange(String query) {
+
 //                setSuggestionForSearch(query);
+
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
                 QueryItemCSes = db.searchListCSes(OverviewActivity.this, query);
                 mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, QueryItemCSes));
                 mListView.setTextFilterEnabled(true);
-                return true;
+
+                return false;
             }
 
             @Override
@@ -145,11 +144,13 @@ public class OverviewActivity extends ActionBarActivity {
                 /*Clear the Query and Display the Result*/
                 searchView.setQuery(query, false);
                 searchView.clearFocus();
+
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
+
                 QueryItemCSes = db.searchListCSes(OverviewActivity.this, query);
                 mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, QueryItemCSes));
                 mListView.setTextFilterEnabled(true);
-                Toast.makeText(getApplicationContext(), "Please wait...", Toast.LENGTH_SHORT).show();
+
                 return false;
             }
         });
@@ -157,11 +158,15 @@ public class OverviewActivity extends ActionBarActivity {
             @Override
             /*To Handle the Case When the User Loses Focus on SearchView*/
             public boolean onClose() {
+
                 searchView.setQuery("", false);
                 searchView.clearFocus();
+
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
+                db.clear();
                 mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, ItemCSes));
                 mListView.setTextFilterEnabled(true);
+
                 return false;
             }
         });
@@ -215,7 +220,7 @@ public class OverviewActivity extends ActionBarActivity {
 //                ItemCS item = items.get(i);
 //
 //                String address = items.get();
-//                String chargingStation = items.getDisplayCountry();
+//                String description = items.getDisplayCountry();
 //
 //                if (!"".equals(name)) {
 //                    items.add(name);

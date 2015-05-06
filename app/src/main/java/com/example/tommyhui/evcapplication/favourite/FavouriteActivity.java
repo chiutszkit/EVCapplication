@@ -5,18 +5,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.ViewConfiguration;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.R;
 
-import java.lang.reflect.Field;
-
 public class FavouriteActivity extends ActionBarActivity {
 
-    LinearLayout background;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -33,6 +29,8 @@ public class FavouriteActivity extends ActionBarActivity {
         /*Set Action Bar's Icon*/
         ImageView myImgView = (ImageView)findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.favorite_icon);
+
+
 
     }
     @Override
