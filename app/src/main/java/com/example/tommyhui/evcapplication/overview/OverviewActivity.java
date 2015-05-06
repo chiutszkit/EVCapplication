@@ -6,6 +6,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,6 +42,7 @@ public class OverviewActivity extends ActionBarActivity {
     private ArrayList<ItemCS> ItemCSes = new ArrayList<>();
     private ArrayList<ItemCS> QueryItemCSes = new ArrayList<>();
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,19 +72,21 @@ public class OverviewActivity extends ActionBarActivity {
         quantity = getResources().getIntArray(R.array.quantity);
 
         ItemCSes.clear();
+
         for (int i = 0; i < address.length; i++) {
             db.addCS(new ItemCS(address[i], district[i], chargingStation[i], type[i], socket[i], quantity[i]));
             ItemCSes.add(i, new ItemCS(address[i], district[i], chargingStation[i], type[i], socket[i], quantity[i]));
         }
 
+        QueryItemCSes.clear();
         QueryItemCSes = ItemCSes;
 
         /*To Display the List of Overview*/
-        final ListView listview = (ListView) findViewById(R.id.overview_list_view);
+        ListView listview = (ListView) findViewById(R.id.overview_list_view);
         listview.setAdapter(new OverviewListViewAdapter(this, QueryItemCSes));
         listview.setTextFilterEnabled(true);
 
-        /*To Handle the Click of item of CS*/
+        /*To Handle the Click of item of a CS*/
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -142,10 +146,22 @@ public class OverviewActivity extends ActionBarActivity {
                 searchView.setQuery(query, false);
                 searchView.clearFocus();
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
-                ArrayList<ItemCS> SearchResult = db.searchListCSes(OverviewActivity.this, query);
-                mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, SearchResult));
+                QueryItemCSes = db.searchListCSes(OverviewActivity.this, query);
+                mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, QueryItemCSes));
                 mListView.setTextFilterEnabled(true);
                 Toast.makeText(getApplicationContext(), "Please wait...", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            /*To Handle the Case When the User Loses Focus on SearchView*/
+            public boolean onClose() {
+                searchView.setQuery("", false);
+                searchView.clearFocus();
+                ListView mListView = (ListView) findViewById(R.id.overview_list_view);
+                mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, ItemCSes));
+                mListView.setTextFilterEnabled(true);
                 return false;
             }
         });

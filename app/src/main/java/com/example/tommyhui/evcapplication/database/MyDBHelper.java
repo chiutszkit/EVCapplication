@@ -37,13 +37,13 @@ public class MyDBHelper extends SQLiteOpenHelper {
     public void onCreate(SQLiteDatabase db) {
 
         final String DATABASE_CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
-                "id INTEGER PRIMARY KEY AUTOINCREMENT," +
-                "address TEXT," +
-                "district TEXT," +
-                "chargingStation TEXT," +
-                "type TEXT," +
-                "socket TEXT," +
-                "quantity INTEGER" +
+                KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+                KEY_ADDRESS + " TEXT," +
+                KEY_DISTRICT + " TEXT," +
+                KEY_CHARGINGSTATION + " TEXT," +
+                KEY_TYPE + " TEXT," +
+                KEY_SOCKET + " TEXT," +
+                KEY_QUANTITY + " INTEGER" +
                 ");";
 
         db.execSQL(DATABASE_CREATE_TABLE);
@@ -51,7 +51,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS " + TABLE_NAME);
+        db.execSQL("DROP TABLE " + TABLE_NAME);
         onCreate(db);
     }
 
@@ -121,15 +121,16 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
         //log
         Log.d("getCS("+id+")", cs.toString());
-
+        cursor.close();
         // 5. return book
         return cs;
     }
-    public List<ItemCS> getAllCSes() {
-        List<ItemCS> cses = new LinkedList<>();
+
+    public ArrayList<ItemCS> getAllCSes() {
+        ArrayList<ItemCS> cses = new ArrayList<>();
 
         // 1. build the query
-        String query = "SELECT  * FROM " + TABLE_NAME;
+        String query = "SELECT * FROM " + TABLE_NAME;
 
         // 2. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
@@ -153,24 +154,41 @@ public class MyDBHelper extends SQLiteOpenHelper {
             } while (cursor.moveToNext());
         }
 
+        cursor.close();
         Log.d("getAllCSes()", cses.toString());
-
+        db.close();
         // return books
         return cses;
     }
+
+    public int getItemCSCount() {
+        String countQuery = "SELECT * FROM " + TABLE_NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+
+        int count = cursor.getCount();
+        // Close the cursor
+        cursor.close();
+        // return count
+        return count;
+    }
+
     public ArrayList<ItemCS> searchListCSes(Activity activity, String query) {
         ArrayList<ItemCS> cses = new ArrayList<>();
-        cses.clear();
 
-        String sql = "SELECT distinct * FROM " + TABLE_NAME + " WHERE " + "address" + " LIKE '%" + query + "%'"
+//        String sql = "SELECT DISTINCT id, address, district, chargingStation, type, socket, quantity  FROM " + TABLE_NAME + " WHERE " + "chargingStation ='Star Ferry Car Park'";
+
+        String sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + "address" + " LIKE '%" + query + "%'"
                 + " OR " + "chargingStation" + " LIKE '%" + query + "%'";
 
-        SQLiteDatabase db = this.getWritableDatabase();
+
+        SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
 
         Log.d("Debug", "Count = " + cursor.getCount());
 
         ItemCS cs;
+
         if (cursor.moveToFirst()) {
             do {
                 cs = new ItemCS();
@@ -184,8 +202,10 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
                 // Add book to books
                 cses.add(cs);
-            } while (cursor.moveToNext());
+            } while (cursor.moveToNext() & cursor.getInt(0) < 70);
         }
+
+//        Log.d("Debug", "getCountOfCSes = " + count);
 
         cursor.close();
         db.close();
@@ -217,7 +237,6 @@ public class MyDBHelper extends SQLiteOpenHelper {
         db.close();
 
         return i;
-
     }
 
     public void deleteCS(ItemCS cs) {
