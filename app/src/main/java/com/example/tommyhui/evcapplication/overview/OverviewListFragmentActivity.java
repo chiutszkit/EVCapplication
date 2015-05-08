@@ -4,19 +4,21 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.adapter.OverviewListViewAdapter;
 import com.example.tommyhui.evcapplication.database.DatabaseCS;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.search.SearchItemActivity;
-import com.example.tommyhui.evcapplication.overview.OverviewActivity;
+import com.example.tommyhui.evcapplication.adapter.OverviewPagerAdapter;
 
 import java.util.ArrayList;
 
@@ -29,19 +31,23 @@ public class OverviewListFragmentActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
-
-
-
+        setRetainInstance(true);
         // Get the Bundle Object
-        Bundle bundle = getArguments();
+        Bundle args = getArguments();
 
         // Get ArrayList Bundle
-//        Log.d("e", "To" + bundle.toString());
-        ListOfCSes = bundle.getParcelableArrayList("list");
-
+//        Log.d("e", "To" + args.size());
+//        ListOfCSes = args.getParcelableArrayList("list");
+        if (args == null) {
+            Toast.makeText(getActivity(), "arguments is null ", Toast.LENGTH_LONG).show();
+        } else {
+            ListOfCSes = args.getParcelableArrayList("list");
+            Toast.makeText(getActivity(), "text " + args , Toast.LENGTH_LONG).show();
+        }
 
         return inflater.inflate(R.layout.overview_list_fragment, container, false);
     }
+
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         // TODO Auto-generated method stub
 

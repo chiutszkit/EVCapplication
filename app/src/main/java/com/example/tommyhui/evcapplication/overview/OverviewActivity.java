@@ -78,8 +78,6 @@ public class OverviewActivity extends ActionBarActivity{
         ImageView myImgView = (ImageView)findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.overview_icon);
 
-
-
         /*To Set Up DatabaseCS*/
         db = new DatabaseCS(this);
         db.getWritableDatabase();
@@ -97,16 +95,24 @@ public class OverviewActivity extends ActionBarActivity{
             ItemCSes.add(i, new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
         }
 
-        Bundle bundle = new Bundle();
-        bundle.putParcelableArrayList("list", ItemCSes);
+        OverviewListFragmentActivity frag = new OverviewListFragmentActivity();
+
+        Bundle args = new Bundle();
+        args.putParcelableArrayList("list", ItemCSes);
 
 //        Intent intent = new Intent(this, SearchActivity.class);
 //
 //        intent.putParcelableArrayListExtra("list", ItemCSes);
 //        startActivity(intent);
 
-        OverviewListFragmentActivity frag = new OverviewListFragmentActivity();
-        frag.setArguments(bundle);
+
+        frag.setArguments(args);
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.fragment_container, frag).commit();
+//        getSupportFragmentManager().beginTransaction()
+//                .addToBackStack(null);
+
 
         /*To Set Up Viewpager*/
         overviewPagerAdapter = new OverviewPagerAdapter(

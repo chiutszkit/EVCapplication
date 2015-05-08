@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:id="@+id/overview_activity"
     android:orientation="vertical" >
 
     <LinearLayout
@@ -31,32 +32,35 @@
 
     </LinearLayout>
 
-    <!--<com.example.tommyhui.evcapplication.SlidingTab.SlidingTabLayout-->
-        <!--android:id="@+id/overview_sliding_tabs"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"/>-->
-
-    <LinearLayout
-        android:id="@+id/overview_layout_status"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5"
-        android:visibility="gone"
-        android:orientation="horizontal" >
-        <TextView
-            android:id="@+id/overview_text_status"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:gravity="center"
-            android:textSize="20dp"
-            android:layout_marginLeft="10dp"
-            android:text="[No.] charging stations for [Query]"/>
-    </LinearLayout>
-
     <android.support.v4.view.ViewPager
         android:id="@+id/overview_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8.5" />
+        android:layout_weight="8.5">
+
+        <LinearLayout
+            android:id="@+id/overview_layout_status"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:orientation="horizontal" >
+            <TextView
+                android:id="@+id/overview_text_status"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:textSize="20dp"
+                android:layout_marginLeft="10dp"
+                android:text="[No.] charging stations for [Query]"/>
+        </LinearLayout>
+
+        <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/fragment_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+
+        </FrameLayout>
+    </android.support.v4.view.ViewPager>
 
 </LinearLayout>
