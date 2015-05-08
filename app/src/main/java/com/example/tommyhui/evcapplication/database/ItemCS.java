@@ -1,6 +1,11 @@
 package com.example.tommyhui.evcapplication.database;
 
-public class ItemCS {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.util.ArrayList;
+
+public class ItemCS implements Parcelable{
     private int id;
     private String address;
     private String district;
@@ -8,6 +13,8 @@ public class ItemCS {
     private String type;
     private String socket;
     private int quantity;
+
+    private ArrayList<ItemCS> ItemCSes;
 
     public ItemCS(){}
 
@@ -80,6 +87,14 @@ public class ItemCS {
         this.quantity = quantity;
     }
 
+    public ArrayList<ItemCS> getItemCSes() {
+        return ItemCSes;
+    }
+
+    public void setItemCSes(ArrayList<ItemCS> itemCSes) {
+        ItemCSes = itemCSes;
+    }
+
     @Override
     public String toString() {
         return "Charging Station [address=" + address + ", " +
@@ -87,5 +102,58 @@ public class ItemCS {
                                     "type=" + type + "," +
                                     "socket=" + socket + "," +
                                     "quantity=" + quantity + "]";
+    }
+
+    public ItemCS(Parcel in){
+
+        id = in.readInt();
+        address = in.readString();
+        district = in.readString();
+        description = in.readString();
+        type = in.readString();
+        socket = in.readString();
+        quantity = in.readInt();
+
+        ItemCSes = (ArrayList<ItemCS>) in.readArrayList(ItemCS.class.getClassLoader());
+    }
+
+    public static final Parcelable.Creator<ItemCS> CREATOR = new Parcelable.Creator<ItemCS>() {
+        public ItemCS createFromParcel(Parcel in) {
+            return new ItemCS(in);
+        }
+
+        public ItemCS[] newArray(int size) {
+
+            return new ItemCS[size];
+        }
+
+    };
+
+    public void readFromParcel(Parcel in) {
+
+        id = in.readInt();
+        address = in.readString();
+        district = in.readString();
+        description = in.readString();
+        type = in.readString();
+        socket = in.readString();
+        quantity = in.readInt();
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+
+        dest.writeSerializable(id);
+        dest.writeSerializable(address);
+        dest.writeSerializable(district);
+        dest.writeSerializable(description);
+        dest.writeSerializable(type);
+        dest.writeSerializable(socket);
+        dest.writeSerializable(quantity);
     }
 }

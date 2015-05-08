@@ -1,34 +1,40 @@
 package com.example.tommyhui.evcapplication.overview;
 
+import android.app.Fragment;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.FragmentTransaction;
+import android.provider.Settings;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.text.Html;
 import android.text.Spanned;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.CompoundButton;
+import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.example.tommyhui.evcapplication.R;
-import com.example.tommyhui.evcapplication.SlidingTab.SlidingTabLayout;
 import com.example.tommyhui.evcapplication.adapter.OverviewListViewAdapter;
+import com.example.tommyhui.evcapplication.database.DatabaseCS;
 import com.example.tommyhui.evcapplication.database.ItemCS;
-import com.example.tommyhui.evcapplication.database.MyDBHelper;
+import com.example.tommyhui.evcapplication.search.SearchActivity;
 import com.example.tommyhui.evcapplication.search.SearchItemActivity;
+import com.example.tommyhui.evcapplication.adapter.OverviewPagerAdapter;
 
 import java.util.ArrayList;
 
@@ -37,7 +43,12 @@ public class OverviewActivity extends ActionBarActivity{
     private MenuItem searchItem;
     private SearchView searchView;
 
-    private MyDBHelper db;
+    private OverviewPagerAdapter overviewPagerAdapter;
+    private ToggleButton listToggle;
+    private ToggleButton historyToggle;
+    private ViewPager mViewPager;
+
+    private DatabaseCS db;
 
     private String[] address;
     private String[] district;
@@ -46,8 +57,8 @@ public class OverviewActivity extends ActionBarActivity{
     private String[] socket;
     private int[] quantity;
 
-    private ArrayList<ItemCS> ItemCSes = new ArrayList<>();
-    private ArrayList<ItemCS> QueryItemCSes = new ArrayList<>();
+    public static ArrayList<ItemCS> ItemCSes = new ArrayList<>();
+    public static ArrayList<ItemCS> QueryItemCSes = new ArrayList<>();
 
 
     @Override
@@ -59,37 +70,18 @@ public class OverviewActivity extends ActionBarActivity{
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
-        /*To Set Action Bar's Title*/
+        /*To Set Up Action Bar's Title*/
         TextView title = (TextView)findViewById(R.id.action_bar_title);
         title.setText("Overview");
 
-        /*To Set Action Bar's Icon*/
+        /*To Set Up Action Bar's Icon*/
         ImageView myImgView = (ImageView)findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.overview_icon);
 
-        /** Getting a reference to ViewPager from the layout */
-        final ViewPager pager = (ViewPager) findViewById(R.id.overview_pager);
-        SlidingTabLayout tab= (SlidingTabLayout) findViewById(R.id.overview_sliding_tabs);
 
-        MyFragmentPagerAdapter adapter= new MyFragmentPagerAdapter();
-        pager.setAdapter(adapter);
-        tab.setViewPager(pager);
 
-        final int[] colors={0xFF123456,0xFF654321};
-
-        tab.setCustomTabColorizer(new SlidingTabLayout.TabColorizer() {
-            @Override
-            public int getIndicatorColor(int position) {
-                return getResources().getColor(R.color.light_green);
-            }
-
-            @Override
-            public int getDividerColor(int position) {
-                return getResources().getColor(R.color.black);
-            }
-        });
-        /*To Set Up Database*/
-        db = new MyDBHelper(this);
+        /*To Set Up DatabaseCS*/
+        db = new DatabaseCS(this);
         db.getWritableDatabase();
 
         address = getResources().getStringArray(R.array.address);
@@ -105,82 +97,85 @@ public class OverviewActivity extends ActionBarActivity{
             ItemCSes.add(i, new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
         }
 
-        QueryItemCSes = ItemCSes;
+        Bundle bundle = new Bundle();
+        bundle.putParcelableArrayList("list", ItemCSes);
 
-        /*To Display the List of Overview*/
-        ListView listview = (ListView) findViewById(R.id.overview_list_view);
-        listview.setAdapter(new OverviewListViewAdapter(this, ItemCSes));
-        listview.setTextFilterEnabled(true);
+//        Intent intent = new Intent(this, SearchActivity.class);
+//
+//        intent.putParcelableArrayListExtra("list", ItemCSes);
+//        startActivity(intent);
 
-        /*To Handle the Click of item of a CS*/
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        OverviewListFragmentActivity frag = new OverviewListFragmentActivity();
+        frag.setArguments(bundle);
+
+        /*To Set Up Viewpager*/
+        overviewPagerAdapter = new OverviewPagerAdapter(
+                getSupportFragmentManager());
+
+        mViewPager = (ViewPager) findViewById(R.id.overview_pager);
+        mViewPager.setAdapter(overviewPagerAdapter);
+
+        listToggle = (ToggleButton) findViewById(R.id.overview_toggle_list);
+        historyToggle = (ToggleButton) findViewById(R.id.overview_toggle_history);
+
+        listToggle.setChecked(true);
+
+        listToggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
             @Override
-            public void onItemClick(AdapterView<?> parent, View view,
-                                    int position, long id) {
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // TODO Auto-generated method stub
+                if (isChecked) {
 
-                ItemCS cs = QueryItemCSes.get(position);
-
-                Intent searchItemIntent = new Intent();
-                searchItemIntent.setClass(OverviewActivity.this, SearchItemActivity.class);
-
-                Bundle bundle = new Bundle();
-
-                bundle.putString("address", cs.getAddress());
-                bundle.putString("description", cs.getDescription());
-                bundle.putString("type", cs.getType());
-                bundle.putString("socket", cs.getSocket());
-                bundle.putInt("quantity", cs.getQuantity());
-
-                searchItemIntent.putExtras(bundle);
-                startActivity(searchItemIntent);
+                    historyToggle.setChecked(false);
+                    mViewPager.setCurrentItem(0);
+                    listToggle.setClickable(false);
+                    historyToggle.setClickable(true);
+                }
             }
         });
-    }
 
-    public class MyFragmentPagerAdapter extends PagerAdapter {
+        historyToggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 
-        String[] titles={"List","History"};
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                // TODO Auto-generated method stub
+                if (isChecked) {
 
-        ArrayList<LinearLayout> layouts=new ArrayList<LinearLayout>();
-        MyFragmentPagerAdapter() {
+                    listToggle.setChecked(false);
+                    mViewPager.setCurrentItem(1);
+                    historyToggle.setClickable(false);
+                    listToggle.setClickable(true);
+                }
+            }
+        });
 
-            int[] colors={0xFF123456,0xFF654321};
-            for (int i = 0; i < 2; i++) {
-                LinearLayout l=new LinearLayout(OverviewActivity.this);
-                l.setBackgroundColor(colors[i]);
-                l.setLayoutParams(new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,ViewGroup.LayoutParams.MATCH_PARENT));
-                layouts.add(l);
+        mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+
+            @Override
+            public void onPageSelected(int position) {
+                // TODO Auto-generated method stub
+                if(position == 0){
+                    listToggle.setChecked(true);
+                }
+                else{
+                    historyToggle.setChecked(true);
+                }
             }
 
-        }
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                // TODO Auto-generated method stub
 
-        @Override
-        public int getCount() {
-            return layouts.size();
-        }
+            }
 
-        @Override
-        public boolean isViewFromObject(View view, Object o) {
-            return view==o;
-        }
+            @Override
+            public void onPageScrollStateChanged(int state) {
+                // TODO Auto-generated method stub
 
-        @Override
-        public Object instantiateItem(ViewGroup container, int position) {
-            LinearLayout l=layouts.get(position);
-            container.addView(l);
-            return l;
-        }
+            }
+        });
 
-        @Override
-        public void destroyItem(ViewGroup container, int position, Object object) {
-            container.removeView(layouts.get(position));
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return titles[position];
-        }
     }
 
     @Override

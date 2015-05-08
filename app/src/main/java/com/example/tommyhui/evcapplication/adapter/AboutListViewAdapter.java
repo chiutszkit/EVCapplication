@@ -3,7 +3,6 @@ package com.example.tommyhui.evcapplication.adapter;
 import com.example.tommyhui.evcapplication.R;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,6 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class AboutListViewAdapter extends BaseAdapter{
     private final Context context;
@@ -50,7 +48,7 @@ public class AboutListViewAdapter extends BaseAdapter{
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View rowView = inflater.inflate(R.layout.about_list_view_item_layout, parent, false);
+        View rowView = inflater.inflate(R.layout.about_list_item_layout, parent, false);
 
         View aboutView = inflater.inflate(R.layout.about_activity, parent, false);
         ListView listView = (ListView) aboutView.findViewById(R.id.about_list_view);

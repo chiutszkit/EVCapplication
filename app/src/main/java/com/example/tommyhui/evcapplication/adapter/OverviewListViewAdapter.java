@@ -43,7 +43,7 @@ public class OverviewListViewAdapter extends BaseAdapter{
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.overview_list_view_list_item_layout, parent, false);
+        View rowView = inflater.inflate(R.layout.overview_list_fragment_list_item_layout, parent, false);
 
         TextView address = (TextView) rowView.findViewById(R.id.overview_list_view_item_address);
         TextView district = (TextView) rowView.findViewById(R.id.overview_list_view_item_district);

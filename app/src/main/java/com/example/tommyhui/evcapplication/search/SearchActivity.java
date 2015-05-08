@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
@@ -46,6 +47,7 @@ public class SearchActivity extends ActionBarActivity {
                 startActivity(resultIntent);
             }
         });
+//        Log.d("e", "arguments" + getIntent().getExtras().getParcelableArrayList("list").toString());
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

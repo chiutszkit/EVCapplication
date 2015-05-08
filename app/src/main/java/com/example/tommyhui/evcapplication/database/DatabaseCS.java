@@ -10,7 +10,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-public class MyDBHelper extends SQLiteOpenHelper {
+public class DatabaseCS extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "charging_station_list";
     public static final String TABLE_NAME = "ChargingStation";
@@ -27,7 +27,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
     private static final String[] COLUMNS = {KEY_ID,KEY_ADDRESS,KEY_DISTRICT, KEY_DESCRIPTION,KEY_TYPE,KEY_SOCKET,KEY_QUANTITY};
 
-    public MyDBHelper(Context context) {
+    public DatabaseCS(Context context) {
         super(context, DATABASE_NAME, null, VERSION);
     }
 

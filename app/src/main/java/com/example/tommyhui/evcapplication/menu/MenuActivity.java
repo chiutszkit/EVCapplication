@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.about.AboutActivity;
-import com.example.tommyhui.evcapplication.database.MyDBHelper;
 import com.example.tommyhui.evcapplication.favourite.FavouriteActivity;
 import com.example.tommyhui.evcapplication.nearest.NearestActivity;
 import com.example.tommyhui.evcapplication.overview.OverviewActivity;
