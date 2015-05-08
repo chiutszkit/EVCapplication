@@ -20,15 +20,15 @@ public class SearchItemActivity extends Activity {
 
         Bundle bundle = getIntent().getExtras();
         String address = bundle.getString("address");
-        String chargingStation = bundle.getString("chargingStation");
+        String description = bundle.getString("description");
         String type = bundle.getString("type");
         String socket = bundle.getString("socket");
         Integer quantity  = bundle.getInt("quantity");
 
         TextView addressText = (TextView)findViewById(R.id.search_item_text_chargingStationAddress);
         addressText.setText(address);
-        TextView chargingStationText = (TextView)findViewById(R.id.search_item_text_chargingStationName);
-        chargingStationText.setText(chargingStation);
+        TextView descriptionText = (TextView)findViewById(R.id.search_item_text_description);
+        descriptionText.setText(description);
         TextView typeText = (TextView)findViewById(R.id.search_item_text_type);
         typeText.setText("Type: " + type);
         TextView socketText = (TextView)findViewById(R.id.search_item_text_socket);

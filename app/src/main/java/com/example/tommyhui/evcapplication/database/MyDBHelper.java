@@ -20,7 +20,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
     private static final String KEY_ID = "id";
     private static final String KEY_ADDRESS = "address";
     private static final String KEY_DISTRICT = "district";
-    private static final String KEY_DESCRIPTION = "chargingStation";
+    private static final String KEY_DESCRIPTION = "description";
     private static final String KEY_TYPE = "type";
     private static final String KEY_SOCKET = "socket";
     private static final String KEY_QUANTITY = "quantity";
@@ -64,8 +64,6 @@ public class MyDBHelper extends SQLiteOpenHelper {
     }
 
     public void addCS(ItemCS cs){
-        //for logging
-        Log.d("addCS", cs.toString());
 
         // 1. get reference to writable DB
         SQLiteDatabase db = this.getWritableDatabase();
@@ -79,14 +77,48 @@ public class MyDBHelper extends SQLiteOpenHelper {
         values.put(KEY_SOCKET, cs.getSocket()); // get socket
         values.put(KEY_QUANTITY, cs.getQuantity()); // get quantity
 
-        // 3. insert
-        db.insert(TABLE_NAME, // table
-                null, //nullColumnHack
-                values); // key/value -> keys = column names/ values = column values
+        String[] input_column = new String[] {KEY_ADDRESS,KEY_DISTRICT, KEY_DESCRIPTION,KEY_TYPE,KEY_SOCKET,KEY_QUANTITY};
+        String[] input_data = new String[]{cs.getAddress(),cs.getDistrict(), cs.getDescription(),cs.getType(),cs.getSocket(),Integer.toString(cs.getQuantity())};
+
+        // 3. insert or update
+        if(!checkRecordExist(TABLE_NAME, input_column, input_data))
+        {
+            //Perform the insert query
+            db.insert(TABLE_NAME, null, values);
+            //for logging
+            Log.d("addCS", cs.toString());
+        }
+
+//        db.insert(TABLE_NAME, // table
+//                null, //nullColumnHack
+//                values); // key/value -> keys = column names/ values = column values
 
         // 4. close
         db.close();
     }
+    private boolean checkRecordExist(String tableName, String[] keys, String [] values) {
+
+        SQLiteDatabase db = this.getWritableDatabase();
+        StringBuilder sb = new StringBuilder();
+        boolean exists;
+
+        for (int i = 0; i < keys.length; i++) {
+            sb.append(keys[i])
+                    .append("=\"")
+                    .append(values[i])
+                    .append("\" ");
+            if (i<keys.length-1) sb.append("AND ");
+        }
+
+        String query = "SELECT * FROM " + tableName + " WHERE " + sb.toString();
+        Cursor cursor = db.rawQuery(query, null);
+        exists = (cursor.getCount() > 0);
+        Log.d("debug", "Exist? = " + exists);
+        cursor.close();
+
+        return exists;
+    }
+
     public ItemCS getCS(int id){
 
         // 1. get reference to readable DB
@@ -182,8 +214,8 @@ public class MyDBHelper extends SQLiteOpenHelper {
 
         ArrayList<ItemCS> cses = new ArrayList<>();
 
-        String sql = "SELECT DISTINCT * FROM " + TABLE_NAME + " WHERE " + "address" + " LIKE '%" + query + "%'"
-                + " OR " + "chargingStation" + " LIKE '%" + query + "%'";
+        String sql = "SELECT DISTINCT * FROM " + TABLE_NAME + " WHERE " + KEY_ADDRESS + " LIKE '%" + query + "%'"
+                + " OR " + KEY_DESCRIPTION + " LIKE '%" + query + "%'";
 
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(sql, null);
@@ -224,7 +256,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put("address", cs.getAddress());
         values.put("district", cs.getDistrict());
-        values.put("chargingStation", cs.getDescription());
+        values.put("description", cs.getDescription());
         values.put("type", cs.getType());
         values.put("socket", cs.getSocket());
         values.put("quantity ", cs.getQuantity());
@@ -261,9 +293,7 @@ public class MyDBHelper extends SQLiteOpenHelper {
     public void clear()
     {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_NAME, null, null);
-
-        db.execSQL("delete from "+ TABLE_NAME);
+        db.execSQL("DROP TABLE "+ TABLE_NAME);
 
         db.close();
     }

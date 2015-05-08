@@ -4,7 +4,8 @@
     android:layout_height="wrap_content"
     android:minHeight="150sp"
     android:gravity="center_vertical"
-    android:orientation="vertical" >
+    android:orientation="vertical"
+    android:descendantFocusability="blocksDescendants">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
@@ -12,16 +13,17 @@
         android:orientation="horizontal" >
 
         <ImageView
-        android:id="@+id/menu_grid_icon_share"
-        android:src="@drawable/map_icon"
+        android:id="@+id/overview_list_view_icon_chargingStation"
+        android:src="@drawable/chargingstation_icon"
         android:layout_marginLeft="15dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"/>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight = "3"
             android:layout_marginLeft="15dp"
             android:orientation="vertical" >
             <TextView
@@ -43,25 +45,54 @@
                 android:textSize="15sp"
                 android:text="[district]"/>
         </LinearLayout>
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="1.75"
             android:layout_gravity="center"
             android:orientation="vertical" >
-            <TextView
-                android:id="@+id/overview_list_view_item_type"
-                android:layout_width="match_parent"
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:textSize="15sp"
-                android:text="[type]"/>
-            <TextView
-                android:id="@+id/overview_list_view_item_socket"
-                android:layout_width="match_parent"
+                android:orientation="horizontal" >
+                <ImageView
+                    android:id="@+id/overview_list_view_icon_speed"
+                    android:src="@drawable/speed_icon"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+                <TextView
+                    android:id="@+id/overview_list_view_item_type"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="15sp"
+                    android:text="[type]"/>
+            </LinearLayout>
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="15dp"
-                android:textSize="15sp"
-                android:text="[socket]"/>
+                android:layout_marginTop="5dp"
+                android:orientation="horizontal" >
+                <ImageView
+                    android:id="@+id/overview_list_view_icon_socket"
+                    android:src="@drawable/socket_icon"
+                    android:layout_gravity="center"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"/>
+                <TextView
+                    android:id="@+id/overview_list_view_item_socket"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="15sp"
+                    android:text="[socket]"/>
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
+
 </LinearLayout>

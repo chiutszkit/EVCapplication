@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.about.AboutActivity;
+import com.example.tommyhui.evcapplication.database.MyDBHelper;
 import com.example.tommyhui.evcapplication.favourite.FavouriteActivity;
 import com.example.tommyhui.evcapplication.nearest.NearestActivity;
 import com.example.tommyhui.evcapplication.overview.OverviewActivity;
@@ -20,7 +21,9 @@ import com.example.tommyhui.evcapplication.search.SearchActivity;
 
 import java.lang.reflect.Method;
 
+
 public class MenuActivity extends ActionBarActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

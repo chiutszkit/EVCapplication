@@ -55,12 +55,12 @@ public class AboutListViewAdapter extends BaseAdapter{
         View aboutView = inflater.inflate(R.layout.about_activity, parent, false);
         ListView listView = (ListView) aboutView.findViewById(R.id.about_list_view);
 
-        android.view.ViewGroup.LayoutParams layoutParams = rowView.getLayoutParams();
-        int totalHeight = listView.getMeasuredHeight();
-        Log.d("test-logging", "totalHeight: " + totalHeight);
-        int rowHeight = totalHeight/getCount();
-        layoutParams.height = rowHeight;
-        rowView.setLayoutParams(layoutParams);
+//        android.view.ViewGroup.LayoutParams layoutParams = rowView.getLayoutParams();
+//        int totalHeight = listView.getMeasuredHeight();
+//        Log.d("test-logging", "totalHeight: " + totalHeight);
+//        int rowHeight = totalHeight/getCount();
+//        layoutParams.height = rowHeight;
+//        rowView.setLayoutParams(layoutParams);
 
         TextView textTitleView = (TextView) rowView.findViewById(R.id.about_list_view_item_title);
         TextView textView = (TextView) rowView.findViewById(R.id.about_list_view_item_text);

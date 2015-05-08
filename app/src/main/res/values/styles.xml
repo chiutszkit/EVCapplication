@@ -38,6 +38,7 @@
 
     <style name="ActionBarTabStyle.Actionbar" parent="@style/Widget.AppCompat.Light.ActionBar.TabView">
         <item name="android:background">@drawable/tab_indicator_ab_actionbar</item>
+        <item name="android:showDividers">middle</item>
     </style>
 
     <style name="DropDownNav.Actionbar" parent="@style/Widget.AppCompat.Light.Spinner.DropDown.ActionBar">
