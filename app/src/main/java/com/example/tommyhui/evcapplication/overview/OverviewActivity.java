@@ -1,9 +1,12 @@
 package com.example.tommyhui.evcapplication.overview;
 
 import android.app.Fragment;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.Settings;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
@@ -95,10 +98,12 @@ public class OverviewActivity extends ActionBarActivity{
             ItemCSes.add(i, new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
         }
 
-        OverviewListFragmentActivity frag = new OverviewListFragmentActivity();
+        //OverviewListFragmentActivity frag = new OverviewListFragmentActivity();
 
-        Bundle args = new Bundle();
-        args.putParcelableArrayList("list", ItemCSes);
+        //Log.i("test-logging","ItemCSes : " + ItemCSes);
+
+        //Bundle args = new Bundle();
+        //args.putParcelableArrayList("list", ItemCSes);
 
 //        Intent intent = new Intent(this, SearchActivity.class);
 //
@@ -106,17 +111,17 @@ public class OverviewActivity extends ActionBarActivity{
 //        startActivity(intent);
 
 
-        frag.setArguments(args);
+        //frag.setArguments(args);
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, frag).commit();
+        //getSupportFragmentManager().beginTransaction()
+                //.replace(R.id.fragment_container, frag).commit();
 //        getSupportFragmentManager().beginTransaction()
 //                .addToBackStack(null);
 
 
         /*To Set Up Viewpager*/
         overviewPagerAdapter = new OverviewPagerAdapter(
-                getSupportFragmentManager());
+                getSupportFragmentManager(), ItemCSes);
 
         mViewPager = (ViewPager) findViewById(R.id.overview_pager);
         mViewPager.setAdapter(overviewPagerAdapter);

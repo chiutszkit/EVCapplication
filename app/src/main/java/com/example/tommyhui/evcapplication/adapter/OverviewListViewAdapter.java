@@ -14,7 +14,7 @@ import java.util.ArrayList;
 
 public class OverviewListViewAdapter extends BaseAdapter{
     private final Context context;
-    private final ArrayList<ItemCS> itemList;
+    private ArrayList<ItemCS> itemList;
 
     public OverviewListViewAdapter(Context context, ArrayList<ItemCS> itemList){
         this.context = context;
@@ -37,6 +37,14 @@ public class OverviewListViewAdapter extends BaseAdapter{
     public long getItemId(int position) {
         // TODO Auto-generated method stub
         return position;
+    }
+
+    public ArrayList<ItemCS> getList(){
+        return itemList;
+    }
+
+    public void setList(ArrayList<ItemCS> itemList){
+        this.itemList = itemList;
     }
 
     @Override

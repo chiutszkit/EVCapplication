@@ -21,11 +21,16 @@ import com.example.tommyhui.evcapplication.search.SearchItemActivity;
 import com.example.tommyhui.evcapplication.adapter.OverviewPagerAdapter;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OverviewListFragmentActivity extends Fragment {
 
     private DatabaseCS db;
     private ArrayList<ItemCS> ListOfCSes = new ArrayList<>();
+
+    public OverviewListFragmentActivity() {
+
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -41,9 +46,12 @@ public class OverviewListFragmentActivity extends Fragment {
         if (args == null) {
             Toast.makeText(getActivity(), "arguments is null ", Toast.LENGTH_LONG).show();
         } else {
-            ListOfCSes = args.getParcelableArrayList("list");
+            //ListOfCSes = args.getParcelableArrayList("list");
+            ListOfCSes = args.getParcelableArrayList("items");
             Toast.makeText(getActivity(), "text " + args , Toast.LENGTH_LONG).show();
         }
+
+        Log.i("test-logging", "ListOfCSes.getCount() : " + ListOfCSes.size());
 
         return inflater.inflate(R.layout.overview_list_fragment, container, false);
     }
