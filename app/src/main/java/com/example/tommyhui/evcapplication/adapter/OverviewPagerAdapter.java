@@ -32,9 +32,6 @@ public class OverviewPagerAdapter extends FragmentPagerAdapter {
                 frag.setArguments(bundle);
                 return frag;
             case 1:
-
-                //do the similar thing as OverviewListFragment
-
                 return new OverviewHistoryFragmentActivity();
             default:
                 return null;

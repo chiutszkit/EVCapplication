@@ -31,9 +31,6 @@ import java.util.ArrayList;
 
 public class OverviewActivity extends ActionBarActivity{
 
-    private MenuItem searchItem;
-    private SearchView searchView;
-
     private OverviewPagerAdapter overviewPagerAdapter;
     private ToggleButton listToggle;
     private ToggleButton historyToggle;
@@ -48,6 +45,9 @@ public class OverviewActivity extends ActionBarActivity{
     private String[] socket;
     private int[] quantity;
 
+    public static MenuItem searchItem;
+    public static SearchView searchView;
+    public static String searchViewQuery = "";
     public static ArrayList<ItemCS> ItemCSes = new ArrayList<>();
     public static ArrayList<ItemCS> QueryItemCSes = new ArrayList<>();
 
@@ -204,6 +204,7 @@ public class OverviewActivity extends ActionBarActivity{
                 // TODO Auto-generated method stub
 
                 /*To Put the Query on the Search Bar*/
+                searchViewQuery = query;
                 searchView.setQuery(query, false);
                 searchView.clearFocus();
 

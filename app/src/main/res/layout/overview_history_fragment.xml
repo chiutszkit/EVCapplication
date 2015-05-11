@@ -13,12 +13,11 @@
     </ListView>
 
     <Button
-        style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
-        android:layout_height="200dp"
+        android:layout_height="wrap_content"
         android:text="Clear All"
+        android:background="@drawable/custombutton_background_selector"
         android:id="@+id/overview_history_button_clear"
-        android:layout_gravity="center_horizontal"
-        android:layout_weight="0.22" />
+        android:layout_gravity="center_horizontal"/>
 
 </LinearLayout>

@@ -46,6 +46,7 @@ public class OverviewListFragmentActivity extends Fragment {
         // TODO Auto-generated method stub
 
         super.onActivityCreated(savedInstanceState);
+        db = new HistoryDBController(getActivity());
 
         /*To Display the List of CS with the Original List of CS*/
         ListView listview = (ListView) getActivity().findViewById(R.id.overview_list_view);
@@ -59,7 +60,10 @@ public class OverviewListFragmentActivity extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                ListOfCSes = ((OverviewActivity)getActivity()).QueryItemCSes;
+                if(((OverviewActivity)getActivity()).searchViewQuery == "")
+                    ListOfCSes = ((OverviewActivity)getActivity()).ItemCSes;
+                else
+                    ListOfCSes = ((OverviewActivity)getActivity()).QueryItemCSes;
                 ItemCS cs = ListOfCSes.get(position);
 
                 history = new HistoryItemCS((cs.getAddress()), cs.getDistrict(), cs.getDescription(), cs.getType(), cs.getSocket(), cs.getQuantity());

@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.tommyhui.evcapplication.R;
@@ -83,5 +84,20 @@ public class OverviewHistoryFragmentActivity extends Fragment {
 
             historyListViewAdapter.notifyDataSetChanged();
         }
+        Button clearButton = (Button) getActivity().findViewById(R.id.overview_history_button_clear);
+        clearButton.setOnClickListener(new Button.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                db = new HistoryDBController(v.getContext());
+                for(int i = 0; i < historyList.size(); i++) {
+                    HistoryItemCS cs = historyList.get(i);
+                    db.deleteHistoryCS(cs);
+                }
+                historyList.clear();
+                historyListViewAdapter.setList(historyList);
+                historyListViewAdapter.notifyDataSetChanged();
+            }
+        });
     }
 }

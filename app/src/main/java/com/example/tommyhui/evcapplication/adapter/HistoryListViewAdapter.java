@@ -3,17 +3,21 @@ package com.example.tommyhui.evcapplication.adapter;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.R;
+import com.example.tommyhui.evcapplication.database.HistoryDBController;
 import com.example.tommyhui.evcapplication.database.HistoryItemCS;
 
 import java.util.ArrayList;
 
 public class HistoryListViewAdapter extends BaseAdapter{
     private final Context context;
+    private HistoryDBController db;
     private ArrayList<HistoryItemCS> itemList;
 
     public HistoryListViewAdapter(Context context, ArrayList<HistoryItemCS> itemList){
@@ -48,7 +52,7 @@ public class HistoryListViewAdapter extends BaseAdapter{
     }
 
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
+    public View getView(final int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View rowView = inflater.inflate(R.layout.overview_history_fragment_list_item_layout, parent, false);
@@ -58,12 +62,25 @@ public class HistoryListViewAdapter extends BaseAdapter{
         TextView chargingStation = (TextView) rowView.findViewById(R.id.overview_history_fragment_list_view_item_chargingStation);
         TextView type = (TextView) rowView.findViewById(R.id.overview_history_fragment_list_view_item_type);
         TextView socket = (TextView) rowView.findViewById(R.id.overview_history_fragment_list_view_item_socket);
+        ImageView imageView = (ImageView) rowView.findViewById(R.id.overview_history_fragment_list_view_icon_delete);
 
         address.setText(itemList.get(position).getAddress());
         district.setText(itemList.get(position).getDistrict());
         chargingStation.setText(itemList.get(position).getDescription());
         type.setText(itemList.get(position).getType());
         socket.setText(itemList.get(position).getSocket());
+
+        imageView.setOnClickListener(new OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                db = new HistoryDBController(context);
+                db.deleteHistoryCS(itemList.get(position));
+                itemList.remove(position);
+                notifyDataSetChanged();
+            }
+        });
 
         return rowView;
     }

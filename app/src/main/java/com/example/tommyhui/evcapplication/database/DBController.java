@@ -11,10 +11,7 @@ import java.util.ArrayList;
 
 public class DBController {
 
-    public static final String DATABASE_NAME = "charging_station_list";
     public static final String TABLE_NAME = "ChargingStation";
-
-    public static final int VERSION = 1;
 
     private static final String KEY_ID = "id";
     private static final String KEY_ADDRESS = "address";
@@ -48,9 +45,7 @@ public class DBController {
 
     public ItemCS addCS(ItemCS cs){
 
-        // 1. get reference to writable DB
-
-        // 2. create ContentValues to add key "column"/value
+        // 1. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
         values.put(KEY_ADDRESS, cs.getAddress()); // get address
         values.put(KEY_DISTRICT, cs.getDistrict()); // get district
@@ -59,24 +54,19 @@ public class DBController {
         values.put(KEY_SOCKET, cs.getSocket()); // get socket
         values.put(KEY_QUANTITY, cs.getQuantity()); // get quantity
 
+        // 2. insert or update
+
         String[] input_column = new String[] {KEY_ADDRESS,KEY_DISTRICT, KEY_DESCRIPTION,KEY_TYPE,KEY_SOCKET,KEY_QUANTITY};
         String[] input_data = new String[]{cs.getAddress(),cs.getDistrict(), cs.getDescription(),cs.getType(),cs.getSocket(),Integer.toString(cs.getQuantity())};
 
-        // 3. insert or update
         if(!checkRecordExist(TABLE_NAME, input_column, input_data))
         {
-            //Perform the insert query
+            // Perform the insert query
             db.insert(TABLE_NAME, null, values);
-            //for logging
             Log.d("addCS", cs.toString());
         }
 
-//        db.insert(TABLE_NAME, // table
-//                null, //nullColumnHack
-//                values); // key/value -> keys = column names/ values = column values
-
-        // 4. close
-
+        // 3. return the item cs
         return cs;
     }
     private boolean checkRecordExist(String tableName, String[] keys, String [] values) {
@@ -84,6 +74,7 @@ public class DBController {
         StringBuilder sb = new StringBuilder();
         boolean exists;
 
+        // 1. set up a string builder of comparing columns
         for (int i = 0; i < keys.length; i++) {
             sb.append(keys[i])
                     .append("=\"")
@@ -92,10 +83,13 @@ public class DBController {
             if (i<keys.length-1) sb.append("AND ");
         }
 
+        // 2. execute the query to search whether the record exists
         String query = "SELECT * FROM " + tableName + " WHERE " + sb.toString();
         Cursor cursor = db.rawQuery(query, null);
+
         exists = (cursor.getCount() > 0);
-//        Log.d("debug", "Exist? = " + exists);
+        Log.d("addCS", "Exist? = " + exists);
+
         cursor.close();
 
         return exists;
@@ -103,7 +97,7 @@ public class DBController {
 
     public ItemCS getCS(int id){
 
-        // 2. build query
+        // 1. build query
         Cursor cursor =
                 db.query(TABLE_NAME, // a. table
                         COLUMNS, // b. column names
@@ -114,11 +108,11 @@ public class DBController {
                         null, // g. order by
                         null); // h. limit
 
-        // 3. if we got results get the first one
+        // 2. if we got results, get the first one
         if (cursor != null)
             cursor.moveToFirst();
 
-        // 4. build book object
+        // 3. build cs object
         ItemCS cs = new ItemCS();
         cs.setAddress(cursor.getString(1));
         cs.setDistrict(cursor.getString(2));
@@ -129,8 +123,6 @@ public class DBController {
 
         cs.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID)));
 
-
-        //log
         Log.d("getCS("+id+")", cs.toString());
 
         if(cursor != null)
@@ -140,6 +132,7 @@ public class DBController {
     }
 
     public ArrayList<ItemCS> getAllCSes() {
+
         ArrayList<ItemCS> cses = new ArrayList<>();
 
         // 1. build the query
@@ -148,7 +141,7 @@ public class DBController {
         // 2. get reference to writable DB
         Cursor cursor = db.rawQuery(query, null);
 
-        // 3. go over each row, build book and add it to list
+        // 3. go over each row, build cs and add it to list
         ItemCS cs;
         if (cursor.moveToFirst()) {
             do {
@@ -161,7 +154,7 @@ public class DBController {
                 cs.setSocket(cursor.getString(5));
                 cs.setQuantity(Integer.parseInt(cursor.getString(6)));
 
-                // Add book to books
+                // Add cs to list of cs
                 cses.add(cs);
             } while (cursor.moveToNext());
         }
@@ -171,18 +164,22 @@ public class DBController {
 
         Log.d("getAllCSes()", cses.toString());
 
-        // return books
+        // 4. return list of cs
         return cses;
     }
 
     public int getItemCSCount() {
+
+        // 1. build the query
         String countQuery = "SELECT * FROM " + TABLE_NAME;
+
+        // 2. execute the query to search whether the record exists
         Cursor cursor = db.rawQuery(countQuery, null);
 
+        // 2. get the count
         int count = cursor.getCount();
-        // Close the cursor
+
         cursor.close();
-        // return count
         return count;
     }
 
@@ -195,7 +192,7 @@ public class DBController {
 
         Cursor cursor = db.rawQuery(sql, null);
 
-        Log.d("Debug", "Count = " + cursor.getCount());
+        Log.d("search", "Match Result = " + cursor.getCount());
 
         ItemCS cs;
 
@@ -210,21 +207,20 @@ public class DBController {
                 cs.setSocket(cursor.getString(5));
                 cs.setQuantity(Integer.parseInt(cursor.getString(6)));
 
-                // Add book to books
+                // Add cs to list of cs
                 cses.add(cs);
             } while (cursor.moveToNext());
         }
 
-
         cursor.close();
-        db.close();
 
-        // return books
+        // return list of cs
         return cses;
     }
+
     public int updateCS(ItemCS cs) {
 
-        // 2. create ContentValues to add key "column"/value
+        // 1. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
         values.put("address", cs.getAddress());
         values.put("district", cs.getDistrict());
@@ -233,35 +229,28 @@ public class DBController {
         values.put("socket", cs.getSocket());
         values.put("quantity ", cs.getQuantity());
 
-        // 3. updating row
+        // 2. updating row
         int i = db.update(TABLE_NAME, //table
                 values, // column/value
                 KEY_ID+" = ?", // selections
                 new String[] { String.valueOf(cs.getId()) }); //selection args
 
-        // 4. close
-        db.close();
-
+        // 3. return the update
         return i;
     }
 
     public void deleteCS(ItemCS cs) {
 
-        // 2. delete
+        // 1. delete
         db.delete(TABLE_NAME, //table name
                 KEY_ID+" = ?",  // selections
                 new String[] { String.valueOf(cs.getId()) }); //selections args
 
-        // 3. close
-        db.close();
-
-        //log
-        Log.d("deleteBook", cs.toString());
-
+        Log.d("deletecs", cs.toString());
     }
+
     public void clear()
     {
         db.execSQL("DROP TABLE "+ TABLE_NAME);
-        db.close();
     }
 }
