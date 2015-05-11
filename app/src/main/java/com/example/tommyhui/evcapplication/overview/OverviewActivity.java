@@ -1,42 +1,30 @@
 package com.example.tommyhui.evcapplication.overview;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.widget.SearchView;
 import android.text.Html;
 import android.text.Spanned;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import com.astuetz.PagerSlidingTabStrip;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.adapter.OverviewListViewAdapter;
-import com.example.tommyhui.evcapplication.database.DatabaseCS;
+import com.example.tommyhui.evcapplication.database.DBController;
+import com.example.tommyhui.evcapplication.database.HistoryDBController;
+import com.example.tommyhui.evcapplication.database.HistoryItemCS;
 import com.example.tommyhui.evcapplication.database.ItemCS;
-import com.example.tommyhui.evcapplication.search.SearchActivity;
-import com.example.tommyhui.evcapplication.search.SearchItemActivity;
 import com.example.tommyhui.evcapplication.adapter.OverviewPagerAdapter;
 
 import java.util.ArrayList;
@@ -51,7 +39,7 @@ public class OverviewActivity extends ActionBarActivity{
     private ToggleButton historyToggle;
     private ViewPager mViewPager;
 
-    private DatabaseCS db;
+    private DBController db;
 
     private String[] address;
     private String[] district;
@@ -81,9 +69,8 @@ public class OverviewActivity extends ActionBarActivity{
         ImageView myImgView = (ImageView)findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.overview_icon);
 
-        /*To Set Up DatabaseCS*/
-        db = new DatabaseCS(this);
-        db.getWritableDatabase();
+        /*To Set Up DBController*/
+        db = new DBController(this);
 
         address = getResources().getStringArray(R.array.address);
         district = getResources().getStringArray(R.array.district);
@@ -98,27 +85,6 @@ public class OverviewActivity extends ActionBarActivity{
             ItemCSes.add(i, new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
         }
 
-        //OverviewListFragmentActivity frag = new OverviewListFragmentActivity();
-
-        //Log.i("test-logging","ItemCSes : " + ItemCSes);
-
-        //Bundle args = new Bundle();
-        //args.putParcelableArrayList("list", ItemCSes);
-
-//        Intent intent = new Intent(this, SearchActivity.class);
-//
-//        intent.putParcelableArrayListExtra("list", ItemCSes);
-//        startActivity(intent);
-
-
-        //frag.setArguments(args);
-
-        //getSupportFragmentManager().beginTransaction()
-                //.replace(R.id.fragment_container, frag).commit();
-//        getSupportFragmentManager().beginTransaction()
-//                .addToBackStack(null);
-
-
         /*To Set Up Viewpager*/
         overviewPagerAdapter = new OverviewPagerAdapter(
                 getSupportFragmentManager(), ItemCSes);
@@ -126,72 +92,77 @@ public class OverviewActivity extends ActionBarActivity{
         mViewPager = (ViewPager) findViewById(R.id.overview_pager);
         mViewPager.setAdapter(overviewPagerAdapter);
 
-        listToggle = (ToggleButton) findViewById(R.id.overview_toggle_list);
-        historyToggle = (ToggleButton) findViewById(R.id.overview_toggle_history);
+        // Give the PagerSlidingTabStrip the ViewPager
+        PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.overview_tabs);
+        // Attach the view pager to the tab strip
+        tabsStrip.setViewPager(mViewPager);
 
-        listToggle.setChecked(true);
+//        listToggle = (ToggleButton) findViewById(R.id.overview_toggle_list);
+//        historyToggle = (ToggleButton) findViewById(R.id.overview_toggle_history);
 
-        listToggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // TODO Auto-generated method stub
-                if (isChecked) {
-
-                    historyToggle.setChecked(false);
-                    mViewPager.setCurrentItem(0);
-                    listToggle.setClickable(false);
-                    historyToggle.setClickable(true);
-                }
-            }
-        });
-
-        historyToggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                // TODO Auto-generated method stub
-                if (isChecked) {
-
-                    listToggle.setChecked(false);
-                    mViewPager.setCurrentItem(1);
-                    historyToggle.setClickable(false);
-                    listToggle.setClickable(true);
-                }
-            }
-        });
-
-        mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
-
-            @Override
-            public void onPageSelected(int position) {
-                // TODO Auto-generated method stub
-                if(position == 0){
-                    listToggle.setChecked(true);
-                }
-                else{
-                    historyToggle.setChecked(true);
-                }
-            }
-
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                // TODO Auto-generated method stub
-
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-                // TODO Auto-generated method stub
-
-            }
-        });
-
+//
+//        listToggle.setChecked(true);
+//
+//        listToggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                // TODO Auto-generated method stub
+//                if (isChecked) {
+//
+//                    historyToggle.setChecked(false);
+//                    mViewPager.setCurrentItem(0);
+//                    listToggle.setClickable(false);
+//                    historyToggle.setClickable(true);
+//                }
+//            }
+//        });
+//
+//        historyToggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
+//
+//            @Override
+//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+//                // TODO Auto-generated method stub
+//                if (isChecked) {
+//
+//                    listToggle.setChecked(false);
+//                    mViewPager.setCurrentItem(1);
+//                    historyToggle.setClickable(false);
+//                    listToggle.setClickable(true);
+//                }
+//            }
+//        });
+//
+//        mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
+//
+//            @Override
+//            public void onPageSelected(int position) {
+//                // TODO Auto-generated method stub
+//                if(position == 0){
+//                    listToggle.setChecked(true);
+//                }
+//                else{
+//                    historyToggle.setChecked(true);
+//                }
+//            }
+//
+//            @Override
+//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+//                // TODO Auto-generated method stub
+//
+//            }
+//
+//            @Override
+//            public void onPageScrollStateChanged(int state) {
+//                // TODO Auto-generated method stub
+//
+//            }
+//        });
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
+
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.overview_options_menu, menu);
 
@@ -199,7 +170,17 @@ public class OverviewActivity extends ActionBarActivity{
         searchItem = menu.findItem(R.id.overview_action_search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
+        /*To Set Up a Search Hint for Search Bar*/
         searchView.setQueryHint(getResources().getString(R.string.overview_search_view_title));
+
+        searchView.setOnSearchClickListener (new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                /*To Go back to the view page of LIST*/
+                mViewPager.setCurrentItem(0);
+            }
+        });
+
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
@@ -208,8 +189,8 @@ public class OverviewActivity extends ActionBarActivity{
 
 //                setSuggestionForSearch(query);
 
+                /*To Update the List of CS with the Query*/
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
-
                 QueryItemCSes = db.searchListCSes(OverviewActivity.this, query);
                 mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, QueryItemCSes));
                 mListView.setTextFilterEnabled(true);
@@ -222,16 +203,17 @@ public class OverviewActivity extends ActionBarActivity{
             public boolean onQueryTextSubmit(String query) {
                 // TODO Auto-generated method stub
 
-                /*Clear the Query and Display the Result*/
+                /*To Put the Query on the Search Bar*/
                 searchView.setQuery(query, false);
                 searchView.clearFocus();
 
+                /*To Update the List of CS with the Query*/
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
-
                 QueryItemCSes = db.searchListCSes(OverviewActivity.this, query);
                 mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, QueryItemCSes));
                 mListView.setTextFilterEnabled(true);
 
+                /*To Show the search result*/
                 TextView status = (TextView) findViewById(R.id.overview_text_status);
                 Spanned result = Html.fromHtml("<strong>" + QueryItemCSes.size() + "</strong>" + " charging stations for " + '"' + "<strong>" + query + "</strong>" + '"');
                 status.setText(result);
@@ -246,11 +228,12 @@ public class OverviewActivity extends ActionBarActivity{
             /*To Handle the Case When the User Loses Focus on SearchView*/
             public boolean onClose() {
 
+                /*To Clear the Query on the Search Bar*/
                 searchView.setQuery("", false);
                 searchView.clearFocus();
 
+                /*To Display back the List of CS with the Original List of CS*/
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
-
                 mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, ItemCSes));
                 mListView.setTextFilterEnabled(true);
                 LinearLayout layout = (LinearLayout) findViewById(R.id.overview_layout_status);

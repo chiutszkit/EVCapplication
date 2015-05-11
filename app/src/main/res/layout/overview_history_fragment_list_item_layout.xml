@@ -13,8 +13,8 @@
         android:orientation="horizontal" >
 
         <ImageView
-        android:id="@+id/overview_list_fragment_list_view_icon_chargingStation"
-        android:src="@drawable/chargingstation_icon"
+        android:id="@+id/overview_history_fragment_list_view_icon_delete"
+        android:src="@drawable/delete_icon"
         android:layout_marginLeft="15dp"
         android:layout_gravity="center"
         android:layout_width="wrap_content"
@@ -27,19 +27,19 @@
             android:layout_marginLeft="15dp"
             android:orientation="vertical" >
             <TextView
-                android:id="@+id/overview_list_fragment_list_view_item_chargingStation"
+                android:id="@+id/overview_history_fragment_list_view_item_chargingStation"
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:textSize="22sp"
                 android:text="[charging station]"/>
             <TextView
-                android:id="@+id/overview_list_fragment_list_view_item_address"
+                android:id="@+id/overview_history_fragment_list_view_item_address"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
                 android:text="[address]"/>
             <TextView
-                android:id="@+id/overview_list_fragment_list_view_item_district"
+                android:id="@+id/overview_history_fragment_list_view_item_district"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:textSize="15sp"
@@ -58,13 +58,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal" >
                 <ImageView
-                    android:id="@+id/overview_list_fragment_list_view_icon_speed"
+                    android:id="@+id/overview_history_fragment_list_view_icon_speed"
                     android:src="@drawable/speed_icon"
                     android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
                 <TextView
-                    android:id="@+id/overview_list_fragment_list_view_item_type"
+                    android:id="@+id/overview_history_fragment_list_view_item_type"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"
@@ -78,13 +78,13 @@
                 android:layout_marginTop="5dp"
                 android:orientation="horizontal" >
                 <ImageView
-                    android:id="@+id/overview_list_fragment_list_view_icon_socket"
+                    android:id="@+id/overview_history_fragment_list_view_icon_socket"
                     android:src="@drawable/socket_icon"
                     android:layout_gravity="center"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"/>
                 <TextView
-                    android:id="@+id/overview_list_fragment_list_view_item_socket"
+                    android:id="@+id/overview_history_fragment_list_view_item_socket"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:gravity="center"

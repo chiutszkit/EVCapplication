@@ -118,15 +118,14 @@ public class ItemCS implements Parcelable{
     }
 
     public static final Parcelable.Creator<ItemCS> CREATOR = new Parcelable.Creator<ItemCS>() {
+
         public ItemCS createFromParcel(Parcel in) {
             return new ItemCS(in);
         }
 
         public ItemCS[] newArray(int size) {
-
             return new ItemCS[size];
         }
-
     };
 
     public void readFromParcel(Parcel in) {

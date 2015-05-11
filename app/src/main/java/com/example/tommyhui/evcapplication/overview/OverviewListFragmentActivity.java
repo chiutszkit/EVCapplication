@@ -4,28 +4,25 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.adapter.OverviewListViewAdapter;
-import com.example.tommyhui.evcapplication.database.DatabaseCS;
+import com.example.tommyhui.evcapplication.database.HistoryDBController;
+import com.example.tommyhui.evcapplication.database.HistoryItemCS;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.search.SearchItemActivity;
-import com.example.tommyhui.evcapplication.adapter.OverviewPagerAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class OverviewListFragmentActivity extends Fragment {
 
-    private DatabaseCS db;
+    private HistoryDBController db;
+    private HistoryItemCS history;
     private ArrayList<ItemCS> ListOfCSes = new ArrayList<>();
 
     public OverviewListFragmentActivity() {
@@ -37,22 +34,11 @@ public class OverviewListFragmentActivity extends Fragment {
 
         super.onCreate(savedInstanceState);
         setRetainInstance(true);
-        // Get the Bundle Object
+
         Bundle args = getArguments();
+        ListOfCSes = args.getParcelableArrayList("list");
 
-        // Get ArrayList Bundle
-//        Log.d("e", "To" + args.size());
-//        ListOfCSes = args.getParcelableArrayList("list");
-        if (args == null) {
-            Toast.makeText(getActivity(), "arguments is null ", Toast.LENGTH_LONG).show();
-        } else {
-            //ListOfCSes = args.getParcelableArrayList("list");
-            ListOfCSes = args.getParcelableArrayList("items");
-            Toast.makeText(getActivity(), "text " + args , Toast.LENGTH_LONG).show();
-        }
-
-        Log.i("test-logging", "ListOfCSes.getCount() : " + ListOfCSes.size());
-
+//        Log.i("test-logging", "ListOfCSes.getCount() : " + ListOfCSes.size());
         return inflater.inflate(R.layout.overview_list_fragment, container, false);
     }
 
@@ -61,10 +47,7 @@ public class OverviewListFragmentActivity extends Fragment {
 
         super.onActivityCreated(savedInstanceState);
 
-
-
-
-        /*To Display the List of Overview*/
+        /*To Display the List of CS with the Original List of CS*/
         ListView listview = (ListView) getActivity().findViewById(R.id.overview_list_view);
         listview.setAdapter(new OverviewListViewAdapter(getActivity(), ListOfCSes));
         listview.setTextFilterEnabled(true);
@@ -76,7 +59,11 @@ public class OverviewListFragmentActivity extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
+                ListOfCSes = ((OverviewActivity)getActivity()).QueryItemCSes;
                 ItemCS cs = ListOfCSes.get(position);
+
+                history = new HistoryItemCS((cs.getAddress()), cs.getDistrict(), cs.getDescription(), cs.getType(), cs.getSocket(), cs.getQuantity());
+                db.addHistoryCS(history);
 
                 Intent searchItemIntent = new Intent();
                 searchItemIntent.setClass(getActivity(), SearchItemActivity.class);
