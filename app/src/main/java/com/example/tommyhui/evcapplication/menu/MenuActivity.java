@@ -13,8 +13,8 @@ import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.about.AboutActivity;
-import com.example.tommyhui.evcapplication.favourite.FavouriteActivity;
-import com.example.tommyhui.evcapplication.nearest.NearestActivity;
+import com.example.tommyhui.evcapplication.favourite.FavoriteActivity;
+import com.example.tommyhui.evcapplication.nearby.NearbyActivity;
 import com.example.tommyhui.evcapplication.overview.OverviewActivity;
 import com.example.tommyhui.evcapplication.search.SearchActivity;
 
@@ -65,12 +65,12 @@ public class MenuActivity extends ActionBarActivity {
                     break;
                 case R.id.menu_grid_favourite:
                     Intent favoriteIntent = new Intent();
-                    favoriteIntent.setClass(MenuActivity.this, FavouriteActivity.class);
+                    favoriteIntent.setClass(MenuActivity.this, FavoriteActivity.class);
                     startActivity(favoriteIntent);
                     break;
                 case R.id.menu_grid_nearest:
                     Intent nearestIntent = new Intent();
-                    nearestIntent.setClass(MenuActivity.this, NearestActivity.class);
+                    nearestIntent.setClass(MenuActivity.this, NearbyActivity.class);
                     startActivity(nearestIntent);
                     break;
                 case R.id.menu_grid_about:

@@ -10,14 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.R;
-import com.example.tommyhui.evcapplication.database.HistoryDBController;
 import com.example.tommyhui.evcapplication.database.HistoryItemCS;
+import com.example.tommyhui.evcapplication.database.HistoryItemCS_DBController;
 
 import java.util.ArrayList;
 
 public class HistoryListViewAdapter extends BaseAdapter{
     private final Context context;
-    private HistoryDBController db;
+    private HistoryItemCS_DBController db;
     private ArrayList<HistoryItemCS> itemList;
 
     public HistoryListViewAdapter(Context context, ArrayList<HistoryItemCS> itemList){
@@ -75,7 +75,7 @@ public class HistoryListViewAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
 
-                db = new HistoryDBController(context);
+                db = new HistoryItemCS_DBController(context);
                 db.deleteHistoryCS(itemList.get(position));
                 itemList.remove(position);
                 notifyDataSetChanged();

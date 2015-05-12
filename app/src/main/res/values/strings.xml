@@ -12,7 +12,7 @@
     <string name="menu_overview">Overview</string>
     <string name="menu_search">Search</string>
     <string name="menu_favourite">Favourite</string>
-    <string name="menu_nearest">Nearest</string>
+    <string name="menu_nearby">Nearby</string>
     <string name="menu_about">About</string>
     <string name="menu_share">Share</string>
 
@@ -20,13 +20,13 @@
     <string name="menu_description_overview">Find out all charging stations</string>
     <string name="menu_description_search">Search your wanted charging stations</string>
     <string name="menu_description_favourite">Save your favourite record</string>
-    <string name="menu_description_nearest">Find the nearest charging station</string>
+    <string name="menu_description_nearby">Find the nearest charging station</string>
     <string name="menu_description_about">About this apps</string>
     <string name="menu_description_share">Share this app to others</string>
 
-    <!-- Nearest Page-->
-    <string name="nearest_userLocation">You are now in</string>
-    <string name="nearest_nearestLocation">The nearest charging station is in</string>
+    <!-- Nearby Page-->
+    <string name="nearby_userLocation">You are now in</string>
+    <string name="nearby_nearestLocation">The nearest charging station is in</string>
 
     <!-- Search Result Page-->
     <string name="search_result_title">Search Result</string>
@@ -57,15 +57,25 @@
     <string name="overview_search_view_title">Search Here...</string>
     <!--<string name="overview_search_message">請鍵入國家名稱(e.g.美國)在搜索列</string>-->
 
+    <!-- Item Page-->
+    <string name="item_button_addToFavorites">Add To Favorite</string>
+    <string name="item_button_deleteFromFavorites">Add To Favorite</string>
+    <string name="item_button_locatePosition">Locate Your Position</string>
+    <string name="item_toast_addToFavorites">This has been added successfully.</string>
+    <string name="item_toast_addToFavorites_before">This has been added before.</string>
+    <string name="item_toast_deleteFromFavorites">This has been removed successfully.</string>
+    <string name="item_toast_locatePosition">Please wait...</string>
+
     <!-- Favorites Page-->
-	<string name="add_to_favorites">Add to favorites</string>
-	<string name="no_favorites_title">你沒有「我的最愛」</string>
-	<string name="no_favorites_text">請到任何一個城市/國家的即時天氣版面上按Add To Favorites
-	    ，以新増自己的最愛</string>
-	<string name="search_option">搜尋國家</string>
-	<string name="overview_option">選擇國家</string>
+	<string name="favorites_alertDialog_no_favorites_title">No Favorite Charging Stations Found</string>
+	<string name="favorites_alertDialog_no_favorites_text">You may add a station to this list via \"Add To Favorite\" button on the station\'s details.</string>
+    <string name="favorites_alertDialog_ok_option">OK</string>
+	<string name="favorites_alertDialog_search_option">Search Here</string>
+	<string name="favorites_alertDialog_select_option">Select Here</string>
+
+
 	<string name="go_to_favorites">Go to favorites</string>
-	<string name="ok">OK</string>
+
 	<string name="favorite_added">已新增為「我的最愛」</string>
 	<string name="favorite_added_message">請按下面的選項以繼續</string>
 	<string name="favorite_possible_duplicated">已在「我的最愛」列表中</string>

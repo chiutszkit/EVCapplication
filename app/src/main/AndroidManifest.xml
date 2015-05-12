@@ -57,15 +57,15 @@
 
         <activity android:name=".search.SearchActivity"/>
 
-        <activity android:name=".search.SearchItemActivity"/>
+        <activity android:name=".overview.ItemCSActivity"/>
 
         <activity android:name=".search.SearchResultActivity"/>
 
         <activity android:name=".about.AboutActivity"/>
 
-        <activity android:name=".favourite.FavouriteActivity"/>
+        <activity android:name=".favourite.FavoriteActivity"/>
 
-        <activity android:name=".nearest.NearestActivity"/>
+        <activity android:name=".nearby.NearbyActivity"/>
     </application>
 
 </manifest>

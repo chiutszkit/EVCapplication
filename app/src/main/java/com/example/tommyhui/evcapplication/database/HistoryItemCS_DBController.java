@@ -8,7 +8,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
-public class HistoryDBController {
+public class HistoryItemCS_DBController {
 
     public static final String TABLE_NAME = "HistoryOfChargingStation";
 
@@ -34,7 +34,7 @@ public class HistoryDBController {
 
     private SQLiteDatabase db;
 
-    public HistoryDBController(Context context) {
+    public HistoryItemCS_DBController(Context context) {
         db = DBHelper.getDatabase(context);
     }
 

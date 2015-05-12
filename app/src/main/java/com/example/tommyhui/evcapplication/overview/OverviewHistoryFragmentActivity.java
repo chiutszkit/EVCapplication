@@ -13,10 +13,8 @@ import android.widget.ListView;
 
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.adapter.HistoryListViewAdapter;
-import com.example.tommyhui.evcapplication.database.HistoryDBController;
 import com.example.tommyhui.evcapplication.database.HistoryItemCS;
-import com.example.tommyhui.evcapplication.database.ItemCS;
-import com.example.tommyhui.evcapplication.search.SearchItemActivity;
+import com.example.tommyhui.evcapplication.database.HistoryItemCS_DBController;
 
 import java.util.ArrayList;
 
@@ -24,7 +22,7 @@ public class OverviewHistoryFragmentActivity extends Fragment {
 
     private ArrayList<HistoryItemCS> historyList = new ArrayList<>();
     private HistoryListViewAdapter historyListViewAdapter;
-    private HistoryDBController db;
+    private HistoryItemCS_DBController db;
     private ListView listView;
 
 
@@ -38,7 +36,7 @@ public class OverviewHistoryFragmentActivity extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onActivityCreated(savedInstanceState);
-        db = new HistoryDBController(getActivity());
+        db = new HistoryItemCS_DBController(getActivity());
     }
     @Override
     public void onResume() {
@@ -61,8 +59,8 @@ public class OverviewHistoryFragmentActivity extends Fragment {
 
                     HistoryItemCS cs = historyList.get(position);
 
-                    Intent searchItemIntent = new Intent();
-                    searchItemIntent.setClass(getActivity(), SearchItemActivity.class);
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), ItemCSActivity.class);
 
                     Bundle bundle = new Bundle();
 
@@ -72,8 +70,8 @@ public class OverviewHistoryFragmentActivity extends Fragment {
                     bundle.putString("socket", cs.getSocket());
                     bundle.putInt("quantity", cs.getQuantity());
 
-                    searchItemIntent.putExtras(bundle);
-                    startActivity(searchItemIntent);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
 
                 }
 
@@ -81,15 +79,15 @@ public class OverviewHistoryFragmentActivity extends Fragment {
         }
         else{
             historyListViewAdapter.setList(historyList);
-
             historyListViewAdapter.notifyDataSetChanged();
         }
+
         Button clearButton = (Button) getActivity().findViewById(R.id.overview_history_button_clear);
         clearButton.setOnClickListener(new Button.OnClickListener() {
 
             @Override
             public void onClick(View v) {
-                db = new HistoryDBController(v.getContext());
+                db = new HistoryItemCS_DBController(v.getContext());
                 for(int i = 0; i < historyList.size(); i++) {
                     HistoryItemCS cs = historyList.get(i);
                     db.deleteHistoryCS(cs);

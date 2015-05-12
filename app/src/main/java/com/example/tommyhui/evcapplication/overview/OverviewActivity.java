@@ -21,11 +21,9 @@ import android.widget.ToggleButton;
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.adapter.OverviewListViewAdapter;
-import com.example.tommyhui.evcapplication.database.DBController;
-import com.example.tommyhui.evcapplication.database.HistoryDBController;
-import com.example.tommyhui.evcapplication.database.HistoryItemCS;
-import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.adapter.OverviewPagerAdapter;
+import com.example.tommyhui.evcapplication.database.ItemCS;
+import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
 
 import java.util.ArrayList;
 
@@ -36,7 +34,7 @@ public class OverviewActivity extends ActionBarActivity{
     private ToggleButton historyToggle;
     private ViewPager mViewPager;
 
-    private DBController db;
+    private ItemCS_DBController db;
 
     private String[] address;
     private String[] district;
@@ -69,8 +67,8 @@ public class OverviewActivity extends ActionBarActivity{
         ImageView myImgView = (ImageView)findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.overview_icon);
 
-        /*To Set Up DBController*/
-        db = new DBController(this);
+        /*To Set Up ItemCS_DBController*/
+        db = new ItemCS_DBController(this);
 
         address = getResources().getStringArray(R.array.address);
         district = getResources().getStringArray(R.array.district);
@@ -97,6 +95,16 @@ public class OverviewActivity extends ActionBarActivity{
         // Attach the view pager to the tab strip
         tabsStrip.setViewPager(mViewPager);
 
+        tabsStrip.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+            @Override
+            public void onPageSelected(int position)
+            {
+                if(position == 1) {
+                    LinearLayout layout = (LinearLayout) findViewById(R.id.overview_layout_status);
+                    layout.setVisibility(View.GONE);
+                }
+            }
+        });
 //        listToggle = (ToggleButton) findViewById(R.id.overview_toggle_list);
 //        historyToggle = (ToggleButton) findViewById(R.id.overview_toggle_history);
 
@@ -202,6 +210,9 @@ public class OverviewActivity extends ActionBarActivity{
             /*To Handle the Case When texts on SearchView are submit*/
             public boolean onQueryTextSubmit(String query) {
                 // TODO Auto-generated method stub
+
+                /*To Go back to the view page of LIST*/
+                mViewPager.setCurrentItem(0);
 
                 /*To Put the Query on the Search Bar*/
                 searchViewQuery = query;

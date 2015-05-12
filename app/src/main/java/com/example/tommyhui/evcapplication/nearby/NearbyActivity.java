@@ -1,25 +1,21 @@
-package com.example.tommyhui.evcapplication.nearest;
+package com.example.tommyhui.evcapplication.nearby;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.ViewConfiguration;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.R;
 
-import java.lang.reflect.Field;
-
-public class NearestActivity extends ActionBarActivity {
+public class NearbyActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.nearest_activity);
+        setContentView(R.layout.nearby_activity);
 
         /*Use Customized Action Bar*/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -27,7 +23,7 @@ public class NearestActivity extends ActionBarActivity {
 
         /*Set Action Bar's Title*/
         TextView title = (TextView)findViewById(R.id.action_bar_title);
-        title.setText("Nearest");
+        title.setText("Nearby");
 
         /*Set Action Bar's Icon*/
         ImageView myImgView = (ImageView)findViewById(R.id.action_bar_icon);

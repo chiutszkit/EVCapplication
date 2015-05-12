@@ -122,7 +122,7 @@
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
                 android:layout_marginTop="10dp"
-                android:contentDescription="@string/menu_description_nearest"/>
+                android:contentDescription="@string/menu_description_nearby"/>
             <TextView
                 android:id="@+id/menu_grid_text_nearest"
                 android:gravity="center_horizontal"
@@ -130,7 +130,7 @@
                 android:layout_height="50dp"
                 android:textSize="25dp"
                 android:layout_marginBottom="20dp"
-                android:text="@string/menu_nearest"/>
+                android:text="@string/menu_nearby"/>
         </LinearLayout>
     </LinearLayout>
     <!-- Third row -->

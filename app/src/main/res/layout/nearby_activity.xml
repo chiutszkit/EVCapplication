@@ -5,28 +5,28 @@
     android:orientation="vertical" >
 
     <TextView
-        android:id="@+id/nearest_text_location"
+        android:id="@+id/nearby_text_location"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
         android:textSize="30sp"
         android:layout_margin="10dp"
-        android:text="@string/nearest_userLocation"/>
+        android:text="@string/nearby_userLocation"/>
 
     <fragment
-        android:id="@+id/nearest_map"
+        android:id="@+id/nearby_map"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
         class="com.google.android.gms.maps.SupportMapFragment" />
     <TextView
-        android:id="@+id/nearest_text_nearestLocation"
+        android:id="@+id/nearby_text_nearestLocation"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:textSize="30sp"
         android:layout_margin="10dp"
         android:layout_weight="1"
-        android:text="@string/nearest_nearestLocation"/>
+        android:text="@string/nearby_nearestLocation"/>
 
     <GridLayout
         android:layout_width="match_parent"

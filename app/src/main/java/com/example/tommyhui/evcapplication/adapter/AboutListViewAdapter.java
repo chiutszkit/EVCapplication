@@ -1,7 +1,5 @@
 package com.example.tommyhui.evcapplication.adapter;
 
-import com.example.tommyhui.evcapplication.R;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import com.example.tommyhui.evcapplication.R;
 
 public class AboutListViewAdapter extends BaseAdapter{
     private final Context context;
@@ -53,12 +53,11 @@ public class AboutListViewAdapter extends BaseAdapter{
         View aboutView = inflater.inflate(R.layout.about_activity, parent, false);
         ListView listView = (ListView) aboutView.findViewById(R.id.about_list_view);
 
-//        android.view.ViewGroup.LayoutParams layoutParams = rowView.getLayoutParams();
-//        int totalHeight = listView.getMeasuredHeight();
-//        Log.d("test-logging", "totalHeight: " + totalHeight);
-//        int rowHeight = totalHeight/getCount();
-//        layoutParams.height = rowHeight;
-//        rowView.setLayoutParams(layoutParams);
+        android.view.ViewGroup.LayoutParams layoutParams = rowView.getLayoutParams();
+        int totalHeight = parent.getMeasuredHeight();
+        int rowHeight = totalHeight/getCount();
+        layoutParams.height = rowHeight;
+        rowView.setLayoutParams(layoutParams);
 
         TextView textTitleView = (TextView) rowView.findViewById(R.id.about_list_view_item_title);
         TextView textView = (TextView) rowView.findViewById(R.id.about_list_view_item_text);
