@@ -23,6 +23,7 @@ import com.example.tommyhui.evcapplication.adapter.OverviewListViewAdapter;
 import com.example.tommyhui.evcapplication.adapter.OverviewPagerAdapter;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
+import com.example.tommyhui.evcapplication.menu.MenuActivity;
 
 import java.util.ArrayList;
 
@@ -55,10 +56,11 @@ public class OverviewActivity extends ActionBarActivity {
         myImgView.setImageResource(R.drawable.overview_icon);
 
         /*Get the Overview List from MenuActivity*/
-        ItemCSes = getIntent().getParcelableArrayListExtra("list");
+        ItemCSes = MenuActivity.ItemCSes;
+//        ItemCSes = getIntent().getParcelableArrayListExtra("list");
 
         /*To Set Up Viewpager*/
-        overviewPagerAdapter = new OverviewPagerAdapter(getSupportFragmentManager(), ItemCSes);
+        overviewPagerAdapter = new OverviewPagerAdapter(getSupportFragmentManager());
 
         mViewPager = (ViewPager) findViewById(R.id.overview_pager);
         mViewPager.setAdapter(overviewPagerAdapter);

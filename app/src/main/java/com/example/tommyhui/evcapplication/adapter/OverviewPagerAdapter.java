@@ -16,9 +16,9 @@ public class OverviewPagerAdapter extends FragmentPagerAdapter {
     ArrayList<ItemCS> itemCSes = new ArrayList<>();
     private String tabTitles[] = new String[]{"List", "History"};
 
-    public OverviewPagerAdapter(FragmentManager fm, ArrayList<ItemCS> items) {
+    public OverviewPagerAdapter(FragmentManager fm) {
         super(fm);
-        this.itemCSes = items;
+//        this.itemCSes = items;
     }
 
     @Override
@@ -27,11 +27,11 @@ public class OverviewPagerAdapter extends FragmentPagerAdapter {
         switch (position) {
             case 0:
                 /*Pass the Overview List to OverviewListFragment*/
-                OverviewListFragmentActivity frag = new OverviewListFragmentActivity();
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("list", itemCSes);
-                frag.setArguments(bundle);
-                return frag;
+//                OverviewListFragmentActivity frag = new OverviewListFragmentActivity();
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelableArrayList("list", itemCSes);
+//                frag.setArguments(bundle);
+                return new OverviewListFragmentActivity();
             case 1:
                 return new OverviewHistoryFragmentActivity();
             default:

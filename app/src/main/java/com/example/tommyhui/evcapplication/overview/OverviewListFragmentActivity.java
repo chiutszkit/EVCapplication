@@ -36,9 +36,9 @@ public class OverviewListFragmentActivity extends Fragment {
         setHasOptionsMenu(true);
 
         /*Get the Overview List from OverviewActivity*/
-        Bundle args = getArguments();
-        ListOfCSes = args.getParcelableArrayList("list");
-
+//        Bundle args = getArguments();
+//        ListOfCSes = args.getParcelableArrayList("list");
+        ListOfCSes = ((OverviewActivity) getActivity()).ItemCSes;
         return inflater.inflate(R.layout.overview_list_fragment, container, false);
     }
 
@@ -60,10 +60,11 @@ public class OverviewListFragmentActivity extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view,
                                     int position, long id) {
 
-                if (((OverviewActivity) getActivity()).searchViewQuery == "")
-                    ListOfCSes = ((OverviewActivity) getActivity()).ItemCSes;
-                else
+                if (((OverviewActivity) getActivity()).searchViewQuery != "")
                     ListOfCSes = ((OverviewActivity) getActivity()).QueryItemCSes;
+                else
+                    ListOfCSes = ((OverviewActivity) getActivity()).ItemCSes;
+
                 ItemCS cs = ListOfCSes.get(position);
 
                 historyItem = new HistoryItemCS((cs.getAddress()), cs.getDistrict(), cs.getDescription(), cs.getType(), cs.getSocket(), cs.getQuantity());
