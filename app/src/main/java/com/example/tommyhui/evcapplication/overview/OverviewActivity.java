@@ -120,7 +120,7 @@ public class OverviewActivity extends ActionBarActivity {
 
                 /*To Update the List of CS with the Query*/
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
-                QueryItemCSes = db.searchListCSes(OverviewActivity.this, query);
+                QueryItemCSes = db.inputQueryCSes(OverviewActivity.this, query);
                 mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, QueryItemCSes));
                 mListView.setTextFilterEnabled(true);
 
@@ -142,7 +142,7 @@ public class OverviewActivity extends ActionBarActivity {
 
                 /*To Update the List of CS with the Query*/
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
-                QueryItemCSes = db.searchListCSes(OverviewActivity.this, query);
+                QueryItemCSes = db.inputQueryCSes(OverviewActivity.this, query);
                 mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, QueryItemCSes));
                 mListView.setTextFilterEnabled(true);
 

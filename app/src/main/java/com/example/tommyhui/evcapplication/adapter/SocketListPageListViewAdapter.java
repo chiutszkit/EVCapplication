@@ -1,18 +1,21 @@
 package com.example.tommyhui.evcapplication.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
+
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 
 import java.util.ArrayList;
 
-public class SocketListPageListViewAdapter extends BaseAdapter {
+public class SocketListPageListViewAdapter extends BaseAdapter implements StickyListHeadersAdapter {
     private final Context context;
     private ArrayList<ItemCS> itemList;
 
@@ -65,6 +68,44 @@ public class SocketListPageListViewAdapter extends BaseAdapter {
 
         return rowView;
     }
+    @Override
+    public View getHeaderView(int position, View convertView, ViewGroup parent) {
+        HeaderViewHolder holder;
+        LayoutInflater inflater = (LayoutInflater) context
+                .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        if (convertView == null) {
+            holder = new HeaderViewHolder();
+            convertView = inflater.inflate(R.layout.sticky_list_item_header, parent, false);
+            holder.text = (TextView) convertView.findViewById(R.id.sticky_list_header_text);
+            convertView.setTag(holder);
 
+        } else {
+            holder = (HeaderViewHolder) convertView.getTag();
+
+        }
+        //set header text as first char in name
+        String headerText = "" + itemList.get(position).getDistrict();
+
+        holder.text.setText(headerText);
+
+        return convertView;
+    }
+    @Override
+    public long getHeaderId(int position) {
+
+            String district = itemList.get(position).getDistrict();
+            long id = 0;
+            for(int i = 0; i < district.length(); i++)
+                id += (long)district.charAt(i);
+            return id;
+    }
+
+    class HeaderViewHolder {
+        TextView text;
+    }
+
+    class ViewHolder {
+        TextView text;
+    }
 }
 

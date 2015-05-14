@@ -73,17 +73,14 @@ public class MenuActivity extends ActionBarActivity {
             db.addCS(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
             ItemCSes.add(i, new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
         }
+        ItemCSes = db.inputQueryCSes(this,"");
+
         final View.OnClickListener mGlobal_OnClickListener = new View.OnClickListener() {
             public void onClick(final View v) {
                 switch (v.getId()) {
                     case R.id.menu_grid_overview:
                         Intent overviewIntent = new Intent();
                         overviewIntent.setClass(MenuActivity.this, OverviewActivity.class);
-
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelableArrayList("list", ItemCSes);
-                        overviewIntent.putExtras(bundle);
-
                         startActivity(overviewIntent);
                         break;
                     case R.id.menu_grid_search:

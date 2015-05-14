@@ -76,6 +76,10 @@
     <string name="favorites_alertDialog_ok_option">OK</string>
     <string name="favorites_alertDialog_search_option">Search Here</string>
     <string name="favorites_alertDialog_select_option">Select Here</string>
+    <string name="favorites_alertDialog_delete_favorites_title">Are you sure you want to remove this favorite?</string>
+    <string name="favorites_alertDialog_delete_favorites_text">You can\'t undo this action.</string>
+    <string name="favorites_alertDialog_remove_option">Remove</string>
+    <string name="favorites_alertDialog_cancel_option">Cancel</string>
 
     <!-- Share Page-->
     <string name="share_subject">Check out this app!</string>

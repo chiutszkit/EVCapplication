@@ -7,7 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.tommyhui.evcapplication.menu.MenuActivity;
 import com.example.tommyhui.evcapplication.overview.OverviewActivity;
+import com.example.tommyhui.evcapplication.search.SearchActivity;
 import com.example.tommyhui.evcapplication.socket.SocketListActivity;
 
 import java.util.ArrayList;
@@ -186,16 +188,24 @@ public class ItemCS_DBController {
         return count;
     }
 
-    public ArrayList<ItemCS> searchListCSes(Activity activity, String query) {
+    public ArrayList<ItemCS> inputQueryCSes(Activity activity, String query) {
 
         ArrayList<ItemCS> cses = new ArrayList<>();
         String sql = "";
 
-        if (activity instanceof OverviewActivity)
+        if (activity instanceof MenuActivity)
+            sql = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + KEY_DISTRICT + ", " + KEY_DESCRIPTION;
+
+        else if (activity instanceof OverviewActivity)
             sql = "SELECT DISTINCT * FROM " + TABLE_NAME + " WHERE " + KEY_ADDRESS + " LIKE '%" + query + "%'"
-                    + " OR " + KEY_DESCRIPTION + " LIKE '%" + query + "%'";
+                    + " OR " + KEY_DESCRIPTION + " LIKE '%" + query + "%' ORDER BY " + KEY_DISTRICT;
+
         else if (activity instanceof SocketListActivity)
-            sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_TYPE + " LIKE '%" + query + "%' GROUP BY " + KEY_ADDRESS;
+            sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_TYPE + " LIKE '%" + query
+                    + "%' GROUP BY " + KEY_ADDRESS + " ORDER BY " + KEY_DISTRICT;
+
+        else if (activity instanceof SearchActivity)
+            sql = "SELECT * FROM " + TABLE_NAME + " GROUP BY " + query + " ORDER BY " + query;
 
         Cursor cursor = db.rawQuery(sql, null);
         Log.d("search", "Match Result = " + cursor.getCount());

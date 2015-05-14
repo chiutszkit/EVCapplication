@@ -1,6 +1,9 @@
 package com.example.tommyhui.evcapplication.adapter;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +18,8 @@ import android.widget.Toast;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS_DBController;
+import com.example.tommyhui.evcapplication.overview.OverviewActivity;
+import com.example.tommyhui.evcapplication.search.SearchActivity;
 
 import java.util.ArrayList;
 
@@ -78,12 +83,7 @@ public class FavoriteListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                db = new FavoriteItemCS_DBController(context);
-                db.deleteFavoriteCS(itemList.get(position));
-                imageView.setImageResource(R.drawable.delfavorite_icon);
-                removeListItem(rowView, position);
-
-                Toast.makeText(context, R.string.item_toast_deleteFromFavorites, Toast.LENGTH_SHORT).show();
+                showDeletConfirmDialog(rowView, imageView, position);
             }
         });
 
@@ -103,6 +103,34 @@ public class FavoriteListViewAdapter extends BaseAdapter {
             }
         }, 1000);
     }
+    private void showDeletConfirmDialog(final View rowView, final ImageView imageView, final int position) {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
+        alertDialog.setTitle(R.string.favorites_alertDialog_delete_favorites_title);
+        alertDialog.setMessage(R.string.favorites_alertDialog_delete_favorites_text);
+        alertDialog.setNegativeButton(R.string.favorites_alertDialog_cancel_option, new DialogInterface.OnClickListener() {
 
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+            }
+        });
+
+        alertDialog.setPositiveButton(R.string.favorites_alertDialog_remove_option, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                db = new FavoriteItemCS_DBController(context);
+                db.deleteFavoriteCS(itemList.get(position));
+                imageView.setImageResource(R.drawable.delfavorite_icon);
+                removeListItem(rowView, position);
+
+                Toast.makeText(context, R.string.item_toast_deleteFromFavorites, Toast.LENGTH_SHORT).show();
+            }
+        });
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+    }
 }
 
