@@ -31,48 +31,7 @@ import java.util.ArrayList;
 public class MenuActivity extends ActionBarActivity {
 
     public static ArrayList<ItemCS> ItemCSes = new ArrayList<>();
-    final View.OnClickListener mGlobal_OnClickListener = new View.OnClickListener() {
-        public void onClick(final View v) {
-            switch (v.getId()) {
-                case R.id.menu_grid_overview:
-                    Intent overviewIntent = new Intent();
-                    overviewIntent.setClass(MenuActivity.this, OverviewActivity.class);
 
-                    Bundle bundle = new Bundle();
-                    bundle.putParcelableArrayList("list", ItemCSes);
-                    overviewIntent.putExtras(bundle);
-
-                    startActivity(overviewIntent);
-                    break;
-                case R.id.menu_grid_search:
-                    Intent searchPlaceIntent = new Intent();
-                    searchPlaceIntent.setClass(MenuActivity.this, SearchActivity.class);
-                    startActivity(searchPlaceIntent);
-                    break;
-                case R.id.menu_grid_favourite:
-                    Intent favoriteIntent = new Intent();
-                    favoriteIntent.setClass(MenuActivity.this, FavoriteActivity.class);
-                    startActivity(favoriteIntent);
-                    break;
-                case R.id.menu_grid_nearby:
-                    Intent nearestIntent = new Intent();
-                    nearestIntent.setClass(MenuActivity.this, NearbyActivity.class);
-                    startActivity(nearestIntent);
-                    break;
-                case R.id.menu_grid_socket:
-                    Intent socketIntent = new Intent();
-                    socketIntent.setClass(MenuActivity.this, SocketActivity.class);
-                    startActivity(socketIntent);
-                    break;
-                case R.id.menu_grid_icon_realTime:
-                    Intent realTimeIntent = new Intent();
-                    realTimeIntent.setClass(MenuActivity.this, RealTimeActivity.class);
-                    startActivity(realTimeIntent);
-                    break;
-                default:
-            }
-        }
-    };
     private ItemCS_DBController db;
     private String[] address;
     private String[] district;
@@ -99,14 +58,6 @@ public class MenuActivity extends ActionBarActivity {
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.evc_icon);
 
-        /*Set Menu Page Button*/
-        findViewById(R.id.menu_grid_overview).setOnClickListener(mGlobal_OnClickListener);
-        findViewById(R.id.menu_grid_search).setOnClickListener(mGlobal_OnClickListener);
-        findViewById(R.id.menu_grid_favourite).setOnClickListener(mGlobal_OnClickListener);
-        findViewById(R.id.menu_grid_nearby).setOnClickListener(mGlobal_OnClickListener);
-        findViewById(R.id.menu_grid_socket).setOnClickListener(mGlobal_OnClickListener);
-        findViewById(R.id.menu_grid_icon_realTime).setOnClickListener(mGlobal_OnClickListener);
-
         /*To Set Up ItemCS_DBController*/
         db = new ItemCS_DBController(this);
 
@@ -122,6 +73,55 @@ public class MenuActivity extends ActionBarActivity {
             db.addCS(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
             ItemCSes.add(i, new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
         }
+        final View.OnClickListener mGlobal_OnClickListener = new View.OnClickListener() {
+            public void onClick(final View v) {
+                switch (v.getId()) {
+                    case R.id.menu_grid_overview:
+                        Intent overviewIntent = new Intent();
+                        overviewIntent.setClass(MenuActivity.this, OverviewActivity.class);
+
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelableArrayList("list", ItemCSes);
+                        overviewIntent.putExtras(bundle);
+
+                        startActivity(overviewIntent);
+                        break;
+                    case R.id.menu_grid_search:
+                        Intent searchPlaceIntent = new Intent();
+                        searchPlaceIntent.setClass(MenuActivity.this, SearchActivity.class);
+                        startActivity(searchPlaceIntent);
+                        break;
+                    case R.id.menu_grid_favourite:
+                        Intent favoriteIntent = new Intent();
+                        favoriteIntent.setClass(MenuActivity.this, FavoriteActivity.class);
+                        startActivity(favoriteIntent);
+                        break;
+                    case R.id.menu_grid_nearby:
+                        Intent nearestIntent = new Intent();
+                        nearestIntent.setClass(MenuActivity.this, NearbyActivity.class);
+                        startActivity(nearestIntent);
+                        break;
+                    case R.id.menu_grid_socket:
+                        Intent socketIntent = new Intent();
+                        socketIntent.setClass(MenuActivity.this, SocketActivity.class);
+                        startActivity(socketIntent);
+                        break;
+                    case R.id.menu_grid_icon_realTime:
+                        Intent realTimeIntent = new Intent();
+                        realTimeIntent.setClass(MenuActivity.this, RealTimeActivity.class);
+                        startActivity(realTimeIntent);
+                        break;
+                    default:
+                }
+            }
+        };
+        /*Set Menu Page Button*/
+        findViewById(R.id.menu_grid_overview).setOnClickListener(mGlobal_OnClickListener);
+        findViewById(R.id.menu_grid_search).setOnClickListener(mGlobal_OnClickListener);
+        findViewById(R.id.menu_grid_favourite).setOnClickListener(mGlobal_OnClickListener);
+        findViewById(R.id.menu_grid_nearby).setOnClickListener(mGlobal_OnClickListener);
+        findViewById(R.id.menu_grid_socket).setOnClickListener(mGlobal_OnClickListener);
+        findViewById(R.id.menu_grid_icon_realTime).setOnClickListener(mGlobal_OnClickListener);
     }
 
     public void shareApp() {

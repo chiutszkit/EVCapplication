@@ -1,5 +1,6 @@
 package com.example.tommyhui.evcapplication.adapter;
 
+import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
@@ -25,11 +26,12 @@ public class OverviewPagerAdapter extends FragmentPagerAdapter {
         // TODO Auto-generated method stub
         switch (position) {
             case 0:
-//                OverviewListFragmentActivity frag = new OverviewListFragmentActivity();
-//                Bundle bundle = new Bundle();
-//                bundle.putParcelableArrayList("list", itemCSes);
-//                frag.setArguments(bundle);
-                return new OverviewListFragmentActivity();
+                /*Pass the Overview List to OverviewListFragment*/
+                OverviewListFragmentActivity frag = new OverviewListFragmentActivity();
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("list", itemCSes);
+                frag.setArguments(bundle);
+                return frag;
             case 1:
                 return new OverviewHistoryFragmentActivity();
             default:

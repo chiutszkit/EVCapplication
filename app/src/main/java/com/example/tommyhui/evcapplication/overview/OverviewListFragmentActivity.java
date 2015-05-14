@@ -23,7 +23,7 @@ public class OverviewListFragmentActivity extends Fragment {
     private HistoryItemCS_DBController db;
     private HistoryItemCS historyItem;
     private ArrayList<ItemCS> ListOfCSes = new ArrayList<>();
-
+    private ListView listview;
     public OverviewListFragmentActivity() {
 
     }
@@ -35,10 +35,10 @@ public class OverviewListFragmentActivity extends Fragment {
         setRetainInstance(true);
         setHasOptionsMenu(true);
 
-//        Bundle args = getArguments();
-//        ListOfCSes = args.getParcelableArrayList("list");
+        /*Get the Overview List from OverviewActivity*/
+        Bundle args = getArguments();
+        ListOfCSes = args.getParcelableArrayList("list");
 
-//        Log.i("test-logging", "ListOfCSes.getCount() : " + ListOfCSes.size());
         return inflater.inflate(R.layout.overview_list_fragment, container, false);
     }
 
@@ -49,7 +49,7 @@ public class OverviewListFragmentActivity extends Fragment {
         db = new HistoryItemCS_DBController(getActivity());
 
         /*To Display the List of CS with the Original List of CS*/
-        ListView listview = (ListView) getActivity().findViewById(R.id.overview_list_view);
+        listview = (ListView) getActivity().findViewById(R.id.overview_list_view);
         listview.setAdapter(new OverviewListViewAdapter(getActivity(), ListOfCSes));
         listview.setTextFilterEnabled(true);
 

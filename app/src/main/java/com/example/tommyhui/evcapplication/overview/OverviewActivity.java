@@ -54,13 +54,11 @@ public class OverviewActivity extends ActionBarActivity {
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.overview_icon);
 
-        /*Get the overview list from MenuActivity*/
-        Bundle bundle = getIntent().getExtras();
-        ArrayList<ItemCS> ItemCSes = bundle.getParcelableArrayList("list");
+        /*Get the Overview List from MenuActivity*/
+        ItemCSes = getIntent().getParcelableArrayListExtra("list");
 
         /*To Set Up Viewpager*/
-        overviewPagerAdapter = new OverviewPagerAdapter(
-                getSupportFragmentManager(), ItemCSes);
+        overviewPagerAdapter = new OverviewPagerAdapter(getSupportFragmentManager(), ItemCSes);
 
         mViewPager = (ViewPager) findViewById(R.id.overview_pager);
         mViewPager.setAdapter(overviewPagerAdapter);

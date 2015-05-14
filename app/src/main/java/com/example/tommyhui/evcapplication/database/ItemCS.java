@@ -6,16 +6,7 @@ import android.os.Parcelable;
 import java.util.ArrayList;
 
 public class ItemCS implements Parcelable {
-    public static final Parcelable.Creator<ItemCS> CREATOR = new Parcelable.Creator<ItemCS>() {
 
-        public ItemCS createFromParcel(Parcel in) {
-            return new ItemCS(in);
-        }
-
-        public ItemCS[] newArray(int size) {
-            return new ItemCS[size];
-        }
-    };
     private int id;
     private String address;
     private String district;
@@ -139,6 +130,26 @@ public class ItemCS implements Parcelable {
         quantity = in.readInt();
     }
 
+    public static final Parcelable.Creator<ItemCS> CREATOR = new Parcelable.Creator<ItemCS>() {
+
+        public ItemCS createFromParcel(Parcel in) {
+
+            ItemCS cs = new ItemCS();
+            cs.setId(in.readInt());
+            cs.setAddress(in.readString());
+            cs.setDistrict(in.readString());
+            cs.setDescription(in.readString());
+            cs.setType(in.readString());
+            cs.setSocket(in.readString());
+            cs.setQuantity(in.readInt());
+            return cs;
+        }
+
+        public ItemCS[] newArray(int size) {
+            return new ItemCS[size];
+        }
+    };
+
     @Override
     public int describeContents() {
         return 0;
@@ -147,12 +158,12 @@ public class ItemCS implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
 
-        dest.writeSerializable(id);
-        dest.writeSerializable(address);
-        dest.writeSerializable(district);
-        dest.writeSerializable(description);
-        dest.writeSerializable(type);
-        dest.writeSerializable(socket);
-        dest.writeSerializable(quantity);
+        dest.writeInt(id);
+        dest.writeString(address);
+        dest.writeString(district);
+        dest.writeString(description);
+        dest.writeString(type);
+        dest.writeString(socket);
+        dest.writeInt(quantity);
     }
 }
