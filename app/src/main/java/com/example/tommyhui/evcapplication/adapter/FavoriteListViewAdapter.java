@@ -1,9 +1,12 @@
 package com.example.tommyhui.evcapplication.adapter;
 
 import android.content.Context;
+import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -15,16 +18,14 @@ import com.example.tommyhui.evcapplication.database.FavoriteItemCS_DBController;
 
 import java.util.ArrayList;
 
-public class FavoriteListViewAdapter extends BaseAdapter{
+public class FavoriteListViewAdapter extends BaseAdapter {
     private final Context context;
     private FavoriteItemCS_DBController db;
     private ArrayList<FavoriteItemCS> itemList;
-    private ArrayList<FavoriteItemCS> tempList;
 
-    public FavoriteListViewAdapter(Context context, ArrayList<FavoriteItemCS> itemList){
+    public FavoriteListViewAdapter(Context context, ArrayList<FavoriteItemCS> itemList) {
         this.context = context;
         this.itemList = itemList;
-        tempList = new ArrayList<>(itemList.size());
     }
 
     @Override
@@ -44,20 +45,12 @@ public class FavoriteListViewAdapter extends BaseAdapter{
         // TODO Auto-generated method stub
         return position;
     }
-//   @Override
-//    public boolean isEnabled(int position) {
-//        return false;
-//    }
-//    @Override
-//    public boolean areAllItemsEnabled() {
-//        return true;
-//    }
 
-    public ArrayList<FavoriteItemCS> getList(){
+    public ArrayList<FavoriteItemCS> getList() {
         return itemList;
     }
 
-    public void setList(ArrayList<FavoriteItemCS> itemList){
+    public void setList(ArrayList<FavoriteItemCS> itemList) {
         this.itemList = itemList;
     }
 
@@ -65,7 +58,7 @@ public class FavoriteListViewAdapter extends BaseAdapter{
     public View getView(final int position, View convertView, final ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.favorite_list_item_layout, parent, false);
+        final View rowView = inflater.inflate(R.layout.favorite_list_item_layout, parent, false);
 
         TextView address = (TextView) rowView.findViewById(R.id.favorite_list_view_item_address);
         TextView district = (TextView) rowView.findViewById(R.id.favorite_list_view_item_district);
@@ -85,20 +78,30 @@ public class FavoriteListViewAdapter extends BaseAdapter{
             @Override
             public void onClick(View v) {
 
-                    imageView.setImageResource(R.drawable.delfavorite_icon);
+                db = new FavoriteItemCS_DBController(context);
+                db.deleteFavoriteCS(itemList.get(position));
+                imageView.setImageResource(R.drawable.delfavorite_icon);
+                removeListItem(rowView, position);
 
-//                    isEnabled(position);
-
-                    db = new FavoriteItemCS_DBController(context);
-                    db.deleteFavoriteCS(itemList.get(position));
-                    itemList.remove(position);
-//                    notifyDataSetChanged();
-
-                    Toast.makeText(context, R.string.item_toast_deleteFromFavorites, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, R.string.item_toast_deleteFromFavorites, Toast.LENGTH_SHORT).show();
             }
         });
 
         return rowView;
+    }
+
+    protected void removeListItem(View rowView, final int position) {
+        final Animation animation = AnimationUtils.loadAnimation(
+                context, android.R.anim.fade_out);
+        rowView.startAnimation(animation);
+        Handler handle = new Handler();
+        handle.postDelayed(new Runnable() {
+
+            public void run() {
+                itemList.remove(position);
+                notifyDataSetChanged();
+            }
+        }, 1000);
     }
 
 }

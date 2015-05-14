@@ -20,7 +20,7 @@ public class HistoryItemCS_DBController {
     private static final String KEY_SOCKET = "socket";
     private static final String KEY_QUANTITY = "quantity";
 
-    private static final String[] COLUMNS = {KEY_ID,KEY_ADDRESS,KEY_DISTRICT, KEY_DESCRIPTION,KEY_TYPE,KEY_SOCKET,KEY_QUANTITY};
+    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY};
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -42,7 +42,7 @@ public class HistoryItemCS_DBController {
         db.close();
     }
 
-    public HistoryItemCS addHistoryCS(HistoryItemCS historyCS){
+    public HistoryItemCS addHistoryCS(HistoryItemCS historyCS) {
 
         // 1. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
@@ -55,11 +55,10 @@ public class HistoryItemCS_DBController {
 
         // 2. insert or update
 
-        String[] input_column = new String[] {KEY_ADDRESS,KEY_DISTRICT, KEY_DESCRIPTION,KEY_TYPE,KEY_SOCKET,KEY_QUANTITY};
-        String[] input_data = new String[]{historyCS.getAddress(),historyCS.getDistrict(), historyCS.getDescription(),historyCS.getType(),historyCS.getSocket(),Integer.toString(historyCS.getQuantity())};
+        String[] input_column = new String[]{KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY};
+        String[] input_data = new String[]{historyCS.getAddress(), historyCS.getDistrict(), historyCS.getDescription(), historyCS.getType(), historyCS.getSocket(), Integer.toString(historyCS.getQuantity())};
 
-        if(!checkRecordExist(TABLE_NAME, input_column, input_data))
-        {
+        if (!checkRecordExist(TABLE_NAME, input_column, input_data)) {
             // Perform the insert query
             db.insert(TABLE_NAME, null, values);
             Log.d("addHistoryCS", historyCS.toString());
@@ -68,7 +67,8 @@ public class HistoryItemCS_DBController {
         // 3. return the item historyCS
         return historyCS;
     }
-    private boolean checkRecordExist(String tableName, String[] keys, String [] values) {
+
+    private boolean checkRecordExist(String tableName, String[] keys, String[] values) {
 
         StringBuilder sb = new StringBuilder();
         boolean exists;
@@ -79,7 +79,7 @@ public class HistoryItemCS_DBController {
                     .append("=\"")
                     .append(values[i])
                     .append("\" ");
-            if (i<keys.length-1) sb.append("AND ");
+            if (i < keys.length - 1) sb.append("AND ");
         }
 
         // 2. execute the query to search whether the record exists
@@ -94,14 +94,14 @@ public class HistoryItemCS_DBController {
         return exists;
     }
 
-    public HistoryItemCS getHistoryCS(int id){
+    public HistoryItemCS getHistoryCS(int id) {
 
         // 1. build query
         Cursor cursor =
                 db.query(TABLE_NAME, // a. table
                         COLUMNS, // b. column names
                         " id = ?", // c. selections
-                        new String[] { String.valueOf(id) }, // d. selections args
+                        new String[]{String.valueOf(id)}, // d. selections args
                         null, // e. group by
                         null, // f. having
                         null, // g. order by
@@ -124,7 +124,7 @@ public class HistoryItemCS_DBController {
 
         Log.d("getHistoryCS(" + id + ")", historyCS.toString());
 
-        if(cursor != null)
+        if (cursor != null)
             cursor.close();
         // 5. return book
         return historyCS;
@@ -196,8 +196,8 @@ public class HistoryItemCS_DBController {
         // 2. updating row
         int i = db.update(TABLE_NAME, //table
                 values, // column/value
-                KEY_ID+" = ?", // selections
-                new String[] { String.valueOf(historyCS.getId()) }); //selection args
+                KEY_ID + " = ?", // selections
+                new String[]{String.valueOf(historyCS.getId())}); //selection args
 
         // 3. return the update 
         return i;
@@ -207,14 +207,13 @@ public class HistoryItemCS_DBController {
 
         // 1. delete
         db.delete(TABLE_NAME, //table name
-                KEY_ID+" = ?",  // selections
-                new String[] { String.valueOf(historyCS.getId()) }); //selections args
+                KEY_ID + " = ?",  // selections
+                new String[]{String.valueOf(historyCS.getId())}); //selections args
 
         Log.d("deleteHistoryCS", historyCS.toString());
     }
 
-    public void clear()
-    {
-        db.execSQL("DROP TABLE "+ TABLE_NAME);
+    public void clear() {
+        db.execSQL("DROP TABLE " + TABLE_NAME);
     }
 }

@@ -30,7 +30,7 @@
         <item>22 Westlands Road, Quarry Bay</item>
         <item>979 King\'s Road, Quarry Bay</item>
         <item>Taikoo Place, Quarry Bay</item>
-        <item>1 Kornhill Road, Tai koo</item>
+        <item>1 Kornhill Road, Taikoo Shing</item>
         <item>29-31 Cheung Lee Street, Chai Wan</item>
         <item>33 Java Road, North Point</item>
         <item>33 Java Road, North Point</item>
@@ -38,7 +38,7 @@
         <item>1 Po Man Street, Shau Kei Wan</item>
         <item>183 Electric Road, North Point</item>
         <item>Shing Tai Road, Paradise Mall</item>
-        <item>2 - 38 Lai Tak Tsuen Road, Tai Hang</item>
+        <item>2-38 Lai Tak Tsuen Road, Tai Hang</item>
         <item>100 Cyberport Road, Cyberport</item>
         <item>12 Broadwood Road, Happy Valley</item>
         <item>23 Harbour Road, Wan Chai</item>
@@ -49,8 +49,8 @@
         <item>1 Matheson Street, Causeway Bay</item>
         <item>7 Gloucester Road, Wan Chai</item>
         <item>7 Gloucester Road, Wan Chai</item>
-        <item>23 Harbour Road, Wan Chai</item>
-        <item>1 Expo Drive, Wanchai</item>
+        <item>1 Harbour Road, Wan Chai</item>
+        <item>1 Expo Drive, Wan Chai</item>
         <item>6-8 Harbour Road, Wan Chai</item>
         <item>9 Edinburgh Place, Central</item>
         <item>1 Edinburgh Place, Central</item>
@@ -70,6 +70,7 @@
         <item>100 Cyberport Road, Cyberport</item>
         <item>183 Queen\'s Road East, Wan Chai</item>
         <item>2-38 Yun Ping Road, Causeway Bay</item>
+
     </string-array>
     <string-array name="district">
         <item> Central</item>

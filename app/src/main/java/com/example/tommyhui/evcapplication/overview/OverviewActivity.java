@@ -16,7 +16,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 import com.astuetz.PagerSlidingTabStrip;
 import com.example.tommyhui.evcapplication.R;
@@ -27,28 +26,16 @@ import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
 
 import java.util.ArrayList;
 
-public class OverviewActivity extends ActionBarActivity{
-
-    private OverviewPagerAdapter overviewPagerAdapter;
-    private ToggleButton listToggle;
-    private ToggleButton historyToggle;
-    private ViewPager mViewPager;
-
-    private ItemCS_DBController db;
-
-    private String[] address;
-    private String[] district;
-    private String[] description;
-    private String[] type;
-    private String[] socket;
-    private int[] quantity;
+public class OverviewActivity extends ActionBarActivity {
 
     public static MenuItem searchItem;
     public static SearchView searchView;
     public static String searchViewQuery = "";
     public static ArrayList<ItemCS> ItemCSes = new ArrayList<>();
     public static ArrayList<ItemCS> QueryItemCSes = new ArrayList<>();
-
+    private OverviewPagerAdapter overviewPagerAdapter;
+    private ViewPager mViewPager;
+    private ItemCS_DBController db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,28 +47,16 @@ public class OverviewActivity extends ActionBarActivity{
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
         /*To Set Up Action Bar's Title*/
-        TextView title = (TextView)findViewById(R.id.action_bar_title);
+        TextView title = (TextView) findViewById(R.id.action_bar_title);
         title.setText("Overview");
 
         /*To Set Up Action Bar's Icon*/
-        ImageView myImgView = (ImageView)findViewById(R.id.action_bar_icon);
+        ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.overview_icon);
 
-        /*To Set Up ItemCS_DBController*/
-        db = new ItemCS_DBController(this);
-
-        address = getResources().getStringArray(R.array.address);
-        district = getResources().getStringArray(R.array.district);
-        description = getResources().getStringArray(R.array.description);
-        type = getResources().getStringArray(R.array.type);
-        socket = getResources().getStringArray(R.array.socket);
-        quantity = getResources().getIntArray(R.array.quantity);
-
-        for (int i = 0; i < address.length; i++) {
-
-            db.addCS(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
-            ItemCSes.add(i, new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
-        }
+        /*Get the overview list from MenuActivity*/
+        Bundle bundle = getIntent().getExtras();
+        ArrayList<ItemCS> ItemCSes = bundle.getParcelableArrayList("list");
 
         /*To Set Up Viewpager*/
         overviewPagerAdapter = new OverviewPagerAdapter(
@@ -95,77 +70,18 @@ public class OverviewActivity extends ActionBarActivity{
         // Attach the view pager to the tab strip
         tabsStrip.setViewPager(mViewPager);
 
-        tabsStrip.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+        tabsStrip.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
             @Override
-            public void onPageSelected(int position)
-            {
-                if(position == 1) {
+            public void onPageSelected(int position) {
+
+                if (position == 1) {
                     LinearLayout layout = (LinearLayout) findViewById(R.id.overview_layout_status);
                     layout.setVisibility(View.GONE);
                 }
             }
         });
-//        listToggle = (ToggleButton) findViewById(R.id.overview_toggle_list);
-//        historyToggle = (ToggleButton) findViewById(R.id.overview_toggle_history);
 
-//
-//        listToggle.setChecked(true);
-//
-//        listToggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-//
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                // TODO Auto-generated method stub
-//                if (isChecked) {
-//
-//                    historyToggle.setChecked(false);
-//                    mViewPager.setCurrentItem(0);
-//                    listToggle.setClickable(false);
-//                    historyToggle.setClickable(true);
-//                }
-//            }
-//        });
-//
-//        historyToggle.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-//
-//            @Override
-//            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-//                // TODO Auto-generated method stub
-//                if (isChecked) {
-//
-//                    listToggle.setChecked(false);
-//                    mViewPager.setCurrentItem(1);
-//                    historyToggle.setClickable(false);
-//                    listToggle.setClickable(true);
-//                }
-//            }
-//        });
-//
-//        mViewPager.setOnPageChangeListener(new OnPageChangeListener() {
-//
-//            @Override
-//            public void onPageSelected(int position) {
-//                // TODO Auto-generated method stub
-//                if(position == 0){
-//                    listToggle.setChecked(true);
-//                }
-//                else{
-//                    historyToggle.setChecked(true);
-//                }
-//            }
-//
-//            @Override
-//            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//
-//            @Override
-//            public void onPageScrollStateChanged(int state) {
-//                // TODO Auto-generated method stub
-//
-//            }
-//        });
+        db = new ItemCS_DBController(this);
     }
 
     @Override
@@ -174,6 +90,11 @@ public class OverviewActivity extends ActionBarActivity{
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.overview_options_menu, menu);
 
+        if (menu != null) {
+            menu.findItem(R.id.overview_action_delete).setVisible(false);
+            menu.findItem(R.id.overview_action_search).setVisible(true);
+        }
+
         /*To Expand Search Bar*/
         searchItem = menu.findItem(R.id.overview_action_search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
@@ -181,7 +102,7 @@ public class OverviewActivity extends ActionBarActivity{
         /*To Set Up a Search Hint for Search Bar*/
         searchView.setQueryHint(getResources().getString(R.string.overview_search_view_title));
 
-        searchView.setOnSearchClickListener (new View.OnClickListener() {
+        searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 /*To Go back to the view page of LIST*/

@@ -6,18 +6,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.R;
 
-public class AboutListViewAdapter extends BaseAdapter{
+public class AboutListViewAdapter extends BaseAdapter {
     private final Context context;
     private final int[] icons;
     private final int[] titles;
     private final int[] texts;
 
-    public AboutListViewAdapter(Context context, int[] icons, int[] titles, int[] texts){
+    public AboutListViewAdapter(Context context, int[] icons, int[] titles, int[] texts) {
         this.context = context;
         this.icons = icons;
         this.titles = titles;
@@ -50,12 +49,9 @@ public class AboutListViewAdapter extends BaseAdapter{
 
         View rowView = inflater.inflate(R.layout.about_list_item_layout, parent, false);
 
-        View aboutView = inflater.inflate(R.layout.about_activity, parent, false);
-        ListView listView = (ListView) aboutView.findViewById(R.id.about_list_view);
-
         android.view.ViewGroup.LayoutParams layoutParams = rowView.getLayoutParams();
         int totalHeight = parent.getMeasuredHeight();
-        int rowHeight = totalHeight/getCount();
+        int rowHeight = totalHeight / getCount();
         layoutParams.height = rowHeight;
         rowView.setLayoutParams(layoutParams);
 

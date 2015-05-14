@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_yellow"
-    android:orientation="vertical" >
+    android:orientation="vertical">
+
     <ListView
         android:id="@+id/about_list_view"
-        android:background="@color/white"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true" >
-    </ListView>
+        android:layout_alignParentTop="true"
+        android:background="@color/white"></ListView>
 </LinearLayout>

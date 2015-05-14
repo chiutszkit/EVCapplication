@@ -8,8 +8,8 @@
         android:id="@+id/query_text"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textSize="18sp"
+        android:layout_margin="5dp"
         android:textColor="@color/black"
-        android:layout_margin="5dp" />
+        android:textSize="18sp" />
 
 </LinearLayout>

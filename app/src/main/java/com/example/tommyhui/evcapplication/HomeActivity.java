@@ -11,12 +11,13 @@ import com.example.tommyhui.evcapplication.menu.MenuActivity;
 public class HomeActivity extends Activity {
 
     LinearLayout background;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.home_activity);
 
-        background=(LinearLayout)findViewById(R.id.homepage);
+        background = (LinearLayout) findViewById(R.id.homepage);
         background.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent intent = new Intent();

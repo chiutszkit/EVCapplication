@@ -10,10 +10,11 @@ public class FavoriteItemCS {
     private String socket;
     private int quantity;
 
-    public FavoriteItemCS(){
+    public FavoriteItemCS() {
 
     }
-    public FavoriteItemCS(String address, String district, String description, String type, String socket, int quantity){
+
+    public FavoriteItemCS(String address, String district, String description, String type, String socket, int quantity) {
         this.address = address;
         this.district = district;
         this.description = description;
@@ -26,24 +27,48 @@ public class FavoriteItemCS {
         return id;
     }
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getSocket() {
         return socket;
+    }
+
+    public void setSocket(String socket) {
+        this.socket = socket;
     }
 
     public String getDescription() {
         return description;
     }
 
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public int getQuantity() {
         return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
     }
 
     public String getType() {
         return type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getAddress() {
         return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getDistrict() {
@@ -52,30 +77,6 @@ public class FavoriteItemCS {
 
     public void setDistrict(String district) {
         this.district = district;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setSocket(String socket) {
-        this.socket = socket;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
 }

@@ -5,8 +5,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.widget.AdapterView;
@@ -32,11 +30,11 @@ public class AboutActivity extends ActionBarActivity {
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
         /*Set Action Bar's Title*/
-        TextView title = (TextView)findViewById(R.id.action_bar_title);
+        TextView title = (TextView) findViewById(R.id.action_bar_title);
         title.setText("About");
 
         /*Set Action Bar's Icon*/
-        ImageView myImgView = (ImageView)findViewById(R.id.action_bar_icon);
+        ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.about_icon);
 
         /*Display Action Bar's Icon*/
@@ -83,7 +81,7 @@ public class AboutActivity extends ActionBarActivity {
                     case 2:
                         Intent emailIntent = new Intent(Intent.ACTION_SEND);
                         emailIntent.setType("text/plain");
-                        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[] {getString(R.string.about_author_email)});
+                        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.about_author_email)});
                         emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Email Enquiry on EVC application");
                         emailIntent.putExtra(Intent.EXTRA_TEXT, "I would like to ask ...");
 
@@ -93,12 +91,5 @@ public class AboutActivity extends ActionBarActivity {
                 }
             }
         });
-    }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.default_options_menu, menu);
-        return super.onCreateOptionsMenu(menu);
     }
 }

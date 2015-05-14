@@ -43,32 +43,34 @@ public class FavoriteActivity extends ActionBarActivity {
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
         /*Set Action Bar's Title*/
-        TextView title = (TextView)findViewById(R.id.action_bar_title);
+        TextView title = (TextView) findViewById(R.id.action_bar_title);
         title.setText("Favourite");
 
         /*Set Action Bar's Icon*/
-        ImageView myImgView = (ImageView)findViewById(R.id.action_bar_icon);
+        ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.favorite_icon);
 
         db = new FavoriteItemCS_DBController(getApplicationContext());
-        if(db.getFavoriteCSCount() == 0){
+        if (db.getFavoriteCSCount() == 0) {
             showEmptyListDialog();
         }
         favoriteList = db.getAllFavoriteCSes();
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.default_options_menu, menu);
+        inflater.inflate(R.menu.menu_options_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
+
     public void onResume() {
         super.onResume();
 
         listView = (ListView) this.findViewById(R.id.favourite_list_view);
 
-        if(favoriteListViewAdapter == null){
+        if (favoriteListViewAdapter == null) {
             favoriteListViewAdapter = new FavoriteListViewAdapter(FavoriteActivity.this, favoriteList);
             listView.setAdapter(favoriteListViewAdapter);
 
@@ -97,13 +99,13 @@ public class FavoriteActivity extends ActionBarActivity {
                 }
 
             });
-        }
-        else{
+        } else {
             favoriteListViewAdapter.setList(favoriteList);
             favoriteListViewAdapter.notifyDataSetChanged();
         }
     }
-    private void showEmptyListDialog(){
+
+    private void showEmptyListDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle(R.string.favorites_alertDialog_no_favorites_title);
         alertDialog.setMessage(R.string.favorites_alertDialog_no_favorites_text);

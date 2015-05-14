@@ -1,14 +1,18 @@
 package com.example.tommyhui.evcapplication.overview;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.tommyhui.evcapplication.R;
@@ -28,16 +32,20 @@ public class OverviewHistoryFragmentActivity extends Fragment {
 
     public OverviewHistoryFragmentActivity() {
     }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.overview_history_fragment, container, false);
     }
+
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         // TODO Auto-generated method stub
         super.onActivityCreated(savedInstanceState);
         db = new HistoryItemCS_DBController(getActivity());
+        setHasOptionsMenu(true);
     }
+
     @Override
     public void onResume() {
         // TODO Auto-generated method stub
@@ -46,7 +54,7 @@ public class OverviewHistoryFragmentActivity extends Fragment {
         historyList = db.getAllHistoryCSes();
         listView = (ListView) getView().findViewById(R.id.overview_history_list_view);
 
-        if(historyListViewAdapter == null){
+        if (historyListViewAdapter == null) {
             historyListViewAdapter = new HistoryListViewAdapter(getActivity(), historyList);
             listView.setAdapter(historyListViewAdapter);
 
@@ -76,19 +84,55 @@ public class OverviewHistoryFragmentActivity extends Fragment {
                 }
 
             });
-        }
-        else{
+        } else {
             historyListViewAdapter.setList(historyList);
             historyListViewAdapter.notifyDataSetChanged();
         }
+    }
 
-        Button clearButton = (Button) getActivity().findViewById(R.id.overview_history_button_clear);
-        clearButton.setOnClickListener(new Button.OnClickListener() {
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (menu != null) {
+            menu.findItem(R.id.overview_action_search).setVisible(false);
+            menu.findItem(R.id.overview_action_delete).setVisible(true);
+        }
+        return;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // handle item selection
+        switch (item.getItemId()) {
+            case R.id.overview_action_delete:
+                showConfirmDeleteDialog();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void showConfirmDeleteDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
+        alertDialog.setTitle(R.string.overview_history_alertDialog_delete_history);
+        alertDialog.setMessage(R.string.overview_history_alertDialog_no_undo);
+
+        alertDialog.setNegativeButton(R.string.history_alertDialog_no_option, new DialogInterface.OnClickListener() {
 
             @Override
-            public void onClick(View v) {
-                db = new HistoryItemCS_DBController(v.getContext());
-                for(int i = 0; i < historyList.size(); i++) {
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                dialog.dismiss();
+            }
+        });
+
+        alertDialog.setPositiveButton(R.string.overview_history_alertDialog_yes_option, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+
+                db = new HistoryItemCS_DBController(getActivity().getApplicationContext());
+                for (int i = 0; i < historyList.size(); i++) {
                     HistoryItemCS cs = historyList.get(i);
                     db.deleteHistoryCS(cs);
                 }
@@ -97,5 +141,7 @@ public class OverviewHistoryFragmentActivity extends Fragment {
                 historyListViewAdapter.notifyDataSetChanged();
             }
         });
+        alertDialog.setCancelable(false);
+        alertDialog.show();
     }
 }

@@ -2,35 +2,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/nearby_text_location"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:textSize="30sp"
-        android:layout_margin="10dp"
-        android:text="@string/nearby_userLocation"/>
-
-    <fragment
-        android:id="@+id/nearby_map"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="4"
-        class="com.google.android.gms.maps.SupportMapFragment" />
-    <TextView
-        android:id="@+id/nearby_text_nearestLocation"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:textSize="30sp"
         android:layout_margin="10dp"
         android:layout_weight="1"
-        android:text="@string/nearby_nearestLocation"/>
+        android:text="@string/nearby_userLocation"
+        android:textSize="30sp" />
 
-    <GridLayout
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="2"/>
+    <!--<fragment-->
+    <!--android:id="@+id/nearby_map"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="0dp"-->
+    <!--android:layout_weight="9"-->
+    <!--class="com.google.android.gms.maps.SupportMapFragment" />-->
 
 </LinearLayout>

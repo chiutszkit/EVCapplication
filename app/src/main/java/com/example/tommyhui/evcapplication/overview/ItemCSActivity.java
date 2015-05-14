@@ -39,17 +39,17 @@ public class ItemCSActivity extends Activity {
         description = bundle.getString("description");
         type = bundle.getString("type");
         socket = bundle.getString("socket");
-        quantity  = bundle.getInt("quantity");
+        quantity = bundle.getInt("quantity");
 
-        TextView addressText = (TextView)findViewById(R.id.item_text_chargingStationAddress);
+        TextView addressText = (TextView) findViewById(R.id.item_text_chargingStationAddress);
         addressText.setText(address);
-        TextView descriptionText = (TextView)findViewById(R.id.item_text_description);
+        TextView descriptionText = (TextView) findViewById(R.id.item_text_description);
         descriptionText.setText(description);
-        TextView typeText = (TextView)findViewById(R.id.item_text_type);
+        TextView typeText = (TextView) findViewById(R.id.item_text_type);
         typeText.setText("Type: " + type);
-        TextView socketText = (TextView)findViewById(R.id.item_text_socket);
+        TextView socketText = (TextView) findViewById(R.id.item_text_socket);
         socketText.setText("Socket: " + socket);
-        TextView quantityText = (TextView)findViewById(R.id.item_text_quantity);
+        TextView quantityText = (TextView) findViewById(R.id.item_text_quantity);
         quantityText.setText("Quantity: " + quantity.toString());
 
         Button favoriteButton = (Button) findViewById(R.id.item_button_favorite);
@@ -59,18 +59,19 @@ public class ItemCSActivity extends Activity {
             public void onClick(View v) {
                 db = new FavoriteItemCS_DBController(getApplicationContext());
                 favouriteItem = new FavoriteItemCS(address, district, description, type, socket, quantity);
-                if(db.addFavoriteCS(favouriteItem) == null)
+                if (db.addFavoriteCS(favouriteItem) == null)
                     Toast.makeText(getApplicationContext(), R.string.item_toast_addToFavorites_before, Toast.LENGTH_SHORT).show();
                 else
                     Toast.makeText(getApplicationContext(), R.string.item_toast_addToFavorites, Toast.LENGTH_SHORT).show();
             }
         });
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.default_options_menu, menu);
+        inflater.inflate(R.menu.menu_options_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
 }

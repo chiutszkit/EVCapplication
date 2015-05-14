@@ -2,22 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <ListView
         android:id="@+id/favouritepage_list_view"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:background="@color/white"
-        android:layout_weight="6">
-    </ListView>
+        android:layout_weight="6"
+        android:background="@color/white"></ListView>
 
     <Button
-        android:background="@drawable/custombutton_background_selector"
+        android:id="@+id/search_result_button_searchagain"
         android:layout_width="wrap_content"
-        android:layout_weight="0.5"
         android:layout_height="0dp"
         android:layout_gravity="center"
-        android:text="@string/search_result_searchAgain"
-        android:id="@+id/search_result_button_searchagain"/>
+        android:layout_weight="0.5"
+        android:background="@drawable/custombutton_background_selector"
+        android:text="@string/search_result_searchAgain" />
 </LinearLayout>

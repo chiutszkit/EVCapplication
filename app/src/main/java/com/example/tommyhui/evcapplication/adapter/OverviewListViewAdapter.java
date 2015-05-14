@@ -12,11 +12,11 @@ import com.example.tommyhui.evcapplication.database.ItemCS;
 
 import java.util.ArrayList;
 
-public class OverviewListViewAdapter extends BaseAdapter{
+public class OverviewListViewAdapter extends BaseAdapter {
     private final Context context;
     private ArrayList<ItemCS> itemList;
 
-    public OverviewListViewAdapter(Context context, ArrayList<ItemCS> itemList){
+    public OverviewListViewAdapter(Context context, ArrayList<ItemCS> itemList) {
         this.context = context;
         this.itemList = itemList;
     }
@@ -39,11 +39,11 @@ public class OverviewListViewAdapter extends BaseAdapter{
         return position;
     }
 
-    public ArrayList<ItemCS> getList(){
+    public ArrayList<ItemCS> getList() {
         return itemList;
     }
 
-    public void setList(ArrayList<ItemCS> itemList){
+    public void setList(ArrayList<ItemCS> itemList) {
         this.itemList = itemList;
     }
 

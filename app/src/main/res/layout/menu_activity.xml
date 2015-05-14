@@ -3,197 +3,209 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
     <!--First  row-->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:baselineAligned="false"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:orientation="horizontal"
-        android:gravity="center">
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal">
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@+id/menu_grid_overview"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/menu_background_selector"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/menu_grid_icon_overview"
-                android:src="@drawable/overview_icon"
-                android:layout_gravity="center"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_gravity="center"
                 android:layout_marginTop="10dp"
+                android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:contentDescription="@string/menu_description_overview"/>
+                android:contentDescription="@string/menu_description_overview"
+                android:src="@drawable/overview_icon" />
+
             <TextView
                 android:id="@+id/menu_grid_text_overview"
-                android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textSize="25dp"
                 android:layout_marginBottom="20dp"
-                android:text="@string/menu_overview"/>
+                android:gravity="center_horizontal"
+                android:text="@string/menu_overview"
+                android:textSize="25dp" />
         </LinearLayout>
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/menu_grid_search"
+            android:id="@+id/menu_grid_socket"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/menu_background_selector"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/menu_grid_icon_search"
-                android:src="@drawable/search_icon"
-                android:layout_gravity="center"
+                android:id="@+id/menu_grid_icon_socket"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:layout_marginTop="10dp"
-                android:contentDescription="@string/menu_description_search"/>
+                android:contentDescription="@string/menu_description_socket"
+                android:src="@drawable/big_socket" />
+
             <TextView
-                android:id="@+id/menu_grid_text_search"
-                android:gravity="center_horizontal"
+                android:id="@+id/menu_grid_text_socket"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textSize="25dp"
                 android:layout_marginBottom="20dp"
-                android:text="@string/menu_search"/>
+                android:gravity="center_horizontal"
+                android:text="@string/menu_socket"
+                android:textSize="25dp" />
         </LinearLayout>
     </LinearLayout>
 
     <!--Second row-->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:baselineAligned="false"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:baselineAligned="false"
         android:gravity="center"
-        android:orientation="horizontal" >
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/menu_grid_favourite"
-            android:layout_width="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/menu_background_selector"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+        android:orientation="horizontal">
 
-            <ImageView
-                android:id="@+id/menu_grid_icon_favourtie"
-                android:src="@drawable/favorite_icon"
-                android:layout_gravity="center"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:layout_marginTop="10dp"
-                android:contentDescription="@string/menu_description_favourite"/>
-            <TextView
-                android:id="@+id/menu_grid_text_favourite"
-                android:gravity="center_horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:textSize="25dp"
-                android:layout_marginBottom="20dp"
-                android:text="@string/menu_favourite"/>
-        </LinearLayout>
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/menu_grid_nearest"
+            android:id="@+id/menu_grid_nearby"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/menu_background_selector"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
 
             <ImageView
                 android:id="@+id/menu_grid_icon_nearest"
-                android:src="@drawable/map_icon"
-                android:layout_gravity="center"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:layout_marginTop="10dp"
-                android:contentDescription="@string/menu_description_nearby"/>
+                android:contentDescription="@string/menu_description_nearby"
+                android:src="@drawable/map_icon" />
+
             <TextView
                 android:id="@+id/menu_grid_text_nearest"
-                android:gravity="center_horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textSize="25dp"
                 android:layout_marginBottom="20dp"
-                android:text="@string/menu_nearby"/>
+                android:gravity="center_horizontal"
+                android:text="@string/menu_nearby"
+                android:textSize="25dp" />
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/menu_grid_search"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/menu_background_selector"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/menu_grid_icon_search"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:contentDescription="@string/menu_description_search"
+                android:src="@drawable/search_icon" />
+
+            <TextView
+                android:id="@+id/menu_grid_text_search"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center_horizontal"
+                android:text="@string/menu_search"
+                android:textSize="25dp" />
         </LinearLayout>
     </LinearLayout>
     <!-- Third row -->
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:baselineAligned="false"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:baselineAligned="false"
         android:gravity="center"
-        android:orientation="horizontal" >
+        android:orientation="horizontal">
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/menu_grid_about"
+            android:id="@+id/menu_grid_favourite"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/menu_background_selector"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/menu_grid_icon_about"
-                android:src="@drawable/about_icon"
-                android:layout_gravity="center"
+                android:id="@+id/menu_grid_icon_favourtie"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:layout_marginTop="10dp"
-                android:contentDescription="@string/menu_description_about"/>
+                android:contentDescription="@string/menu_description_favourite"
+                android:src="@drawable/favorite_icon" />
+
             <TextView
-                android:id="@+id/menu_grid_text_about"
-                android:gravity="center_horizontal"
+                android:id="@+id/menu_grid_text_favourite"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textSize="25dp"
                 android:layout_marginBottom="20dp"
-                android:text="@string/menu_about"/>
+                android:gravity="center_horizontal"
+                android:text="@string/menu_favourite"
+                android:textSize="25dp" />
         </LinearLayout>
+
+
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/menu_grid_share"
+            android:id="@+id/menu_grid_realTime"
             android:layout_width="match_parent"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/menu_background_selector"
-            android:orientation="vertical"
-            android:layout_height="match_parent">
+            android:orientation="vertical">
 
             <ImageView
-                android:id="@+id/menu_grid_icon_share"
-                android:src="@drawable/share_icon"
-                android:layout_gravity="center"
+                android:id="@+id/menu_grid_icon_realTime"
                 android:layout_width="150dp"
                 android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
                 android:layout_weight="1"
                 android:adjustViewBounds="true"
-                android:layout_marginTop="10dp"
-                android:contentDescription="@string/menu_description_share"/>
+                android:contentDescription="@string/menu_description_realTime"
+                android:src="@drawable/realtime_icon" />
+
             <TextView
-                android:id="@+id/menu_grid_text_share"
-                android:gravity="center_horizontal"
+                android:id="@+id/menu_grid_text_realTime"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                android:textSize="25dp"
                 android:layout_marginBottom="20dp"
-                android:text="@string/menu_share"/>
+                android:gravity="center_horizontal"
+                android:text="@string/menu_realTime"
+                android:textSize="25dp" />
         </LinearLayout>
     </LinearLayout>
 

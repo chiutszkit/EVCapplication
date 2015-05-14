@@ -15,12 +15,12 @@ import com.example.tommyhui.evcapplication.database.HistoryItemCS_DBController;
 
 import java.util.ArrayList;
 
-public class HistoryListViewAdapter extends BaseAdapter{
+public class HistoryListViewAdapter extends BaseAdapter {
     private final Context context;
     private HistoryItemCS_DBController db;
     private ArrayList<HistoryItemCS> itemList;
 
-    public HistoryListViewAdapter(Context context, ArrayList<HistoryItemCS> itemList){
+    public HistoryListViewAdapter(Context context, ArrayList<HistoryItemCS> itemList) {
         this.context = context;
         this.itemList = itemList;
     }
@@ -43,11 +43,11 @@ public class HistoryListViewAdapter extends BaseAdapter{
         return position;
     }
 
-    public ArrayList<HistoryItemCS> getList(){
+    public ArrayList<HistoryItemCS> getList() {
         return itemList;
     }
 
-    public void setList(ArrayList<HistoryItemCS> itemList){
+    public void setList(ArrayList<HistoryItemCS> itemList) {
         this.itemList = itemList;
     }
 

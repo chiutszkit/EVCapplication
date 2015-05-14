@@ -5,7 +5,17 @@ import android.os.Parcelable;
 
 import java.util.ArrayList;
 
-public class ItemCS implements Parcelable{
+public class ItemCS implements Parcelable {
+    public static final Parcelable.Creator<ItemCS> CREATOR = new Parcelable.Creator<ItemCS>() {
+
+        public ItemCS createFromParcel(Parcel in) {
+            return new ItemCS(in);
+        }
+
+        public ItemCS[] newArray(int size) {
+            return new ItemCS[size];
+        }
+    };
     private int id;
     private String address;
     private String district;
@@ -13,10 +23,12 @@ public class ItemCS implements Parcelable{
     private String type;
     private String socket;
     private int quantity;
-
     private ArrayList<ItemCS> ItemCSes;
 
-    public ItemCS(){}
+    public ItemCS() {
+    }
+
+    /*Getter and Setter*/
 
     public ItemCS(String address, String district, String description, String type, String socket, int quantity) {
         super();
@@ -28,30 +40,67 @@ public class ItemCS implements Parcelable{
         this.quantity = quantity;
     }
 
-    /*Getter and Setter*/
+    public ItemCS(Parcel in) {
+
+        ItemCSes = new ArrayList<ItemCS>();
+
+        id = in.readInt();
+        address = in.readString();
+        district = in.readString();
+        description = in.readString();
+        type = in.readString();
+        socket = in.readString();
+        quantity = in.readInt();
+
+        ItemCSes = in.readArrayList(ItemCS.class.getClassLoader());
+    }
 
     public int getId() {
         return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getSocket() {
         return socket;
     }
 
+    public void setSocket(String socket) {
+        this.socket = socket;
+    }
+
     public String getDescription() {
         return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public int getQuantity() {
         return quantity;
     }
 
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
     public String getType() {
         return type;
     }
 
+    public void setType(String type) {
+        this.type = type;
+    }
+
     public String getAddress() {
         return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
     }
 
     public String getDistrict() {
@@ -60,31 +109,6 @@ public class ItemCS implements Parcelable{
 
     public void setDistrict(String district) {
         this.district = district;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public void setSocket(String socket) {
-        this.socket = socket;
-    }
-
-    public void setQuantity(int quantity) {
-        this.quantity = quantity;
     }
 
     public ArrayList<ItemCS> getItemCSes() {
@@ -98,35 +122,11 @@ public class ItemCS implements Parcelable{
     @Override
     public String toString() {
         return "Charging Station [address=" + address + ", " +
-                                    "description=" + description + "," +
-                                    "type=" + type + "," +
-                                    "socket=" + socket + "," +
-                                    "quantity=" + quantity + "]";
+                "description=" + description + "," +
+                "type=" + type + "," +
+                "socket=" + socket + "," +
+                "quantity=" + quantity + "]";
     }
-
-    public ItemCS(Parcel in){
-
-        id = in.readInt();
-        address = in.readString();
-        district = in.readString();
-        description = in.readString();
-        type = in.readString();
-        socket = in.readString();
-        quantity = in.readInt();
-
-        ItemCSes = (ArrayList<ItemCS>) in.readArrayList(ItemCS.class.getClassLoader());
-    }
-
-    public static final Parcelable.Creator<ItemCS> CREATOR = new Parcelable.Creator<ItemCS>() {
-
-        public ItemCS createFromParcel(Parcel in) {
-            return new ItemCS(in);
-        }
-
-        public ItemCS[] newArray(int size) {
-            return new ItemCS[size];
-        }
-    };
 
     public void readFromParcel(Parcel in) {
 

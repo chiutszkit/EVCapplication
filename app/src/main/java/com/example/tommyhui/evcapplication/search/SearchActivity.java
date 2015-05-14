@@ -4,11 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.view.ViewConfiguration;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -16,11 +14,10 @@ import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.R;
 
-import java.lang.reflect.Field;
-
 public class SearchActivity extends ActionBarActivity {
 
     LinearLayout background;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -31,14 +28,14 @@ public class SearchActivity extends ActionBarActivity {
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
         /*Set Action Bar's Title*/
-        TextView title = (TextView)findViewById(R.id.action_bar_title);
+        TextView title = (TextView) findViewById(R.id.action_bar_title);
         title.setText("Search");
 
         /*Set Action Bar's Icon*/
-        ImageView myImgView = (ImageView)findViewById(R.id.action_bar_icon);
+        ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.search_icon);
 
-        Button button= (Button) findViewById(R.id.search_button_search);
+        Button button = (Button) findViewById(R.id.search_button_search);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -49,11 +46,12 @@ public class SearchActivity extends ActionBarActivity {
         });
 //        Log.d("e", "arguments" + getIntent().getExtras().getParcelableArrayList("list").toString());
     }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.default_options_menu, menu);
+        inflater.inflate(R.menu.menu_options_menu, menu);
         return super.onCreateOptionsMenu(menu);
     }
     /*@Override

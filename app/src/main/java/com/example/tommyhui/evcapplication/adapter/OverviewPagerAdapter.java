@@ -1,6 +1,5 @@
 package com.example.tommyhui.evcapplication.adapter;
 
-import android.os.Bundle;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
@@ -14,7 +13,7 @@ import java.util.ArrayList;
 public class OverviewPagerAdapter extends FragmentPagerAdapter {
 
     ArrayList<ItemCS> itemCSes = new ArrayList<>();
-    private String tabTitles[] = new String[] { "List", "History"};
+    private String tabTitles[] = new String[]{"List", "History"};
 
     public OverviewPagerAdapter(FragmentManager fm, ArrayList<ItemCS> items) {
         super(fm);
@@ -24,13 +23,13 @@ public class OverviewPagerAdapter extends FragmentPagerAdapter {
     @Override
     public android.support.v4.app.Fragment getItem(int position) {
         // TODO Auto-generated method stub
-        switch(position){
+        switch (position) {
             case 0:
-                OverviewListFragmentActivity frag = new OverviewListFragmentActivity();
-                Bundle bundle = new Bundle();
-                bundle.putParcelableArrayList("list", itemCSes);
-                frag.setArguments(bundle);
-                return frag;
+//                OverviewListFragmentActivity frag = new OverviewListFragmentActivity();
+//                Bundle bundle = new Bundle();
+//                bundle.putParcelableArrayList("list", itemCSes);
+//                frag.setArguments(bundle);
+                return new OverviewListFragmentActivity();
             case 1:
                 return new OverviewHistoryFragmentActivity();
             default:
@@ -43,6 +42,7 @@ public class OverviewPagerAdapter extends FragmentPagerAdapter {
         // TODO Auto-generated method stub
         return tabTitles.length;
     }
+
     public CharSequence getPageTitle(int position) {
         // Generate title based on item position
         return tabTitles[position];

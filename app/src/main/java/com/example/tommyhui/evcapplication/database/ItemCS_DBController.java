@@ -7,6 +7,9 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.example.tommyhui.evcapplication.overview.OverviewActivity;
+import com.example.tommyhui.evcapplication.socket.SocketListActivity;
+
 import java.util.ArrayList;
 
 public class ItemCS_DBController {
@@ -21,7 +24,7 @@ public class ItemCS_DBController {
     private static final String KEY_SOCKET = "socket";
     private static final String KEY_QUANTITY = "quantity";
 
-    private static final String[] COLUMNS = {KEY_ID,KEY_ADDRESS,KEY_DISTRICT, KEY_DESCRIPTION,KEY_TYPE,KEY_SOCKET,KEY_QUANTITY};
+    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY};
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -43,7 +46,7 @@ public class ItemCS_DBController {
         db.close();
     }
 
-    public ItemCS addCS(ItemCS cs){
+    public ItemCS addCS(ItemCS cs) {
 
         // 1. create ContentValues to add key "column"/value
         ContentValues values = new ContentValues();
@@ -56,11 +59,10 @@ public class ItemCS_DBController {
 
         // 2. insert or update
 
-        String[] input_column = new String[] {KEY_ADDRESS,KEY_DISTRICT, KEY_DESCRIPTION,KEY_TYPE,KEY_SOCKET,KEY_QUANTITY};
-        String[] input_data = new String[]{cs.getAddress(),cs.getDistrict(), cs.getDescription(),cs.getType(),cs.getSocket(),Integer.toString(cs.getQuantity())};
+        String[] input_column = new String[]{KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY};
+        String[] input_data = new String[]{cs.getAddress(), cs.getDistrict(), cs.getDescription(), cs.getType(), cs.getSocket(), Integer.toString(cs.getQuantity())};
 
-        if(!checkRecordExist(TABLE_NAME, input_column, input_data))
-        {
+        if (!checkRecordExist(TABLE_NAME, input_column, input_data)) {
             // Perform the insert query
             db.insert(TABLE_NAME, null, values);
             Log.d("addCS", cs.toString());
@@ -69,7 +71,8 @@ public class ItemCS_DBController {
         // 3. return the item cs
         return cs;
     }
-    private boolean checkRecordExist(String tableName, String[] keys, String [] values) {
+
+    private boolean checkRecordExist(String tableName, String[] keys, String[] values) {
 
         StringBuilder sb = new StringBuilder();
         boolean exists;
@@ -80,7 +83,7 @@ public class ItemCS_DBController {
                     .append("=\"")
                     .append(values[i])
                     .append("\" ");
-            if (i<keys.length-1) sb.append("AND ");
+            if (i < keys.length - 1) sb.append("AND ");
         }
 
         // 2. execute the query to search whether the record exists
@@ -95,14 +98,14 @@ public class ItemCS_DBController {
         return exists;
     }
 
-    public ItemCS getCS(int id){
+    public ItemCS getCS(int id) {
 
         // 1. build query
         Cursor cursor =
                 db.query(TABLE_NAME, // a. table
                         COLUMNS, // b. column names
                         " id = ?", // c. selections
-                        new String[] { String.valueOf(id) }, // d. selections args
+                        new String[]{String.valueOf(id)}, // d. selections args
                         null, // e. group by
                         null, // f. having
                         null, // g. order by
@@ -123,9 +126,9 @@ public class ItemCS_DBController {
 
         cs.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID)));
 
-        Log.d("getCS("+id+")", cs.toString());
+        Log.d("getCS(" + id + ")", cs.toString());
 
-        if(cursor != null)
+        if (cursor != null)
             cursor.close();
         // 5. return book
         return cs;
@@ -186,12 +189,15 @@ public class ItemCS_DBController {
     public ArrayList<ItemCS> searchListCSes(Activity activity, String query) {
 
         ArrayList<ItemCS> cses = new ArrayList<>();
+        String sql = "";
 
-        String sql = "SELECT DISTINCT * FROM " + TABLE_NAME + " WHERE " + KEY_ADDRESS + " LIKE '%" + query + "%'"
-                + " OR " + KEY_DESCRIPTION + " LIKE '%" + query + "%'";
+        if (activity instanceof OverviewActivity)
+            sql = "SELECT DISTINCT * FROM " + TABLE_NAME + " WHERE " + KEY_ADDRESS + " LIKE '%" + query + "%'"
+                    + " OR " + KEY_DESCRIPTION + " LIKE '%" + query + "%'";
+        else if (activity instanceof SocketListActivity)
+            sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_TYPE + " LIKE '%" + query + "%' GROUP BY " + KEY_ADDRESS;
 
         Cursor cursor = db.rawQuery(sql, null);
-
         Log.d("search", "Match Result = " + cursor.getCount());
 
         ItemCS cs;
@@ -232,8 +238,8 @@ public class ItemCS_DBController {
         // 2. updating row
         int i = db.update(TABLE_NAME, //table
                 values, // column/value
-                KEY_ID+" = ?", // selections
-                new String[] { String.valueOf(cs.getId()) }); //selection args
+                KEY_ID + " = ?", // selections
+                new String[]{String.valueOf(cs.getId())}); //selection args
 
         // 3. return the update
         return i;
@@ -243,14 +249,13 @@ public class ItemCS_DBController {
 
         // 1. delete
         db.delete(TABLE_NAME, //table name
-                KEY_ID+" = ?",  // selections
-                new String[] { String.valueOf(cs.getId()) }); //selections args
+                KEY_ID + " = ?",  // selections
+                new String[]{String.valueOf(cs.getId())}); //selections args
 
         Log.d("deletecs", cs.toString());
     }
 
-    public void clear()
-    {
-        db.execSQL("DROP TABLE "+ TABLE_NAME);
+    public void clear() {
+        db.execSQL("DROP TABLE " + TABLE_NAME);
     }
 }
