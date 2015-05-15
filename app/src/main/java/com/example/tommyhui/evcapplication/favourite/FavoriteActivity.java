@@ -50,19 +50,12 @@ public class FavoriteActivity extends ActionBarActivity {
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.favorite_icon);
 
+        /*Set Up the Database of FavoriteItem*/
         db = new FavoriteItemCS_DBController(getApplicationContext());
         if (db.getFavoriteCSCount() == 0) {
             showEmptyListDialog();
         }
         favoriteList = db.getAllFavoriteCSes();
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_options_menu, menu);
-        return super.onCreateOptionsMenu(menu);
     }
 
     public void onResume() {
@@ -103,6 +96,14 @@ public class FavoriteActivity extends ActionBarActivity {
             favoriteListViewAdapter.setList(favoriteList);
             favoriteListViewAdapter.notifyDataSetChanged();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_options_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
 
     private void showEmptyListDialog() {

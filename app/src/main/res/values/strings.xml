@@ -46,10 +46,17 @@
     <string name="about_app_date">June 1, 2015</string>
 
     <!-- Search Page-->
-    <string name="map_searching_message">系統正搜索你的位置</string>
-    <string name="map_help_message">請鍵入國家名稱(e.g.美國)在搜索列</string>
-    <string name="overview_getting_info">正在擷取資訊</string>
-    <string name="search_the_web">Google Search</string>
+    <string name="search_text_title_address">Place:</string>
+    <string name="search_text_title_district">District:</string>
+    <string name="search_text_title_type">Type:</string>
+    <string name="search_text_title_socket">Socket:</string>
+    <string name="search_text_title_quantity">Quantity:</string>
+    <string name="search_text_title_sort">Sort results by</string>
+    <string name="search_text_title_nearest">Nearest locations</string>
+    <string name="search_text_title_availability">Available right now</string>
+    <string name="search_button_search">Search</string>
+    <string name="search_button_clear">Clear</string>
+
 
     <!-- Overview Page-->
     <string name="list_overview">List</string>
@@ -94,12 +101,10 @@
     <string name="socket_type_quick_title">Quick</string>
     <string name="socket_type_quick_subtitle">CHAdeMO, Others</string>
 
-    <string name="go_to_favorites">Go to favorites</string>
-
-    <string name="favorite_added">已新增為「我的最愛」</string>
-    <string name="favorite_added_message">請按下面的選項以繼續</string>
-    <string name="favorite_possible_duplicated">已在「我的最愛」列表中</string>
-    <string name="favorite_possible_duplicated_message">由於先前已將此地方納入為「我的最愛」，因此剛才的動作會被取消</string>
+    <!--<string name="favorite_added">已新增為「我的最愛」</string>-->
+    <!--<string name="favorite_added_message">請按下面的選項以繼續</string>-->
+    <!--<string name="favorite_possible_duplicated">已在「我的最愛」列表中</string>-->
+    <!--<string name="favorite_possible_duplicated_message">由於先前已將此地方納入為「我的最愛」，因此剛才的動作會被取消</string>-->
 
 
 </resources>

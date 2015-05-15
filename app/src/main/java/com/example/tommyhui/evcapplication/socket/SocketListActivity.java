@@ -63,26 +63,8 @@ public class SocketListActivity extends ActionBarActivity {
         myImgView.setImageResource(resId);
 
         db = new ItemCS_DBController(getApplicationContext());
-        socketList = db.inputQueryCSes(this, type);
-//
-//        mCurrentStickyHeaderSection = -1;
-//
-//        mStickyHeader = (TextView) findViewById(R.id.textview_sticky_header_section);
-//        mStickyHeader2 = (TextView) findViewById(R.id.textview_sticky_header_section_2);
-//
-//        listView = (ListView) findViewById(R.id.socket_listpage_list_view);
-//        listView.setOnScrollListener(new AbsListView.OnScrollListener() {
-//            @Override
-//            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
-//                updateStickyHeader(firstVisibleItem);
-//            }
-//
-//            @Override
-//            public void onScrollStateChanged(AbsListView arg0, int arg1) {
-//                // TODO Auto-generated method stub
-//            }
-//        });
-//
+        socketList = db.inputQueryCSes(this, new String[] {type}, 1);
+
         listView = (StickyListHeadersListView) this.findViewById(R.id.socket_listpage_list_view);
 
         if (socketListPageListViewAdapter == null) {
@@ -113,37 +95,8 @@ public class SocketListActivity extends ActionBarActivity {
             });
         }
     }
-//    private void updateStickyHeader(int firstVisibleItem) {
-//        // here is the tricky part. You have to determine pos and section
-//        // pos is the position within a section pos = -1 means it's the header of the section
-//        // you have to determine if firstVisibleItem is a header or not
-//        // you also have to determine the section to which belongs the first item
-//        int pos =  1;
-//        int section =  1;
-//
-//        if (section != mCurrentStickyHeaderSection) {
-//            mStickyHeader.setText("Your_Previous_Section_Text");
-//            mStickyHeader2.setText("Your_Next_Section_Text");
-//            mCurrentStickyHeaderSection = section;
-//        }
-//
-//        int stickyHeaderHeight = mStickyHeader.getHeight();
-//        if (stickyHeaderHeight == 0) {
-//            stickyHeaderHeight = mStickyHeader.getMeasuredHeight();
-//        }
-//
-//        View SectionLastView = listView.getChildAt(0);
-//        if (SectionLastView != null && pos == -1 && SectionLastView.getBottom() <= stickyHeaderHeight) {
-//            int lastViewBottom = SectionLastView.getBottom();
-//            mStickyHeader.setTranslationY(lastViewBottom - stickyHeaderHeight);
-//            mStickyHeader2.setTranslationY(lastViewBottom - stickyHeaderHeight + mStickyHeader.getHeight());
-//        } else if (stickyHeaderHeight != 0) {
-//            mStickyHeader.setTranslationY(0);
-//            mStickyHeader2.setTranslationY(mStickyHeader.getHeight());
-//        }
-//    }
 
-    //    @Override
+//    @Override
 //    public boolean onCreateOptionsMenu(Menu menu) {
 //        // Inflate the menu; this adds items to the action bar if it is present.
 //        MenuInflater inflater = getMenuInflater();

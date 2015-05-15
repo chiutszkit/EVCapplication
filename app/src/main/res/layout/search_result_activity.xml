@@ -5,18 +5,10 @@
     android:orientation="vertical">
 
     <ListView
-        android:id="@+id/favouritepage_list_view"
+        android:id="@+id/searchresult_list_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="6"
-        android:background="@color/white"></ListView>
+        android:layout_height="match_parent"
+        android:background="@color/white">
+    </ListView>
 
-    <Button
-        android:id="@+id/search_result_button_searchagain"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_weight="0.5"
-        android:background="@drawable/custombutton_background_selector"
-        android:text="@string/search_result_searchAgain" />
 </LinearLayout>

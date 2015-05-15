@@ -7,7 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="6"
+        android:layout_weight="6.25"
         android:layout_gravity="center_horizontal"
         android:orientation="vertical">
 
@@ -31,7 +31,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:text="Place:"
+                    android:text="@string/search_text_title_address"
                     android:textSize="20dp"                 
                     android:textStyle="bold"/>
                 <Spinner
@@ -62,7 +62,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:text="District:"
+                android:text="@string/search_text_title_district"
                 android:textSize="20dp" 
                 android:textStyle="bold"/>
 
@@ -84,7 +84,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:text="Type:"
+                    android:text="@string/search_text_title_type"
                     android:textSize="20dp" 
                     android:textStyle="bold"/>
                 <Spinner
@@ -114,7 +114,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:text="Socket:"
+                    android:text="@string/search_text_title_socket"
                     android:textSize="20dp" 
                     android:textStyle="bold"/>
                 <Spinner
@@ -135,7 +135,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:text="Quantity:"
+                    android:text="@string/search_text_title_quantity"
                     android:textSize="20dp" 
                     android:textStyle="bold"/>
                 <Spinner
@@ -164,7 +164,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
-                android:text="Sort results by"
+                android:text="@string/search_text_title_sort"
                 android:textSize="20dp" 
                 android:textStyle="bold"/>
         </LinearLayout>
@@ -180,7 +180,7 @@
                 android:layout_weight="8"
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
-                android:text="Nearest locations"
+                android:text="@string/search_text_title_nearest"
                 android:textSize="20dp" 
 />
             <CheckBox
@@ -202,7 +202,7 @@
                 android:layout_weight="8"
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
-                android:text="Available right now"
+                android:text="@string/search_text_title_availability"
                 android:textSize="20dp" />
             <CheckBox
                 android:id="@+id/search_checkbox_availability"
@@ -216,7 +216,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.75"
         android:layout_gravity="center_horizontal"
         android:orientation="horizontal">
 
@@ -225,18 +225,16 @@
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:padding="0dp"
             android:layout_weight="1"
-            android:text="Search" />
+            android:text="@string/search_button_search" />
 
         <Button
             android:id="@+id/search_button_clear"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_gravity="center"
-            android:padding="20dp"
             android:layout_weight="1"
-            android:text="Clear" />
+            android:text="@string/search_button_clear" />
     </LinearLayout>
 
 </LinearLayout>

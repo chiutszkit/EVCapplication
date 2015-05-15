@@ -10,6 +10,7 @@ import android.util.Log;
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
 import com.example.tommyhui.evcapplication.overview.OverviewActivity;
 import com.example.tommyhui.evcapplication.search.SearchActivity;
+import com.example.tommyhui.evcapplication.search.SearchResultActivity;
 import com.example.tommyhui.evcapplication.socket.SocketListActivity;
 
 import java.util.ArrayList;
@@ -188,27 +189,37 @@ public class ItemCS_DBController {
         return count;
     }
 
-    public ArrayList<ItemCS> inputQueryCSes(Activity activity, String query) {
+    public ArrayList<ItemCS> inputQueryCSes(Activity activity, String[] query, int numberQuery) {
 
         ArrayList<ItemCS> cses = new ArrayList<>();
         String sql = "";
 
-        if (activity instanceof MenuActivity)
+        if (activity instanceof MenuActivity && (numberQuery == 1))
             sql = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + KEY_DISTRICT + ", " + KEY_DESCRIPTION;
 
-        else if (activity instanceof OverviewActivity)
-            sql = "SELECT DISTINCT * FROM " + TABLE_NAME + " WHERE " + KEY_ADDRESS + " LIKE '%" + query + "%'"
-                    + " OR " + KEY_DESCRIPTION + " LIKE '%" + query + "%' ORDER BY " + KEY_DISTRICT;
+        else if (activity instanceof OverviewActivity && (numberQuery == 1))
+            sql = "SELECT DISTINCT * FROM " + TABLE_NAME + " WHERE " + KEY_ADDRESS + " LIKE '%" + query[0] + "%'"
+                    + " OR " + KEY_DESCRIPTION + " LIKE '%" + query[0] + "%' ORDER BY " + KEY_DISTRICT;
 
-        else if (activity instanceof SocketListActivity)
-            sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_TYPE + " LIKE '%" + query
+        else if (activity instanceof SocketListActivity && (numberQuery == 1))
+            sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_TYPE + " LIKE '%" + query[0]
                     + "%' GROUP BY " + KEY_ADDRESS + " ORDER BY " + KEY_DISTRICT;
 
-        else if (activity instanceof SearchActivity)
-            sql = "SELECT * FROM " + TABLE_NAME + " GROUP BY " + query + " ORDER BY " + query;
+        else if (activity instanceof SearchActivity) {
+            if (numberQuery == 1)
+                sql = "SELECT * FROM " + TABLE_NAME + " GROUP BY " + query[0] + " ORDER BY " + query[0];
+            else if (numberQuery == 2)
+                sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_DESCRIPTION + " = '" + query[0] + "'";
+        }
+
+        else if (activity instanceof SearchResultActivity) {
+            String[] input_column = new String[]{KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY};
+            sql = searchResultSqlGenerator(input_column, query) + "ORDER BY " + KEY_DESCRIPTION;
+        }
+
 
         Cursor cursor = db.rawQuery(sql, null);
-        Log.d("search", "Match Result = " + cursor.getCount());
+        Log.d("search", sql + " [Match Result = " + cursor.getCount() + "]");
 
         ItemCS cs;
 
@@ -234,6 +245,42 @@ public class ItemCS_DBController {
         return cses;
     }
 
+    public String searchResultSqlGenerator(String[] column, String[] query) {
+
+        StringBuilder sb = new StringBuilder();
+
+        int count = 0;
+        int countValue = 0;
+
+        for (int i = 0; i < query.length; i++) {
+            if (!query[i].equals("ALL"))
+                count += 1;
+        }
+        for (int i = 0; i < column.length; i++) {
+            if(!query[i].equals("ALL")) {
+                if(column[i] != KEY_QUANTITY) {
+                    sb.append(column[i])
+                            .append(" =\"")
+                            .append(query[i])
+                            .append("\" ");
+                    if (countValue < count - 1) sb.append("AND ");
+                }
+                else {
+                    sb.append(column[i])
+                            .append("='")
+                            .append(query[i])
+                            .append("' ");
+                    if (countValue < count - 1) sb.append("AND ");
+                }
+                countValue += 1;
+            }
+        }
+        String sql = "SELECT * FROM " + TABLE_NAME + " ";
+        if(sb.length() > 0)
+            sql += "WHERE " + sb.toString();
+
+        return sql;
+    }
     public int updateCS(ItemCS cs) {
 
         // 1. create ContentValues to add key "column"/value

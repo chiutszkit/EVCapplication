@@ -73,7 +73,7 @@ public class MenuActivity extends ActionBarActivity {
             db.addCS(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
             ItemCSes.add(i, new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
         }
-        ItemCSes = db.inputQueryCSes(this,"");
+        ItemCSes = db.inputQueryCSes(this, new String[] {""}, 1);
 
         final View.OnClickListener mGlobal_OnClickListener = new View.OnClickListener() {
             public void onClick(final View v) {

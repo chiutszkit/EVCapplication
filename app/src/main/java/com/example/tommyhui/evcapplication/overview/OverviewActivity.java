@@ -32,11 +32,14 @@ public class OverviewActivity extends ActionBarActivity {
     public static MenuItem searchItem;
     public static SearchView searchView;
     public static String searchViewQuery = "";
+
     public static ArrayList<ItemCS> ItemCSes = new ArrayList<>();
     public static ArrayList<ItemCS> QueryItemCSes = new ArrayList<>();
+
     private OverviewPagerAdapter overviewPagerAdapter;
     private ViewPager mViewPager;
     private ItemCS_DBController db;
+    private boolean searchBefore = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +80,10 @@ public class OverviewActivity extends ActionBarActivity {
                 if (position == 1) {
                     LinearLayout layout = (LinearLayout) findViewById(R.id.overview_layout_status);
                     layout.setVisibility(View.GONE);
+                }
+                else if (position == 0 && searchBefore) {
+                    LinearLayout layout = (LinearLayout) findViewById(R.id.overview_layout_status);
+                    layout.setVisibility(View.VISIBLE);
                 }
             }
         });
@@ -120,7 +127,7 @@ public class OverviewActivity extends ActionBarActivity {
 
                 /*To Update the List of CS with the Query*/
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
-                QueryItemCSes = db.inputQueryCSes(OverviewActivity.this, query);
+                QueryItemCSes = db.inputQueryCSes(OverviewActivity.this, new String[] {query}, 1);
                 mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, QueryItemCSes));
                 mListView.setTextFilterEnabled(true);
 
@@ -142,7 +149,7 @@ public class OverviewActivity extends ActionBarActivity {
 
                 /*To Update the List of CS with the Query*/
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
-                QueryItemCSes = db.inputQueryCSes(OverviewActivity.this, query);
+                QueryItemCSes = db.inputQueryCSes(OverviewActivity.this, new String[] {query}, 1);
                 mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, QueryItemCSes));
                 mListView.setTextFilterEnabled(true);
 
@@ -152,6 +159,7 @@ public class OverviewActivity extends ActionBarActivity {
                 status.setText(result);
                 LinearLayout layout = (LinearLayout) findViewById(R.id.overview_layout_status);
                 layout.setVisibility(View.VISIBLE);
+                searchBefore = true;
 
                 return false;
             }
@@ -171,6 +179,7 @@ public class OverviewActivity extends ActionBarActivity {
                 mListView.setTextFilterEnabled(true);
                 LinearLayout layout = (LinearLayout) findViewById(R.id.overview_layout_status);
                 layout.setVisibility(View.GONE);
+                searchBefore = false;
 
                 return false;
             }

@@ -4,29 +4,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <!--<FrameLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content" >-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/textview_sticky_header_section"-->
-            <!--style="?android:attr/listSeparatorTextViewStyle"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:paddingLeft="6dp"-->
-            <!--android:paddingRight="6dp"-->
-            <!--android:textIsSelectable="false" />-->
-
-        <!--<TextView-->
-            <!--android:id="@+id/textview_sticky_header_section_2"-->
-            <!--style="?android:attr/listSeparatorTextViewStyle"-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:paddingLeft="6dp"-->
-            <!--android:paddingRight="6dp"-->
-            <!--android:textIsSelectable="false" />-->
-    <!--</FrameLayout>-->
-
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
         android:id="@+id/socket_listpage_list_view"
         android:layout_width="match_parent"

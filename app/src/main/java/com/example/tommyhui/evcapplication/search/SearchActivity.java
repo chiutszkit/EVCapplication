@@ -4,11 +4,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
+
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,7 +23,10 @@ import java.util.ArrayList;
 public class SearchActivity extends ActionBarActivity {
 
     private Spinner spinnerDescription, spinnerDistrict, spinnerType, spinnerSocket, spinnerQuantity;
-    private Button btnSubmit;
+    private CheckBox checkBoxNearest, checkBoxAvailability;
+    private Button btnSearch, btnClear;
+
+    ItemCS_DBController db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,28 +45,74 @@ public class SearchActivity extends ActionBarActivity {
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.search_icon);
 
-        /*Set Up the Spinner*/
-        addItemsOnSpinners();
+        /*Set Up the Database of Item of Charging Station*/
+        db = new ItemCS_DBController(this);
 
-        Button button = (Button) findViewById(R.id.search_button_search);
-        button.setOnClickListener(new View.OnClickListener() {
+        /*Set Up the Spinner*/
+        addListenerOnSpinners();
+
+        /*Set Up the Search and Clear Button*/
+        addListenerOnButton();
+
+    }
+//    public void onResume() {
+//
+//        super.onResume();
+//
+//
+//    }
+
+    public void addListenerOnSpinners() {
+
+        addItemsOnSpinners();
+        spinnerDescription = (Spinner) findViewById(R.id.search_spinner_description);
+        spinnerDistrict = (Spinner) findViewById(R.id.search_spinner_district);
+
+        spinnerDescription.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener () {
+
             @Override
-            public void onClick(View v) {
-                Intent resultIntent = new Intent();
-                resultIntent.setClass(SearchActivity.this, SearchResultActivity.class);
-                startActivity(resultIntent);
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String description = spinnerDescription.getItemAtPosition(position).toString();
+
+                if(description != "ALL") {
+                    ArrayList<ItemCS> queryItemCSes = db.inputQueryCSes(SearchActivity.this, new String[] {description}, 2);
+
+                    String district = queryItemCSes.get(0).getDistrict();
+                    spinnerDistrict.setSelection(getIndexByValue(spinnerDistrict, district));
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        spinnerDistrict.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener () {
+
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String description = spinnerDistrict.getItemAtPosition(position).toString();
+
+                if(description == "ALL")
+                    spinnerDescription.setSelection(getIndexByValue(spinnerDescription, "ALL"));
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
+    private int getIndexByValue(Spinner spinner, String myString){
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_options_menu, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
+        int index = 0;
 
+        for (int i=0;i<spinner.getCount();i++){
+            if (spinner.getItemAtPosition(i).equals(myString)){
+                index = i;
+            }
+        }
+        return index;
+    }
     public void addItemsOnSpinners() {
 
         spinnerDescription = (Spinner) findViewById(R.id.search_spinner_description);
@@ -77,8 +127,6 @@ public class SearchActivity extends ActionBarActivity {
         ArrayList<String> socketList = new ArrayList<String>();
         ArrayList<String> quantityList = new ArrayList<String>();
 
-        ItemCS_DBController db = new ItemCS_DBController(this);
-
         queryArrayListFromDb(db, "description", descriptionList);
         queryArrayListFromDb(db,"district", districtList);
         queryArrayListFromDb(db, "type", typeList);
@@ -90,54 +138,94 @@ public class SearchActivity extends ActionBarActivity {
         arrayListToSpinners(typeList,spinnerType);
         arrayListToSpinners(socketList,spinnerSocket);
         arrayListToSpinners(quantityList,spinnerQuantity);
-
-
     }
 
     public void arrayListToSpinners(ArrayList<String> list, Spinner spinner) {
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
     }
 
     public void queryArrayListFromDb(ItemCS_DBController db, String column, ArrayList<String> list) {
 
-        ArrayList<ItemCS> ItemCSes;
+        ArrayList<ItemCS> queryItemCSes;
         list.clear();
-        ItemCSes = db.inputQueryCSes(this, column);
-        for (int i = 0; i < ItemCSes.size(); i++) {
+        queryItemCSes = db.inputQueryCSes(this, new String[] {column}, 1);
+        for (int i = 0; i < queryItemCSes.size(); i++) {
             switch(column) {
                 case "description":
-                    list.add(i, ItemCSes.get(i).getDescription());
+                    list.add(i, queryItemCSes.get(i).getDescription());
                     break;
                 case "district":
-                    list.add(i, ItemCSes.get(i).getDistrict());
+                    list.add(i, queryItemCSes.get(i).getDistrict());
                     break;
                 case "type":
-                    list.add(i, ItemCSes.get(i).getType());
+                    list.add(i, queryItemCSes.get(i).getType());
                     break;
                 case "socket":
-                    list.add(i, ItemCSes.get(i).getSocket());
+                    list.add(i, queryItemCSes.get(i).getSocket());
                     break;
                 case "quantity":
-                    list.add(i, ItemCSes.get(i).getQuantity() + "");
+                    list.add(i, queryItemCSes.get(i).getQuantity() + "");
                     break;
             }
         }
         list.add(0,"ALL");
     }
-    /*@Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
+    public void addListenerOnButton() {
 
-        //noinspection SimplifiableIfStatement
-        if (id == android.R.id.home) {
-            finish();
-            return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }*/
+        spinnerDescription = (Spinner) findViewById(R.id.search_spinner_description);
+        spinnerDistrict = (Spinner) findViewById(R.id.search_spinner_district);
+        spinnerType = (Spinner) findViewById(R.id.search_spinner_type);
+        spinnerSocket = (Spinner) findViewById(R.id.search_spinner_socket);
+        spinnerQuantity = (Spinner) findViewById(R.id.search_spinner_quantity);
+
+        checkBoxNearest = (CheckBox) findViewById(R.id.search_checkbox_nearest);
+        checkBoxAvailability = (CheckBox) findViewById(R.id.search_checkbox_availability);
+
+        btnSearch = (Button) findViewById(R.id.search_button_search);
+        btnClear = (Button) findViewById(R.id.search_button_clear);
+
+        final int defaultPosition = 0;
+
+        btnSearch.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+                Intent resultIntent = new Intent();
+                resultIntent.setClass(SearchActivity.this, SearchResultActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("description", spinnerDescription.getSelectedItem().toString());
+                bundle.putString("district", spinnerDistrict.getSelectedItem().toString());
+                bundle.putString("type", spinnerType.getSelectedItem().toString());
+                bundle.putString("socket", spinnerSocket.getSelectedItem().toString());
+                bundle.putString("quantity", spinnerQuantity.getSelectedItem().toString());
+
+                resultIntent.putExtras(bundle);
+                startActivity(resultIntent);
+            }
+        });
+
+        btnClear.setOnClickListener(new View.OnClickListener() {
+
+            @Override
+            public void onClick(View v) {
+
+                spinnerDescription.setSelection(defaultPosition);
+                spinnerDistrict.setSelection(defaultPosition);
+                spinnerType.setSelection(defaultPosition);
+                spinnerSocket.setSelection(defaultPosition);
+                spinnerQuantity.setSelection(defaultPosition);
+
+                if(checkBoxNearest.isChecked()){
+                    checkBoxNearest.toggle();
+                }
+
+                if(checkBoxAvailability.isChecked()){
+                    checkBoxAvailability.toggle();
+                }
+            }
+        });
+    }
 }
