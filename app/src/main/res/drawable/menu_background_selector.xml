@@ -2,14 +2,15 @@
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
     <!-- Pressed -->
     <item android:state_pressed="true">
-        <shape android:shape="rectangle">
-            <corners android:radius="2sp" />
+        <shape android:shape="oval">
+            <corners android:radius="20sp" />
             <solid android:color="@color/dark_green" />
         </shape>
     </item>
     <!-- Default -->
     <item>
-        <shape android:shape="rectangle">
+        <shape android:shape="oval">
+            <corners android:radius="20sp" />
             <solid android:color="@color/white" />
         </shape>
     </item>

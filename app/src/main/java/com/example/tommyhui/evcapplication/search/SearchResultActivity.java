@@ -1,6 +1,8 @@
 package com.example.tommyhui.evcapplication.search;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
@@ -62,7 +64,8 @@ public class SearchResultActivity extends ActionBarActivity {
 
         db = new ItemCS_DBController(getApplicationContext());
         searchResultList = db.inputQueryCSes(this, new String[] {district, description, type, socket, quantity}, 1);
-
+        if(searchResultList.size() == 0)
+            showEmptyListDialog();
         listView = (ListView) this.findViewById(R.id.searchresult_list_view);
 
         searchResultListViewAdapter = new SearchResultListViewAdapter(SearchResultActivity.this, searchResultList);
@@ -114,5 +117,21 @@ public class SearchResultActivity extends ActionBarActivity {
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+    private void showEmptyListDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle(R.string.searchresult_alertDialog_no_result_title);
+        alertDialog.setMessage(R.string.searchresult_alertDialog_no_result_text);
+        alertDialog.setNeutralButton(R.string.searchresult_alertDialog_revise_option, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+                SearchResultActivity.this.finish();
+            }
+        });
+
+        alertDialog.setCancelable(false);
+        alertDialog.show();
     }
 }

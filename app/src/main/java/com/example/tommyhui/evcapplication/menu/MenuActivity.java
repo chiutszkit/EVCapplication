@@ -103,7 +103,7 @@ public class MenuActivity extends ActionBarActivity {
                         socketIntent.setClass(MenuActivity.this, SocketActivity.class);
                         startActivity(socketIntent);
                         break;
-                    case R.id.menu_grid_icon_realTime:
+                    case R.id.menu_grid_realTime:
                         Intent realTimeIntent = new Intent();
                         realTimeIntent.setClass(MenuActivity.this, RealTimeActivity.class);
                         startActivity(realTimeIntent);
@@ -118,7 +118,7 @@ public class MenuActivity extends ActionBarActivity {
         findViewById(R.id.menu_grid_favourite).setOnClickListener(mGlobal_OnClickListener);
         findViewById(R.id.menu_grid_nearby).setOnClickListener(mGlobal_OnClickListener);
         findViewById(R.id.menu_grid_socket).setOnClickListener(mGlobal_OnClickListener);
-        findViewById(R.id.menu_grid_icon_realTime).setOnClickListener(mGlobal_OnClickListener);
+        findViewById(R.id.menu_grid_realTime).setOnClickListener(mGlobal_OnClickListener);
     }
 
     public void shareApp() {
@@ -173,19 +173,16 @@ public class MenuActivity extends ActionBarActivity {
         // handle item selection
         switch (item.getItemId()) {
             case R.id.menu_options_share:
-
                 shareApp();
                 return true;
 
             case R.id.menu_options_settings:
-
                 Intent settingIntent = new Intent();
                 settingIntent.setClass(MenuActivity.this, SettingActivity.class);
                 startActivity(settingIntent);
                 return true;
 
             case R.id.menu_options_about:
-
                 Intent aboutIntent = new Intent();
                 aboutIntent.setClass(MenuActivity.this, AboutActivity.class);
                 startActivity(aboutIntent);

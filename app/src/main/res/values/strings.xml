@@ -57,6 +57,10 @@
     <string name="search_button_search">Search</string>
     <string name="search_button_clear">Clear</string>
 
+    <!-- Search Result Page-->
+    <string name="searchresult_alertDialog_no_result_title">No Matched Charging Stations Found</string>
+    <string name="searchresult_alertDialog_no_result_text">You may modify the search criteria and search again.</string>
+    <string name="searchresult_alertDialog_revise_option">Revise search</string>
 
     <!-- Overview Page-->
     <string name="list_overview">List</string>

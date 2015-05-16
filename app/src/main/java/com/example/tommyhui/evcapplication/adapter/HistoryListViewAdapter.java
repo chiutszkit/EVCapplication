@@ -58,14 +58,12 @@ public class HistoryListViewAdapter extends BaseAdapter {
         View rowView = inflater.inflate(R.layout.overview_history_fragment_list_item_layout, parent, false);
 
         TextView address = (TextView) rowView.findViewById(R.id.overview_history_fragment_list_view_item_address);
-        TextView district = (TextView) rowView.findViewById(R.id.overview_history_fragment_list_view_item_district);
         TextView chargingStation = (TextView) rowView.findViewById(R.id.overview_history_fragment_list_view_item_chargingStation);
         TextView type = (TextView) rowView.findViewById(R.id.overview_history_fragment_list_view_item_type);
         TextView socket = (TextView) rowView.findViewById(R.id.overview_history_fragment_list_view_item_socket);
         ImageView imageView = (ImageView) rowView.findViewById(R.id.overview_history_fragment_list_view_icon_delete);
 
         address.setText(itemList.get(position).getAddress());
-        district.setText(itemList.get(position).getDistrict());
         chargingStation.setText(itemList.get(position).getDescription());
         type.setText(itemList.get(position).getType());
         socket.setText(itemList.get(position).getSocket());

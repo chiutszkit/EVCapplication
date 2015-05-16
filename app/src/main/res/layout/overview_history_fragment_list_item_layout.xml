@@ -7,7 +7,8 @@
     android:minHeight="150sp"
     android:orientation="vertical">
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
@@ -20,7 +21,8 @@
             android:layout_marginLeft="15dp"
             android:src="@drawable/cross_icon" />
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -32,6 +34,7 @@
                 android:layout_width="350dp"
                 android:layout_height="wrap_content"
                 android:text="[charging station]"
+                android:textColor="@color/dark_purple"
                 android:textSize="22sp" />
 
             <TextView
@@ -39,24 +42,20 @@
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="[address]"
-                android:textSize="15sp" />
-
-            <TextView
-                android:id="@+id/overview_history_fragment_list_view_item_district"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="[district]"
+                android:textColor="@color/dark_purple"
                 android:textSize="15sp" />
         </LinearLayout>
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        <LinearLayout
+            xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_weight="1.75"
             android:orientation="vertical">
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
@@ -75,10 +74,12 @@
                     android:layout_marginLeft="15dp"
                     android:gravity="center"
                     android:text="[type]"
+                    android:textColor="@color/dark_purple"
                     android:textSize="15sp" />
             </LinearLayout>
 
-            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            <LinearLayout
+                xmlns:android="http://schemas.android.com/apk/res/android"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -98,6 +99,7 @@
                     android:layout_marginLeft="15dp"
                     android:gravity="center"
                     android:text="[socket]"
+                    android:textColor="@color/dark_purple"
                     android:textSize="15sp" />
             </LinearLayout>
         </LinearLayout>

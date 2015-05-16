@@ -98,14 +98,6 @@ public class FavoriteActivity extends ActionBarActivity {
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_options_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
     private void showEmptyListDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle(R.string.favorites_alertDialog_no_favorites_title);
