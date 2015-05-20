@@ -25,8 +25,8 @@
     <string name="menu_description_realTime">Get the real time status of charging station</string>
 
     <!-- Nearby Page-->
-    <string name="nearby_userLocation">You are now in</string>
-    <string name="nearby_nearestLocation">The nearest charging station is in</string>
+    <string name="nearby_userLocation">My Current Location</string>
+    <string name="nearby_alert_gpsOff">Your GPS is OFF. Please turn on the GPS and retry.</string>
 
     <!-- Search Result Page-->
     <string name="search_result_title">Search Result</string>

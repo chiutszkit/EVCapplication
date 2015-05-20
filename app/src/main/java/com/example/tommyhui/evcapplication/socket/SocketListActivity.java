@@ -86,8 +86,9 @@ public class SocketListActivity extends ActionBarActivity {
                     Bundle bundle = new Bundle();
 
                     bundle.putString("type", type);
-                    bundle.putString("address", cs.getAddress());
-                    bundle.putString("description", cs.getDescription());
+                    bundle.putString("latitude", cs.getLatitude());
+                    bundle.putString("longitude", cs.getLongitude());
+                    intent.putParcelableArrayListExtra("socketList", socketList);
 
                     intent.putExtras(bundle);
                     startActivity(intent);

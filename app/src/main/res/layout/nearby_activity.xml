@@ -4,20 +4,12 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/nearby_text_location"
+    <!--Map Fragment-->
+    <fragment
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/nearby_map"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_margin="10dp"
-        android:layout_weight="1"
-        android:text="@string/nearby_userLocation"
-        android:textSize="30sp" />
-
-    <!--<fragment-->
-    <!--android:id="@+id/nearby_map"-->
-    <!--android:layout_width="match_parent"-->
-    <!--android:layout_height="0dp"-->
-    <!--android:layout_weight="9"-->
-    <!--class="com.google.android.gms.maps.SupportMapFragment" />-->
+        android:layout_height="match_parent"
+        android:name="com.google.android.gms.maps.SupportMapFragment"/>
 
 </LinearLayout>

@@ -117,8 +117,6 @@ public class ItemCSActivity extends FragmentActivity {
         criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
 
-        String provider = locationManager.getBestProvider(criteria, true);
-
         myLocation = getLastKnownLocation();
 
         double latInDouble = myLocation.getLatitude();
@@ -128,7 +126,8 @@ public class ItemCSActivity extends FragmentActivity {
 
         googleMap.addMarker(new MarkerOptions()
                 .position(latLng)
-                .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_BLUE)));
+                .title(getResources().getString(R.string.nearby_userLocation))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.usercar_icon)));
     }
 
 
@@ -147,7 +146,7 @@ public class ItemCSActivity extends FragmentActivity {
         }
     }
 
-    private Location getLastKnownLocation() {
+    public Location getLastKnownLocation() {
         locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
         List<String> providers = locationManager.getProviders(true);
         Location bestLocation = null;

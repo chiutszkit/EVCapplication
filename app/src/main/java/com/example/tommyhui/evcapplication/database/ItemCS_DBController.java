@@ -8,6 +8,7 @@ import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
+import com.example.tommyhui.evcapplication.nearby.NearbyActivity;
 import com.example.tommyhui.evcapplication.overview.OverviewActivity;
 import com.example.tommyhui.evcapplication.search.SearchActivity;
 import com.example.tommyhui.evcapplication.search.SearchResultActivity;
@@ -226,6 +227,8 @@ public class ItemCS_DBController {
             sql = searchResultSqlGenerator(input_column, query) + "ORDER BY " + KEY_DESCRIPTION;
         }
 
+        else if (activity instanceof NearbyActivity && (numberQuery == 1))
+            sql = "SELECT * FROM " + TABLE_NAME + " GROUP BY " + KEY_ADDRESS;
 
         Cursor cursor = db.rawQuery(sql, null);
         Log.d("search", "[Match Result = " + cursor.getCount() + "] " + sql);
