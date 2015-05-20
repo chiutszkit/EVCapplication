@@ -14,6 +14,9 @@ public class ItemCS implements Parcelable {
     private String type;
     private String socket;
     private int quantity;
+    private String latitude;
+    private String longitude;
+
     private ArrayList<ItemCS> ItemCSes;
 
     public ItemCS() {
@@ -21,7 +24,7 @@ public class ItemCS implements Parcelable {
 
     /*Getter and Setter*/
 
-    public ItemCS(String address, String district, String description, String type, String socket, int quantity) {
+    public ItemCS(String address, String district, String description, String type, String socket, int quantity, String latitude, String longitude) {
         super();
         this.address = address;
         this.district = district;
@@ -29,6 +32,8 @@ public class ItemCS implements Parcelable {
         this.type = type;
         this.socket = socket;
         this.quantity = quantity;
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
     public ItemCS(Parcel in) {
@@ -102,6 +107,22 @@ public class ItemCS implements Parcelable {
         this.district = district;
     }
 
+    public String getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(String longitude) {
+        this.longitude = longitude;
+    }
+
+    public String getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(String latitude) {
+        this.latitude = latitude;
+    }
+
     public ArrayList<ItemCS> getItemCSes() {
         return ItemCSes;
     }
@@ -112,11 +133,13 @@ public class ItemCS implements Parcelable {
 
     @Override
     public String toString() {
-        return "Charging Station [address=" + address + ", " +
-                "description=" + description + "," +
-                "type=" + type + "," +
-                "socket=" + socket + "," +
-                "quantity=" + quantity + "]";
+        return "Charging Station [id = '" + getId() + "'; " +
+                "description = '" + description + "'; " +
+                "type = '" + type + "'; " +
+                "socket = '" + socket + "'; " +
+                "quantity = '" + quantity + "'; " +
+                "latitude = '" + latitude + "'; " +
+                "longitude = '" + longitude + "']";
     }
 
     public void readFromParcel(Parcel in) {
@@ -128,6 +151,8 @@ public class ItemCS implements Parcelable {
         type = in.readString();
         socket = in.readString();
         quantity = in.readInt();
+        longitude = in.readString();
+        latitude = in.readString();
     }
 
     public static final Parcelable.Creator<ItemCS> CREATOR = new Parcelable.Creator<ItemCS>() {
@@ -142,6 +167,8 @@ public class ItemCS implements Parcelable {
             cs.setType(in.readString());
             cs.setSocket(in.readString());
             cs.setQuantity(in.readInt());
+            cs.setLatitude(in.readString());;
+            cs.setLongitude(in.readString());;
             return cs;
         }
 
@@ -165,5 +192,7 @@ public class ItemCS implements Parcelable {
         dest.writeString(type);
         dest.writeString(socket);
         dest.writeInt(quantity);
+        dest.writeString(latitude);
+        dest.writeString(longitude);
     }
 }

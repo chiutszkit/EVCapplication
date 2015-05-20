@@ -39,6 +39,8 @@ public class MenuActivity extends ActionBarActivity {
     private String[] type;
     private String[] socket;
     private int[] quantity;
+    private String[] latitude;
+    private String[] longitude;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +69,13 @@ public class MenuActivity extends ActionBarActivity {
         type = getResources().getStringArray(R.array.type);
         socket = getResources().getStringArray(R.array.socket);
         quantity = getResources().getIntArray(R.array.quantity);
+        latitude = getResources().getStringArray(R.array.latitude);
+        longitude = getResources().getStringArray(R.array.longitude);
 
         for (int i = 0; i < address.length; i++) {
 
-            db.addCS(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
-            ItemCSes.add(i, new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i]));
+            db.addCS(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i]));
+            ItemCSes.add(i, new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i]));
         }
         ItemCSes = db.inputQueryCSes(this, new String[] {""}, 1);
 

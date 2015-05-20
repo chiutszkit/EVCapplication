@@ -19,8 +19,10 @@ public class HistoryItemCS_DBController {
     private static final String KEY_TYPE = "type";
     private static final String KEY_SOCKET = "socket";
     private static final String KEY_QUANTITY = "quantity";
+    private static final String KEY_LATITUDE = "latitude";
+    private static final String KEY_LONGITUDE = "longitude";
 
-    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY};
+    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY, KEY_LATITUDE, KEY_LONGITUDE};
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -29,8 +31,9 @@ public class HistoryItemCS_DBController {
             KEY_DESCRIPTION + " TEXT," +
             KEY_TYPE + " TEXT," +
             KEY_SOCKET + " TEXT," +
-            KEY_QUANTITY + " INTEGER" +
-            ");";
+            KEY_QUANTITY + " INTEGER," +
+            KEY_LATITUDE + " TEXT," +
+            KEY_LONGITUDE + " TEXT);";
 
     private SQLiteDatabase db;
 
@@ -52,6 +55,8 @@ public class HistoryItemCS_DBController {
         values.put(KEY_TYPE, historyCS.getType()); // get type
         values.put(KEY_SOCKET, historyCS.getSocket()); // get socket
         values.put(KEY_QUANTITY, historyCS.getQuantity()); // get quantity
+        values.put(KEY_LATITUDE, historyCS.getLatitude()); // get latitude
+        values.put(KEY_LONGITUDE, historyCS.getLongitude()); // get longitude
 
         // 2. insert or update
 
@@ -119,6 +124,8 @@ public class HistoryItemCS_DBController {
         historyCS.setType(cursor.getString(4));
         historyCS.setSocket(cursor.getString(5));
         historyCS.setQuantity(cursor.getInt(6));
+        historyCS.setLatitude(cursor.getString(7));
+        historyCS.setLongitude(cursor.getString(8));
 
         historyCS.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID)));
 
@@ -152,6 +159,8 @@ public class HistoryItemCS_DBController {
                 historyCS.setType(cursor.getString(4));
                 historyCS.setSocket(cursor.getString(5));
                 historyCS.setQuantity(Integer.parseInt(cursor.getString(6)));
+                historyCS.setLatitude(cursor.getString(7));
+                historyCS.setLongitude(cursor.getString(8));
 
                 // Add cs to list of cs
                 historyCSes.add(historyCS);
@@ -192,6 +201,9 @@ public class HistoryItemCS_DBController {
         values.put("type", historyCS.getType());
         values.put("socket", historyCS.getSocket());
         values.put("quantity ", historyCS.getQuantity());
+        values.put("latitude", historyCS.getLatitude());
+        values.put("longitude", historyCS.getLongitude());
+
 
         // 2. updating row
         int i = db.update(TABLE_NAME, //table

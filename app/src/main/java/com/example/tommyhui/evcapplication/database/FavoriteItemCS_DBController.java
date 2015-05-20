@@ -19,8 +19,10 @@ public class FavoriteItemCS_DBController {
     private static final String KEY_TYPE = "type";
     private static final String KEY_SOCKET = "socket";
     private static final String KEY_QUANTITY = "quantity";
+    private static final String KEY_LATITUDE = "latitude";
+    private static final String KEY_LONGITUDE = "longitude";
 
-    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY};
+    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY, KEY_LATITUDE, KEY_LONGITUDE};
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -29,8 +31,9 @@ public class FavoriteItemCS_DBController {
             KEY_DESCRIPTION + " TEXT," +
             KEY_TYPE + " TEXT," +
             KEY_SOCKET + " TEXT," +
-            KEY_QUANTITY + " INTEGER" +
-            ");";
+            KEY_QUANTITY + " INTEGER," +
+            KEY_LATITUDE + " TEXT," +
+            KEY_LONGITUDE + " TEXT);";
 
     private SQLiteDatabase db;
 
@@ -52,6 +55,8 @@ public class FavoriteItemCS_DBController {
         values.put(KEY_TYPE, favoriteCS.getType()); // get type
         values.put(KEY_SOCKET, favoriteCS.getSocket()); // get socket
         values.put(KEY_QUANTITY, favoriteCS.getQuantity()); // get quantity
+        values.put(KEY_LATITUDE, favoriteCS.getLatitude()); // get latitude
+        values.put(KEY_LONGITUDE, favoriteCS.getLongitude()); // get longitude
 
         // 2. insert or update
 
@@ -122,6 +127,8 @@ public class FavoriteItemCS_DBController {
         favoriteCS.setType(cursor.getString(4));
         favoriteCS.setSocket(cursor.getString(5));
         favoriteCS.setQuantity(cursor.getInt(6));
+        favoriteCS.setLatitude(cursor.getString(7));
+        favoriteCS.setLongitude(cursor.getString(8));
 
         favoriteCS.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID)));
 
@@ -156,6 +163,8 @@ public class FavoriteItemCS_DBController {
                 favoriteCS.setType(cursor.getString(4));
                 favoriteCS.setSocket(cursor.getString(5));
                 favoriteCS.setQuantity(Integer.parseInt(cursor.getString(6)));
+                favoriteCS.setLatitude(cursor.getString(7));
+                favoriteCS.setLongitude(cursor.getString(8));
 
                 // Add cs to list of cs
                 FavoriteCSes.add(favoriteCS);
@@ -196,6 +205,8 @@ public class FavoriteItemCS_DBController {
         values.put("type", favoriteCS.getType());
         values.put("socket", favoriteCS.getSocket());
         values.put("quantity ", favoriteCS.getQuantity());
+        values.put("latitude", favoriteCS.getLatitude());
+        values.put("longitude", favoriteCS.getLongitude());
 
         // 2. updating row
         int i = db.update(TABLE_NAME, //table

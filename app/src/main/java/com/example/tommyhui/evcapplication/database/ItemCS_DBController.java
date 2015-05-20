@@ -26,8 +26,10 @@ public class ItemCS_DBController {
     private static final String KEY_TYPE = "type";
     private static final String KEY_SOCKET = "socket";
     private static final String KEY_QUANTITY = "quantity";
+    private static final String KEY_LATITUDE = "latitude";
+    private static final String KEY_LONGITUDE = "longitude";
 
-    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY};
+    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY, KEY_LATITUDE, KEY_LONGITUDE};
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
@@ -36,8 +38,9 @@ public class ItemCS_DBController {
             KEY_DESCRIPTION + " TEXT," +
             KEY_TYPE + " TEXT," +
             KEY_SOCKET + " TEXT," +
-            KEY_QUANTITY + " INTEGER" +
-            ");";
+            KEY_QUANTITY + " INTEGER," +
+            KEY_LATITUDE + " TEXT," +
+            KEY_LONGITUDE + " TEXT);";
 
     private SQLiteDatabase db;
 
@@ -59,6 +62,8 @@ public class ItemCS_DBController {
         values.put(KEY_TYPE, cs.getType()); // get type
         values.put(KEY_SOCKET, cs.getSocket()); // get socket
         values.put(KEY_QUANTITY, cs.getQuantity()); // get quantity
+        values.put(KEY_LATITUDE, cs.getLatitude()); // get latitude
+        values.put(KEY_LONGITUDE, cs.getLongitude()); // get longitude
 
         // 2. insert or update
 
@@ -126,6 +131,8 @@ public class ItemCS_DBController {
         cs.setType(cursor.getString(4));
         cs.setSocket(cursor.getString(5));
         cs.setQuantity(cursor.getInt(6));
+        cs.setLatitude(cursor.getString(7));
+        cs.setLongitude(cursor.getString(8));
 
         cs.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID)));
 
@@ -133,7 +140,7 @@ public class ItemCS_DBController {
 
         if (cursor != null)
             cursor.close();
-        // 5. return book
+
         return cs;
     }
 
@@ -159,6 +166,8 @@ public class ItemCS_DBController {
                 cs.setType(cursor.getString(4));
                 cs.setSocket(cursor.getString(5));
                 cs.setQuantity(Integer.parseInt(cursor.getString(6)));
+                cs.setLatitude(cursor.getString(7));
+                cs.setLongitude(cursor.getString(8));
 
                 // Add cs to list of cs
                 cses.add(cs);
@@ -199,7 +208,7 @@ public class ItemCS_DBController {
 
         else if (activity instanceof OverviewActivity && (numberQuery == 1))
             sql = "SELECT DISTINCT * FROM " + TABLE_NAME + " WHERE " + KEY_ADDRESS + " LIKE '%" + query[0] + "%'"
-                    + " OR " + KEY_DESCRIPTION + " LIKE '%" + query[0] + "%' ORDER BY " + KEY_DISTRICT;
+                    + " OR " + KEY_DESCRIPTION + " LIKE '%" + query[0] + "%' ORDER BY " + KEY_DISTRICT + ", " + KEY_DESCRIPTION;
 
         else if (activity instanceof SocketListActivity && (numberQuery == 1))
             sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_TYPE + " LIKE '%" + query[0]
@@ -219,7 +228,7 @@ public class ItemCS_DBController {
 
 
         Cursor cursor = db.rawQuery(sql, null);
-        Log.d("search", sql + " [Match Result = " + cursor.getCount() + "]");
+        Log.d("search", "[Match Result = " + cursor.getCount() + "] " + sql);
 
         ItemCS cs;
 
@@ -233,6 +242,8 @@ public class ItemCS_DBController {
                 cs.setType(cursor.getString(4));
                 cs.setSocket(cursor.getString(5));
                 cs.setQuantity(Integer.parseInt(cursor.getString(6)));
+                cs.setLatitude(cursor.getString(7));
+                cs.setLongitude(cursor.getString(8));
 
                 // Add cs to list of cs
                 cses.add(cs);
@@ -291,6 +302,8 @@ public class ItemCS_DBController {
         values.put("type", cs.getType());
         values.put("socket", cs.getSocket());
         values.put("quantity ", cs.getQuantity());
+        values.put("latitude", cs.getLatitude());
+        values.put("longitude", cs.getLongitude());
 
         // 2. updating row
         int i = db.update(TABLE_NAME, //table

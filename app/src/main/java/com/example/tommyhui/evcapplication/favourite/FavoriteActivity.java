@@ -86,6 +86,8 @@ public class FavoriteActivity extends ActionBarActivity {
                     bundle.putString("type", cs.getType());
                     bundle.putString("socket", cs.getSocket());
                     bundle.putInt("quantity", cs.getQuantity());
+                    bundle.putString("latitude", cs.getLatitude());
+                    bundle.putString("longitude", cs.getLongitude());
 
                     intent.putExtras(bundle);
                     startActivity(intent);

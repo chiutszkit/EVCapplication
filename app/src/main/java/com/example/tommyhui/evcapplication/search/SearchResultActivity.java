@@ -31,6 +31,8 @@ public class SearchResultActivity extends ActionBarActivity {
     private String type;
     private String socket;
     private String quantity;
+    private String latitude;
+    private String longitude;
 
     private ArrayList<ItemCS> searchResultList = new ArrayList<>();
     private ItemCS_DBController db;
@@ -62,6 +64,7 @@ public class SearchResultActivity extends ActionBarActivity {
         socket = bundle.getString("socket");
         quantity = bundle.getString("quantity");
 
+
         db = new ItemCS_DBController(getApplicationContext());
         searchResultList = db.inputQueryCSes(this, new String[] {district, description, type, socket, quantity}, 1);
         if(searchResultList.size() == 0)
@@ -90,6 +93,8 @@ public class SearchResultActivity extends ActionBarActivity {
                 bundle.putString("type", cs.getType());
                 bundle.putString("socket", cs.getSocket());
                 bundle.putInt("quantity", cs.getQuantity());
+                bundle.putString("latitude", cs.getLatitude());
+                bundle.putString("longitude", cs.getLongitude());
 
                 intent.putExtras(bundle);
                 startActivity(intent);

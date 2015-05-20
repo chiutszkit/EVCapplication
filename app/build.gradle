@@ -25,4 +25,5 @@ dependencies {
     compile 'com.android.support:appcompat-v7:22.0.0'
     compile 'com.astuetz:pagerslidingtabstrip:1.0.1'
     compile 'se.emilsjolander:stickylistheaders:2.6.0'
+    compile 'com.google.android.gms:play-services:7.0.0'
 }

@@ -8,6 +8,8 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.R;
+import com.example.tommyhui.evcapplication.database.HistoryItemCS;
+import com.example.tommyhui.evcapplication.database.HistoryItemCS_DBController;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 
 import java.util.ArrayList;
@@ -15,6 +17,8 @@ import java.util.ArrayList;
 public class OverviewListViewAdapter extends BaseAdapter {
     private final Context context;
     private ArrayList<ItemCS> itemList;
+    private HistoryItemCS_DBController db;
+    private boolean exist;
 
     public OverviewListViewAdapter(Context context, ArrayList<ItemCS> itemList) {
         this.context = context;
@@ -65,8 +69,35 @@ public class OverviewListViewAdapter extends BaseAdapter {
         socket.setText(itemList.get(position).getSocket());
 //        quantity.setText(Integer.toString(itemList.get(position).getQuantity()));
 
+//        db = new HistoryItemCS_DBController(context);
+//        ArrayList<HistoryItemCS> historyList = db.getAllHistoryCSes();
+//        HistoryItemCS clickItem = new HistoryItemCS(itemList.get(position).getAddress(), itemList.get(position).getDistrict(), itemList.get(position).getDescription(),
+//                                                    itemList.get(position).getType(), itemList.get(position).getSocket(), itemList.get(position).getQuantity());
+//        exist = false;
+//
+//        for(int i = 0; i < historyList.size(); i++) {
+//            if(checkRecordExist(historyList.get(i), clickItem))
+//                exist = true;
+//        }
+//        if(exist) {
+//            address.setTextColor(context.getResources().getColor(R.color.dark_purple));
+//            chargingStation.setTextColor(context.getResources().getColor(R.color.dark_purple));
+//            type.setTextColor(context.getResources().getColor(R.color.dark_purple));
+//            socket.setTextColor(context.getResources().getColor(R.color.dark_purple));
+//            .notifyDataSetChanged();
+//        }
+
         return rowView;
     }
-
+//    private boolean checkRecordExist(HistoryItemCS item1, HistoryItemCS item2) {
+//
+//        boolean exists = false;
+//
+//        if(item1.getAddress().equals(item2.getAddress()) &&  item1.getDistrict().equals(item2.getDistrict())
+//                && item1.getDescription().equals(item2.getDescription()) && item1.getSocket().equals(item2.getSocket())
+//                && item1.getType().equals(item2.getType()) && item1.getQuantity() == item2.getQuantity())
+//            exists = true;
+//        return exists;
+//    }
 }
 

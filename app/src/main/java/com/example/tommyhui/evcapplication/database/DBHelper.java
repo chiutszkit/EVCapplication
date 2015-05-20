@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteDatabase.CursorFactory;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 public class DBHelper extends SQLiteOpenHelper {
 
@@ -32,6 +33,7 @@ public class DBHelper extends SQLiteOpenHelper {
         db.execSQL(ItemCS_DBController.CREATE_TABLE);
         db.execSQL(HistoryItemCS_DBController.CREATE_TABLE);
         db.execSQL(FavoriteItemCS_DBController.CREATE_TABLE);
+
     }
 
     @Override
