@@ -20,6 +20,8 @@ import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.adapter.SearchResultListViewAdapter;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
+import com.example.tommyhui.evcapplication.menu.MenuActivity;
+import com.example.tommyhui.evcapplication.nearby.NearbyActivity;
 import com.example.tommyhui.evcapplication.overview.ItemCSActivity;
 
 import java.util.ArrayList;
@@ -31,8 +33,8 @@ public class SearchResultActivity extends ActionBarActivity {
     private String type;
     private String socket;
     private String quantity;
-    private String latitude;
-    private String longitude;
+    private Boolean nearest;
+    private Boolean availability;
 
     private ArrayList<ItemCS> searchResultList = new ArrayList<>();
     private ItemCS_DBController db;
@@ -63,10 +65,19 @@ public class SearchResultActivity extends ActionBarActivity {
         type = bundle.getString("type");
         socket = bundle.getString("socket");
         quantity = bundle.getString("quantity");
+        nearest = bundle.getBoolean("nearest");
+        availability = bundle.getBoolean("availability");
 
+        ArrayList<ItemCS> tempList;
 
         db = new ItemCS_DBController(getApplicationContext());
-        searchResultList = db.inputQueryCSes(this, new String[] {district, description, type, socket, quantity}, 1);
+        tempList = db.inputQueryCSes(this, new String[] {district, description, type, socket, quantity}, 1);
+
+        if(nearest || availability)
+            searchResultList = Sorting(tempList);
+        else
+            searchResultList = tempList;
+
         if(searchResultList.size() == 0)
             showEmptyListDialog();
         listView = (ListView) this.findViewById(R.id.searchresult_list_view);
@@ -102,6 +113,33 @@ public class SearchResultActivity extends ActionBarActivity {
         });
     }
 
+    private ArrayList Sorting(ArrayList<ItemCS> tempList) {
+        ArrayList<ItemCS> result = new ArrayList<>();
+        if(nearest) {
+            double min = 0;
+            boolean firstItem = true;
+            for(ItemCS socket: MenuActivity.realTimeInfoList) {
+                for (ItemCS temp : tempList) {
+                    if (socket.getLatitude().equals(temp.getLatitude()) && socket.getLongitude().equals(temp.getLongitude())) {
+                        temp.setDistance(socket.getDistance());
+//                        temp.setTime(socket.getTime());
+                        if(firstItem || Double.parseDouble(temp.getDistance()) < min) {
+                            min = Double.parseDouble(temp.getDistance());
+                            firstItem = false;
+                        }
+                    }
+                }
+            }
+            for(ItemCS temp : tempList) {
+                if(Double.parseDouble(temp.getDistance()) == min)
+                    result.add(temp);
+            }
+        }
+        if(availability) {
+
+        }
+        return result;
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

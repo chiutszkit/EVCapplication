@@ -14,6 +14,7 @@ import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.adapter.SocketListPageListViewAdapter;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
+import com.example.tommyhui.evcapplication.menu.MenuActivity;
 import com.example.tommyhui.evcapplication.nearby.NearbyActivity;
 
 import java.util.ArrayList;
@@ -27,6 +28,7 @@ public class SocketListActivity extends ActionBarActivity {
     private SocketListPageListViewAdapter socketListPageListViewAdapter;
     private ItemCS_DBController db;
     private StickyListHeadersListView  listView;
+    private ArrayList<ItemCS> realTimeInfoList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,11 +66,11 @@ public class SocketListActivity extends ActionBarActivity {
 
         db = new ItemCS_DBController(getApplicationContext());
         socketList = db.inputQueryCSes(this, new String[] {type}, 1);
-
         listView = (StickyListHeadersListView) this.findViewById(R.id.socket_listpage_list_view);
+        realTimeInfoList = MenuActivity.realTimeInfoList;
 
         if (socketListPageListViewAdapter == null) {
-            socketListPageListViewAdapter = new SocketListPageListViewAdapter(SocketListActivity.this, socketList);
+            socketListPageListViewAdapter = new SocketListPageListViewAdapter(SocketListActivity.this, socketList, realTimeInfoList);
             listView.setAdapter(socketListPageListViewAdapter);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -81,7 +83,7 @@ public class SocketListActivity extends ActionBarActivity {
                     ItemCS cs = socketList.get(position);
 
                     Intent intent = new Intent();
-                    intent.setClass(SocketListActivity.this, NearbyActivity.class);
+                    intent.setClass(SocketListActivity.this, SocketListItemActivity.class);
 
                     Bundle bundle = new Bundle();
 

@@ -1,12 +1,12 @@
 package com.example.tommyhui.evcapplication.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
@@ -18,10 +18,12 @@ import java.util.ArrayList;
 public class SocketListPageListViewAdapter extends BaseAdapter implements StickyListHeadersAdapter {
     private final Context context;
     private ArrayList<ItemCS> itemList;
+    private ArrayList<ItemCS> realTimeInfoList;
 
-    public SocketListPageListViewAdapter(Context context, ArrayList<ItemCS> itemList) {
+    public SocketListPageListViewAdapter(Context context, ArrayList<ItemCS> itemList, ArrayList<ItemCS> realTimeInfoList) {
         this.context = context;
         this.itemList = itemList;
+        this.realTimeInfoList = realTimeInfoList;
     }
 
     @Override
@@ -50,6 +52,13 @@ public class SocketListPageListViewAdapter extends BaseAdapter implements Sticky
         this.itemList = itemList;
     }
 
+    public ArrayList<ItemCS> getRealTimeInfoList() {
+        return realTimeInfoList;
+    }
+
+    public void setRealTimeInfoList(ArrayList<ItemCS> realTimeInfoList) {
+        this.realTimeInfoList = realTimeInfoList;
+    }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
@@ -63,8 +72,16 @@ public class SocketListPageListViewAdapter extends BaseAdapter implements Sticky
 
         address.setText(itemList.get(position).getAddress());
         chargingStation.setText(itemList.get(position).getDescription());
-//        distance.setText(itemList.get(position).getType());
-//        time.setText(itemList.get(position).getSocket());
+        if(realTimeInfoList.size() > 0)
+            for(int i = 0; i < realTimeInfoList.size(); i++) {
+                if(itemList.get(position).getLatitude().equals(realTimeInfoList.get(i).getLatitude()) &&
+                        itemList.get(position).getLongitude().equals(realTimeInfoList.get(i).getLongitude())) {
+                    distance.setText(realTimeInfoList.get(i).getDistance() + " km");
+                    time.setText(realTimeInfoList.get(i).getTime() + " mins");
+                }
+            }
+        else
+            Toast.makeText(context, context.getResources().getString(R.string.nearby_alert_gpsOff), Toast.LENGTH_SHORT).show();
 
         return rowView;
     }

@@ -31,6 +31,7 @@ import java.util.ArrayList;
 public class MenuActivity extends ActionBarActivity {
 
     public static ArrayList<ItemCS> ItemCSes = new ArrayList<>();
+    public static ArrayList<ItemCS> realTimeInfoList = new ArrayList<>();
 
     private ItemCS_DBController db;
     private String[] address;
@@ -123,6 +124,7 @@ public class MenuActivity extends ActionBarActivity {
         findViewById(R.id.menu_grid_nearby).setOnClickListener(mGlobal_OnClickListener);
         findViewById(R.id.menu_grid_socket).setOnClickListener(mGlobal_OnClickListener);
         findViewById(R.id.menu_grid_realTime).setOnClickListener(mGlobal_OnClickListener);
+
     }
 
     public void shareApp() {
@@ -148,6 +150,7 @@ public class MenuActivity extends ActionBarActivity {
         startActivity(Intent.createChooser(shareIntent,
                 getString(R.string.share_hint)));
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

@@ -17,6 +17,9 @@ public class ItemCS implements Parcelable {
     private String latitude;
     private String longitude;
 
+    private String distance;
+    private String time;
+    private String availability;
     private ArrayList<ItemCS> ItemCSes;
 
     public ItemCS() {
@@ -121,6 +124,30 @@ public class ItemCS implements Parcelable {
 
     public void setLatitude(String latitude) {
         this.latitude = latitude;
+    }
+
+    public String getDistance() {
+        return distance;
+    }
+
+    public void setDistance(String distance) {
+        this.distance = distance;
+    }
+
+    public String getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(String availability) {
+        this.availability = availability;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 
     public ArrayList<ItemCS> getItemCSes() {

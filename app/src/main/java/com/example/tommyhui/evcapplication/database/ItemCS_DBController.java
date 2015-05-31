@@ -228,7 +228,7 @@ public class ItemCS_DBController {
         }
 
         else if (activity instanceof NearbyActivity && (numberQuery == 1))
-            sql = "SELECT * FROM " + TABLE_NAME + " GROUP BY " + KEY_ADDRESS;
+            sql = "SELECT * FROM " + TABLE_NAME + " GROUP BY " + KEY_DISTRICT + ", " + KEY_ADDRESS;
 
         Cursor cursor = db.rawQuery(sql, null);
         Log.d("search", "[Match Result = " + cursor.getCount() + "] " + sql);

@@ -51,16 +51,9 @@ public class SearchActivity extends ActionBarActivity {
         /*Set Up the Spinner*/
         addListenerOnSpinners();
 
-        /*Set Up the Search and Clear Button*/
+        /*Set Up the CheckBox, Search and Clear Button*/
         addListenerOnButton();
-
     }
-//    public void onResume() {
-//
-//        super.onResume();
-//
-//
-//    }
 
     public void addListenerOnSpinners() {
 
@@ -113,6 +106,7 @@ public class SearchActivity extends ActionBarActivity {
         }
         return index;
     }
+
     public void addItemsOnSpinners() {
 
         spinnerDescription = (Spinner) findViewById(R.id.search_spinner_description);
@@ -172,6 +166,7 @@ public class SearchActivity extends ActionBarActivity {
         }
         list.add(0,"ALL");
     }
+
     public void addListenerOnButton() {
 
         spinnerDescription = (Spinner) findViewById(R.id.search_spinner_description);
@@ -201,6 +196,8 @@ public class SearchActivity extends ActionBarActivity {
                 bundle.putString("type", spinnerType.getSelectedItem().toString());
                 bundle.putString("socket", spinnerSocket.getSelectedItem().toString());
                 bundle.putString("quantity", spinnerQuantity.getSelectedItem().toString());
+                bundle.putBoolean("nearest", checkBoxNearest.isChecked());
+                bundle.putBoolean("availability", checkBoxAvailability.isChecked());
 
                 resultIntent.putExtras(bundle);
                 startActivity(resultIntent);

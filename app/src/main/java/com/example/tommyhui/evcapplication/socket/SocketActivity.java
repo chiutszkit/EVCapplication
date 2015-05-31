@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.adapter.SocketListViewAdapter;
 
+import java.util.ArrayList;
+
 public class SocketActivity extends ActionBarActivity {
 
     @Override
@@ -63,7 +65,6 @@ public class SocketActivity extends ActionBarActivity {
 
                 Bundle bundle = new Bundle();
                 bundle.putString("type", getString(typeTitle[position]));
-                Log.v("Type", getString(typeTitle[position]));
 
                 intent.putExtras(bundle);
                 startActivity(intent);
