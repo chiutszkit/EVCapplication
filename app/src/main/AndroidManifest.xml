@@ -83,6 +83,8 @@
 
         <activity android:name=".socket.SocketListActivity" />
 
+        <activity android:name=".socket.SocketListItemActivity" />
+
         <activity android:name=".realtime.RealTimeActivity" />
 
         <activity android:name=".nearby.NearbyActivity" />

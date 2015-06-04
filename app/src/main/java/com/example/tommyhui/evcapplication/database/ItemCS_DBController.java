@@ -13,6 +13,7 @@ import com.example.tommyhui.evcapplication.overview.OverviewActivity;
 import com.example.tommyhui.evcapplication.search.SearchActivity;
 import com.example.tommyhui.evcapplication.search.SearchResultActivity;
 import com.example.tommyhui.evcapplication.socket.SocketListActivity;
+import com.example.tommyhui.evcapplication.socket.SocketListItemActivity;
 
 import java.util.ArrayList;
 
@@ -222,13 +223,18 @@ public class ItemCS_DBController {
                 sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_DESCRIPTION + " = '" + query[0] + "'";
         }
 
-        else if (activity instanceof SearchResultActivity) {
+        else if (activity instanceof SearchResultActivity && (numberQuery == 1)) {
             String[] input_column = new String[]{KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY};
             sql = searchResultSqlGenerator(input_column, query) + "ORDER BY " + KEY_DESCRIPTION;
         }
 
         else if (activity instanceof NearbyActivity && (numberQuery == 1))
             sql = "SELECT * FROM " + TABLE_NAME + " GROUP BY " + KEY_DISTRICT + ", " + KEY_ADDRESS;
+
+        else if (activity instanceof SocketListItemActivity && (numberQuery == 1)) {
+            sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_TYPE + " LIKE '%" + query[0]
+                    + "%' GROUP BY " + KEY_ADDRESS + " ORDER BY " + KEY_DISTRICT;
+        }
 
         Cursor cursor = db.rawQuery(sql, null);
         Log.d("search", "[Match Result = " + cursor.getCount() + "] " + sql);

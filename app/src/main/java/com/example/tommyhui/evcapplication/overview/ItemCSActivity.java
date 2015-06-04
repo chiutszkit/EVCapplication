@@ -4,31 +4,35 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.location.LocationProvider;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
+import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.View;
-import android.widget.Button;
+import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.google.android.gms.maps.CameraUpdateFactory;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS_DBController;
+import com.example.tommyhui.evcapplication.database.ItemCS;
+import com.example.tommyhui.evcapplication.menu.MenuActivity;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.CameraPosition;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.LatLngBounds;
+import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
 
 
-public class ItemCSActivity extends FragmentActivity {
+public class ItemCSActivity extends ActionBarActivity {
 
     private String address;
     private String district;
@@ -43,12 +47,7 @@ public class ItemCSActivity extends FragmentActivity {
     private LocationManager locationManager;
     private Location myLocation;
     private Criteria criteria;
-//    private float[] markerColor = {BitmapDescriptorFactory.HUE_AZURE,
-//            BitmapDescriptorFactory.HUE_BLUE, BitmapDescriptorFactory.HUE_CYAN,
-//            BitmapDescriptorFactory.HUE_GREEN, BitmapDescriptorFactory.HUE_MAGENTA,
-//            BitmapDescriptorFactory.HUE_ORANGE, BitmapDescriptorFactory.HUE_RED,
-//            BitmapDescriptorFactory.HUE_ROSE, BitmapDescriptorFactory.HUE_VIOLET,
-//            BitmapDescriptorFactory.HUE_YELLOW};
+    private Marker chargingStationMarker;
 
     private FavoriteItemCS_DBController db;
     private FavoriteItemCS favouriteItem;
@@ -72,36 +71,33 @@ public class ItemCSActivity extends FragmentActivity {
         latitude = bundle.getString("latitude");
         longitude = bundle.getString("longitude");
 
+        // Use customized action bar.
+        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
+        getSupportActionBar().setCustomView(R.layout.actionbar);
+
+        // Set up the action bar's title.
+        TextView title = (TextView) findViewById(R.id.action_bar_title);
+        title.setText(description);
+
+        // Set up the action bar's icon.
+        ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
+        myImgView.setImageResource(R.drawable.chargingstation_icon);
+
         TextView addressText = (TextView) findViewById(R.id.chargingstation_item_text_chargingStationAddress);
         addressText.setText(address);
-        TextView descriptionText = (TextView) findViewById(R.id.chargingstation_item_text_description);
-        descriptionText.setText(description);
         TextView typeText = (TextView) findViewById(R.id.chargingstation_item_text_type);
-        typeText.setText("Type: " + type);
+        typeText.setText(type);
         TextView socketText = (TextView) findViewById(R.id.chargingstation_item_text_socket);
-        socketText.setText("Socket: " + socket);
+        socketText.setText(socket);
         TextView quantityText = (TextView) findViewById(R.id.chargingstation_item_text_quantity);
-        quantityText.setText("Quantity: " + quantity.toString());
+        quantityText.setText("Total: " + quantity.toString());
 
-        Button favoriteButton = (Button) findViewById(R.id.chargingstation_item_button_favorite);
-        favoriteButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
-                db = new FavoriteItemCS_DBController(getApplicationContext());
-                favouriteItem = new FavoriteItemCS(address, district, description, type, socket, quantity, latitude, longitude);
-                if (db.addFavoriteCS(favouriteItem) == null)
-                    Toast.makeText(getApplicationContext(), R.string.item_toast_addToFavorites_before, Toast.LENGTH_SHORT).show();
-                else
-                    Toast.makeText(getApplicationContext(), R.string.item_toast_addToFavorites, Toast.LENGTH_SHORT).show();
-            }
-        });
 
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.chargingstation_item_map);
         googleMap = supportMapFragment.getMap();
-        locateChargingStationPosition();
         locateUserPosition();
+        locateChargingStationPosition();
     }
     @Override
     protected void onResume() {
@@ -119,31 +115,56 @@ public class ItemCSActivity extends FragmentActivity {
 
         myLocation = getLastKnownLocation();
 
-        double latInDouble = myLocation.getLatitude();
-        double lonInDouble = myLocation.getLongitude();
-
-        LatLng latLng = new LatLng(latInDouble, lonInDouble);
-
-        googleMap.addMarker(new MarkerOptions()
-                .position(latLng)
-                .title(getResources().getString(R.string.nearby_userLocation))
-                .icon(BitmapDescriptorFactory.fromResource(R.drawable.usercar_icon)));
-    }
-
-
-    public void locateChargingStationPosition() {
-        if(latitude != null || longitude != null){
-            double latInDouble = Double.valueOf(latitude.trim()).doubleValue();
-            double lonInDouble = Double.valueOf(longitude.trim()).doubleValue();
+        if(myLocation != null) {
+            double latInDouble = myLocation.getLatitude();
+            double lonInDouble = myLocation.getLongitude();
 
             LatLng latLng = new LatLng(latInDouble, lonInDouble);
 
             googleMap.addMarker(new MarkerOptions()
                     .position(latLng)
-                    .title(description)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED)));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
+                    .title(getResources().getString(R.string.nearby_userLocation))
+                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.usercar_icon)));
         }
+    }
+
+    public void locateChargingStationPosition() {
+
+        final LatLngBounds.Builder builder = new LatLngBounds.Builder();
+
+        if(latitude != null || longitude != null){
+            double latInDouble = Double.valueOf(latitude.trim()).doubleValue();
+            double lonInDouble = Double.valueOf(longitude.trim()).doubleValue();
+
+            LatLng latLng = new LatLng(latInDouble, lonInDouble);
+            builder.include(latLng);
+
+            chargingStationMarker = googleMap.addMarker(new MarkerOptions()
+                    .position(latLng)
+                    .title(description)
+                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+        }
+
+        if(myLocation != null) {
+            builder.include(new LatLng(myLocation.getLatitude(),myLocation.getLongitude()));
+            final LatLngBounds bounds = builder.build();
+            googleMap.setOnCameraChangeListener(new GoogleMap.OnCameraChangeListener() {
+
+                @Override
+                public void onCameraChange(CameraPosition arg0) {
+                    // Move camera to the position that shows all markers.
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
+                    // Remove listener to prevent position reset on camera move.
+                    googleMap.setOnCameraChangeListener(null);
+                }
+            });
+        }
+        for (ItemCS socket : MenuActivity.realTimeInfoList) {
+            if (socket.getLatitude().equals(latitude) && socket.getLongitude().equals(longitude))
+                chargingStationMarker.setSnippet(socket.getDistance() + " km " + socket.getTime() + " mins");
+        }
+        chargingStationMarker.showInfoWindow();
     }
 
     public Location getLastKnownLocation() {
@@ -172,12 +193,12 @@ public class ItemCSActivity extends FragmentActivity {
         @Override
         public void onStatusChanged(String provider, int status, Bundle extras) {
             switch(status) {
-                case LocationProvider.AVAILABLE:
-                    Toast.makeText(getBaseContext(), provider + "IS OK", Toast.LENGTH_SHORT).show();
-                    break;
-                case LocationProvider.OUT_OF_SERVICE:
-                    Toast.makeText(getBaseContext(), provider + "IS NOT OK", Toast.LENGTH_SHORT).show();
-                    break;
+//                case LocationProvider.AVAILABLE:
+//                    Toast.makeText(getBaseContext(), provider + "IS OK", Toast.LENGTH_SHORT).show();
+//                    break;
+//                case LocationProvider.OUT_OF_SERVICE:
+//                    Toast.makeText(getBaseContext(), provider + "IS NOT OK", Toast.LENGTH_SHORT).show();
+//                    break;
             }
         }
 
@@ -196,7 +217,29 @@ public class ItemCSActivity extends FragmentActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_options_menu, menu);
+        inflater.inflate(R.menu.itemcs_options_menu, menu);
         return super.onCreateOptionsMenu(menu);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        switch (item.getItemId()) {
+
+            case android.R.id.home:
+                finish();
+                return true;
+
+            case R.id.itemCS_action_favorite:
+                db = new FavoriteItemCS_DBController(getApplicationContext());
+                favouriteItem = new FavoriteItemCS(address, district, description, type, socket, quantity, latitude, longitude);
+                if (db.addFavoriteCS(favouriteItem) == null)
+                    Toast.makeText(getApplicationContext(), R.string.item_toast_addToFavorites_before, Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(getApplicationContext(), R.string.item_toast_addToFavorites, Toast.LENGTH_SHORT).show();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 }

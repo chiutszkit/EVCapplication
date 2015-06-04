@@ -5,7 +5,6 @@ import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBar;
@@ -78,10 +77,7 @@ public class NearbyActivity extends ActionBarActivity {
         // Set up the action bar's icon.
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.map_icon);
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
+
 //        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
 //        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects().detectLeakedClosableObjects().penaltyLog().penaltyDeath().build());
 
@@ -94,26 +90,33 @@ public class NearbyActivity extends ActionBarActivity {
 //                    .penaltyLog()
 //                    .build());
 //        }
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
         // Set up the map.
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nearby_map);
         googleMap = supportMapFragment.getMap();
 
-        locateChargingStationPosition();
+        locateAllChargingStationPosition();
         locateUserPosition();
         calculateRealTimeData();
     }
-
     /***************************************/
     public void calculateRealTimeData() {
-//        float[] results = new float[1];
-        if(myLocation != null) {
+
+        if (myLocation != null) {
+
             for (int i = 0; i < markers.size(); i++) {
-                StringBuilder stringBuilder = new StringBuilder();
-                double lat1 = myLocation.getLatitude();
-                double lng1 = myLocation.getLongitude();
-                double lat2 = markersLatLng.get(i).latitude;
-                double lng2 = markersLatLng.get(i).longitude;
+
+                final StringBuilder stringBuilder = new StringBuilder();
+
+                final double lat1 = myLocation.getLatitude();
+                final double lng1 = myLocation.getLongitude();
+                final double lat2 = markersLatLng.get(i).latitude;
+                final double lng2 = markersLatLng.get(i).longitude;
+
                 try {
                     String url = "http://maps.googleapis.com/maps/api/directions/json?origin=" + lat1 + "," + lng1 + "&destination=" + lat2 + "," + lng2 + "&mode=driving";
 
@@ -121,8 +124,6 @@ public class NearbyActivity extends ActionBarActivity {
 
                     HttpClient client = new DefaultHttpClient();
                     HttpResponse response;
-                    stringBuilder = new StringBuilder();
-
                     response = client.execute(httppost);
                     HttpEntity entity = response.getEntity();
                     InputStream stream = entity.getContent();
@@ -133,13 +134,21 @@ public class NearbyActivity extends ActionBarActivity {
                 } catch (ClientProtocolException e) {
                 } catch (IOException e) {
                 }
+
                 String distance = calculateDistance(stringBuilder);
                 String time = calculateTime(stringBuilder);
-                if(Double.parseDouble(socketList.get(i).getLatitude()) == markersLatLng.get(i).latitude &&
+                if (Double.parseDouble(socketList.get(i).getLatitude()) == markersLatLng.get(i).latitude &&
                         Double.parseDouble(socketList.get(i).getLongitude()) == markersLatLng.get(i).longitude) {
                     socketList.get(i).setDistance(distance);
                     socketList.get(i).setTime(time);
                     markers.get(i).setSnippet(distance + " km " + time + " mins");
+                }
+                if(i%5 == 0) {
+                    try {
+                        Thread.sleep(1500);
+                        Log.i("STOP","Pause");
+                    } catch (InterruptedException ex) {
+                    }
                 }
             }
         }
@@ -190,8 +199,6 @@ public class NearbyActivity extends ActionBarActivity {
                     JSONObject steps = legs.getJSONObject(j);
                     JSONObject time = steps.getJSONObject("duration");
 
-                    Log.i("Time" + count, time.toString());
-                    count ++;
                     fTime = time.getString("text").split(" ")[0];
                 }
             }
@@ -265,7 +272,7 @@ public class NearbyActivity extends ActionBarActivity {
     }
 
     // Locate all the markers of charging stations in the map.
-    public void locateChargingStationPosition() {
+    public void locateAllChargingStationPosition() {
 
         final LatLngBounds.Builder builder = new LatLngBounds.Builder();
         markers = new ArrayList<>();

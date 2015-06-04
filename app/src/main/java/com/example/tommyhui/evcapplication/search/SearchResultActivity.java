@@ -35,6 +35,7 @@ public class SearchResultActivity extends ActionBarActivity {
     private String quantity;
     private Boolean nearest;
     private Boolean availability;
+    private Boolean GPSExist;
 
     private ArrayList<ItemCS> searchResultList = new ArrayList<>();
     private ItemCS_DBController db;
@@ -80,6 +81,7 @@ public class SearchResultActivity extends ActionBarActivity {
 
         if(searchResultList.size() == 0)
             showEmptyListDialog();
+
         listView = (ListView) this.findViewById(R.id.searchresult_list_view);
 
         searchResultListViewAdapter = new SearchResultListViewAdapter(SearchResultActivity.this, searchResultList);
@@ -118,21 +120,23 @@ public class SearchResultActivity extends ActionBarActivity {
         if(nearest) {
             double min = 0;
             boolean firstItem = true;
-            for(ItemCS socket: MenuActivity.realTimeInfoList) {
-                for (ItemCS temp : tempList) {
-                    if (socket.getLatitude().equals(temp.getLatitude()) && socket.getLongitude().equals(temp.getLongitude())) {
-                        temp.setDistance(socket.getDistance());
-//                        temp.setTime(socket.getTime());
-                        if(firstItem || Double.parseDouble(temp.getDistance()) < min) {
-                            min = Double.parseDouble(temp.getDistance());
-                            firstItem = false;
+            if(MenuActivity.realTimeInfoList.size() > 0) {
+                for (ItemCS socket : MenuActivity.realTimeInfoList) {
+                    for (ItemCS temp : tempList) {
+                        if (socket.getLatitude().equals(temp.getLatitude()) && socket.getLongitude().equals(temp.getLongitude())) {
+                            temp.setDistance(socket.getDistance());
+                            temp.setTime(socket.getTime());
+                            if (firstItem || Double.parseDouble(temp.getDistance()) < min) {
+                                min = Double.parseDouble(temp.getDistance());
+                                firstItem = false;
+                            }
                         }
                     }
                 }
-            }
-            for(ItemCS temp : tempList) {
-                if(Double.parseDouble(temp.getDistance()) == min)
-                    result.add(temp);
+                for (ItemCS temp : tempList) {
+                    if (Double.parseDouble(temp.getDistance()) == min)
+                        result.add(temp);
+                }
             }
         }
         if(availability) {
@@ -177,4 +181,20 @@ public class SearchResultActivity extends ActionBarActivity {
         alertDialog.setCancelable(false);
         alertDialog.show();
     }
+//    private void showNoGPSDialog() {
+//        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+//        alertDialog.setTitle(R.string.searchresult_alertDialog_no_gps_title);
+//        alertDialog.setMessage(R.string.searchresult_alertDialog_no_gps_text);
+//        alertDialog.setNeutralButton(R.string.searchresult_alertDialog_revise_option, new DialogInterface.OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                // TODO Auto-generated method stub
+//                SearchResultActivity.this.finish();
+//            }
+//        });
+//
+//        alertDialog.setCancelable(false);
+//        alertDialog.show();
+//    }
 }
