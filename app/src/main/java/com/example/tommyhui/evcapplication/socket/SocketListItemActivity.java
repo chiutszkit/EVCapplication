@@ -2,10 +2,12 @@ package com.example.tommyhui.evcapplication.socket;
 
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -29,18 +31,17 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SocketListItemActivity extends ActionBarActivity {
+public class SocketListItemActivity extends ActionBarActivity implements LocationListener {
 
     private String type;
     private ArrayList<ItemCS> socketList;
     private ItemCS_DBController db;
 
     private GoogleMap googleMap;
-    private LocationManager locationManager;
-    private Criteria criteria;
     private List<Marker> markers;
     private List<LatLng> markersLatLng;
     private Location myLocation;
+    private Marker myLocationMarker;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,41 +76,54 @@ public class SocketListItemActivity extends ActionBarActivity {
     }
     public void locateUserPosition() {
 
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        googleMap.setMyLocationEnabled(true);
 
-        criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
 
-        myLocation = getLastKnownLocation();
-
-        if(myLocation != null) {
-            double latInDouble = myLocation.getLatitude();
-            double lonInDouble = myLocation.getLongitude();
-
-            LatLng latLng = new LatLng(latInDouble, lonInDouble);
-
-            googleMap.addMarker(new MarkerOptions()
-                    .position(latLng)
-                    .title(getResources().getString(R.string.nearby_userLocation))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.usercar_icon)));
+        String bestProvider = locationManager.getBestProvider(criteria, true);
+        myLocation  = locationManager.getLastKnownLocation(bestProvider);
+        if (myLocation != null) {
+            onLocationChanged(myLocation);
         }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, this);
     }
 
-    public Location getLastKnownLocation() {
-        locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
-        List<String> providers = locationManager.getProviders(true);
-        Location bestLocation = null;
-        for (String provider : providers) {
-            Location l = locationManager.getLastKnownLocation(provider);
-            if (l == null) {
-                continue;
-            }
-            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
-                // Found best last known location: %s", l);
-                bestLocation = l;
-            }
-        }
-        return bestLocation;
+    public void onLocationChanged(Location location) {
+
+        double latInDouble = location.getLatitude();
+        double lonInDouble = location.getLongitude();
+
+        LatLng latLng = new LatLng(latInDouble, lonInDouble);
+
+        // Delete the old marker of user location.
+        if (myLocationMarker != null)
+            myLocationMarker.remove();
+
+        myLocationMarker = googleMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title(getResources().getString(R.string.nearby_userLocation))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.usercar_icon)));
+
+        myLocation = location;
+
+        myLocationMarker.showInfoWindow();
+        Log.v("Debug", "IN ON LOCATION CHANGE, lat=" + latInDouble + ", lon=" + lonInDouble);
+    }
+    @Override
+    public void onProviderDisabled(String provider) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
     }
 
     public void locateSameTypeChargingStationPosition() {

@@ -1,12 +1,15 @@
 package com.example.tommyhui.evcapplication.overview;
 
+import android.graphics.Color;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -18,7 +21,10 @@ import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS_DBController;
 import com.example.tommyhui.evcapplication.database.ItemCS;
+import com.example.tommyhui.evcapplication.map.DirectionsJSONParser;
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -28,11 +34,24 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolylineOptions;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
-public class ItemCSActivity extends ActionBarActivity {
+public class ItemCSActivity extends ActionBarActivity implements LocationListener{
 
     private String address;
     private String district;
@@ -44,10 +63,9 @@ public class ItemCSActivity extends ActionBarActivity {
     private String longitude;
 
     private GoogleMap googleMap;
-    private LocationManager locationManager;
     private Location myLocation;
-    private Criteria criteria;
     private Marker chargingStationMarker;
+    private Marker myLocationMarker;
 
     private FavoriteItemCS_DBController db;
     private FavoriteItemCS favouriteItem;
@@ -92,40 +110,21 @@ public class ItemCSActivity extends ActionBarActivity {
         TextView quantityText = (TextView) findViewById(R.id.chargingstation_item_text_quantity);
         quantityText.setText("Total: " + quantity.toString());
 
+        if (!isGooglePlayServicesAvailable()) {
+            finish();
+        }
 
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.chargingstation_item_map);
         googleMap = supportMapFragment.getMap();
+
         locateUserPosition();
         locateChargingStationPosition();
-    }
-    @Override
-    protected void onResume() {
-        super.onResume();
-        String provider = locationManager.getBestProvider(criteria, true);
-        locationManager.requestLocationUpdates(provider, 10000, 10, myLocationListener);
-    }
 
-    public void locateUserPosition() {
+        String url = getDirectionsUrl(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude)));
+        DownloadTask downloadTask = new DownloadTask();
 
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
-
-        myLocation = getLastKnownLocation();
-
-        if(myLocation != null) {
-            double latInDouble = myLocation.getLatitude();
-            double lonInDouble = myLocation.getLongitude();
-
-            LatLng latLng = new LatLng(latInDouble, lonInDouble);
-
-            googleMap.addMarker(new MarkerOptions()
-                    .position(latLng)
-                    .title(getResources().getString(R.string.nearby_userLocation))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.usercar_icon)));
-        }
+        downloadTask.execute(url);
     }
 
     public void locateChargingStationPosition() {
@@ -167,52 +166,216 @@ public class ItemCSActivity extends ActionBarActivity {
         chargingStationMarker.showInfoWindow();
     }
 
-    public Location getLastKnownLocation() {
-        locationManager = (LocationManager)getApplicationContext().getSystemService(LOCATION_SERVICE);
-        List<String> providers = locationManager.getProviders(true);
-        Location bestLocation = null;
-        for (String provider : providers) {
-            Location l = locationManager.getLastKnownLocation(provider);
-            if (l == null) {
-                continue;
-            }
-            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
-                // Found best last known location: %s", l);
-                bestLocation = l;
-            }
+    public void locateUserPosition() {
+
+        googleMap.setMyLocationEnabled(true);
+
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
+
+        String bestProvider = locationManager.getBestProvider(criteria, true);
+        myLocation  = locationManager.getLastKnownLocation(bestProvider);
+        if (myLocation != null) {
+            onLocationChanged(myLocation);
         }
-        return bestLocation;
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, this);
     }
 
-    private LocationListener myLocationListener = new LocationListener() {
-        @Override
-        public void onLocationChanged(Location location) {
-            myLocation = location;
-        }
+    public void onLocationChanged(Location location) {
 
-        @Override
-        public void onStatusChanged(String provider, int status, Bundle extras) {
-            switch(status) {
-//                case LocationProvider.AVAILABLE:
-//                    Toast.makeText(getBaseContext(), provider + "IS OK", Toast.LENGTH_SHORT).show();
-//                    break;
-//                case LocationProvider.OUT_OF_SERVICE:
-//                    Toast.makeText(getBaseContext(), provider + "IS NOT OK", Toast.LENGTH_SHORT).show();
-//                    break;
+        double latInDouble = location.getLatitude();
+        double lonInDouble = location.getLongitude();
+
+        LatLng latLng = new LatLng(latInDouble, lonInDouble);
+
+        // Delete the old marker of user location.
+        if (myLocationMarker != null)
+            myLocationMarker.remove();
+
+        myLocationMarker = googleMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title(getResources().getString(R.string.nearby_userLocation))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.usercar_icon)));
+
+        myLocation = location;
+
+        myLocationMarker.showInfoWindow();
+        Log.v("Debug", "IN ON LOCATION CHANGE, lat=" + latInDouble + ", lon=" + lonInDouble);
+    }
+    @Override
+    public void onProviderDisabled(String provider) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
+    }
+
+    private String getDirectionsUrl(LatLng origin,LatLng dest){
+
+        // Origin of route
+        String str_origin = "origin="+origin.latitude+","+origin.longitude;
+
+        // Destination of route
+        String str_dest = "destination="+dest.latitude+","+dest.longitude;
+
+        // Sensor enabled
+        String sensor = "sensor=false";
+
+        // Building the parameters to the web service
+        String parameters = str_origin+"&"+str_dest+"&"+sensor;
+
+        // Output format
+        String output = "json";
+
+        // Building the url to the web service
+        String url = "https://maps.googleapis.com/maps/api/directions/"+output+"?"+parameters;
+
+        return url;
+    }
+    /** A method to download json data from url */
+    private String downloadUrl(String strUrl) throws IOException{
+        String data = "";
+        InputStream iStream = null;
+        HttpURLConnection urlConnection = null;
+        try{
+            URL url = new URL(strUrl);
+
+            // Creating an http connection to communicate with url
+            urlConnection = (HttpURLConnection) url.openConnection();
+
+            // Connecting to url
+            urlConnection.connect();
+
+            // Reading data from url
+            iStream = urlConnection.getInputStream();
+
+            BufferedReader br = new BufferedReader(new InputStreamReader(iStream));
+
+            StringBuffer sb = new StringBuffer();
+
+            String line;
+            while( ( line = br.readLine()) != null){
+                sb.append(line);
             }
-        }
 
+            data = sb.toString();
+
+            br.close();
+
+        }catch(Exception e){
+        }finally{
+            iStream.close();
+            urlConnection.disconnect();
+        }
+        return data;
+    }
+
+    // Fetches data from url passed
+    private class DownloadTask extends AsyncTask<String, Void, String> {
+
+        // Downloading data in non-ui thread
         @Override
-        public void onProviderEnabled(String provider) {
-            Toast.makeText(getBaseContext(), "The GPS is ON now.", Toast.LENGTH_SHORT).show();
+        protected String doInBackground(String... url) {
+
+            // For storing data from web service
+            String data = "";
+
+            try{
+                // Fetching the data from web service
+                data = downloadUrl(url[0]);
+            }catch(Exception e){
+                Log.d("Background Task",e.toString());
+            }
+            return data;
         }
 
+        // Executes in UI thread, after the execution of
+        // doInBackground()
         @Override
-        public void onProviderDisabled(String provider) {
-            Toast.makeText(getBaseContext(), "The GPS is OFF now.", Toast.LENGTH_SHORT).show();
-        }
-    };
+        protected void onPostExecute(String result) {
+            super.onPostExecute(result);
 
+            ParserTask parserTask = new ParserTask();
+
+            // Invokes the thread for parsing the JSON data
+            parserTask.execute(result);
+        }
+    }
+
+    /** A class to parse the Google Places in JSON format */
+    private class ParserTask extends AsyncTask<String, Integer, List<List<HashMap<String,String>>> >{
+
+        // Parsing the data in non-ui thread
+        @Override
+        protected List<List<HashMap<String, String>>> doInBackground(String... jsonData) {
+
+            JSONObject jObject;
+            List<List<HashMap<String, String>>> routes = null;
+
+            try{
+                jObject = new JSONObject(jsonData[0]);
+                DirectionsJSONParser parser = new DirectionsJSONParser();
+
+                // Starts parsing data
+                routes = parser.parse(jObject);
+            } catch(Exception e){
+                e.printStackTrace();
+            }
+            return routes;
+        }
+
+        // Executes in UI thread, after the parsing process
+        @Override
+        protected void onPostExecute(List<List<HashMap<String, String>>> result) {
+            ArrayList<LatLng> points;
+            PolylineOptions lineOptions = null;
+
+            // Traversing through all the routes
+            for(int i=0;i<result.size();i++){
+                points = new ArrayList<>();
+                lineOptions = new PolylineOptions();
+
+                // Fetching i-th route
+                List<HashMap<String, String>> path = result.get(i);
+
+                // Fetching all the points in i-th route
+                for(int j = 0;j < path.size(); j++){
+                    HashMap<String,String> point = path.get(j);
+
+                    double lat = Double.parseDouble(point.get("lat"));
+                    double lng = Double.parseDouble(point.get("lng"));
+                    LatLng position = new LatLng(lat, lng);
+
+                    points.add(position);
+                }
+
+                // Adding all the points in the route to LineOptions
+                lineOptions.addAll(points);
+                lineOptions.width(10);
+                lineOptions.color(Color.GREEN);
+            }
+
+            // Drawing polyline in the Google Map for the i-th route
+            googleMap.addPolyline(lineOptions);
+        }
+    }
+    private boolean isGooglePlayServicesAvailable() {
+        int status = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (ConnectionResult.SUCCESS == status) {
+            return true;
+        } else {
+            GooglePlayServicesUtil.getErrorDialog(status, this, 0).show();
+            return false;
+        }
+    }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.

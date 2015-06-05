@@ -3,6 +3,7 @@ package com.example.tommyhui.evcapplication.nearby;
 import android.content.Intent;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.Bundle;
@@ -47,7 +48,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class NearbyActivity extends ActionBarActivity {
+public class NearbyActivity extends ActionBarActivity implements LocationListener {
 
     public static ArrayList<ItemCS> socketList = new ArrayList<>();
     private ItemCS_DBController db;
@@ -78,18 +79,6 @@ public class NearbyActivity extends ActionBarActivity {
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.map_icon);
 
-//        StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder().detectDiskReads().detectDiskWrites().detectNetwork().penaltyLog().build());
-//        StrictMode.setVmPolicy(new StrictMode.VmPolicy.Builder().detectLeakedSqlLiteObjects().detectLeakedClosableObjects().penaltyLog().penaltyDeath().build());
-
-//        if (android.os.Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD)
-//        {
-//            StrictMode.setThreadPolicy(new StrictMode.ThreadPolicy.Builder()
-//                    .detectDiskReads()
-//                    .detectDiskWrites()
-//                    .detectNetwork()   // or .detectAll() for all detectable problems
-//                    .penaltyLog()
-//                    .build());
-//        }
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -118,7 +107,8 @@ public class NearbyActivity extends ActionBarActivity {
                 final double lng2 = markersLatLng.get(i).longitude;
 
                 try {
-                    String url = "http://maps.googleapis.com/maps/api/directions/json?origin=" + lat1 + "," + lng1 + "&destination=" + lat2 + "," + lng2 + "&mode=driving";
+                    String url = "http://maps.googleapis.com/maps/api/directions/json?origin=" + lat1 + "," + lng1 +
+                            "&destination=" + lat2 + "," + lng2 + "&mode=driving";
 
                     HttpPost httppost = new HttpPost(url);
 
@@ -145,7 +135,7 @@ public class NearbyActivity extends ActionBarActivity {
                 }
                 if(i%5 == 0) {
                     try {
-                        Thread.sleep(1500);
+                        Thread.sleep(2000);
                         Log.i("STOP","Pause");
                     } catch (InterruptedException ex) {
                     }
@@ -202,16 +192,6 @@ public class NearbyActivity extends ActionBarActivity {
                     fTime = time.getString("text").split(" ")[0];
                 }
             }
-//        try {
-//            jsonObject = new JSONObject(stringBuilder.toString());
-//            JSONArray array = jsonObject.getJSONArray("routes");
-//            JSONObject routes = array.getJSONObject(0);
-//            JSONArray legs = routes.getJSONArray("legs");
-//            JSONObject steps = legs.getJSONObject(0);
-//            JSONObject time = steps.getJSONObject("duration");
-//
-//            Log.i("Time", time.toString());
-//            travelTime = time.getString("text");
 
         } catch (JSONException e) {
             // TODO Auto-generated catch block
@@ -223,35 +203,53 @@ public class NearbyActivity extends ActionBarActivity {
     // Locate user current position.
     public void locateUserPosition() {
 
-        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        googleMap.setMyLocationEnabled(true);
 
-        criteria = new Criteria();
-        criteria.setAccuracy(Criteria.ACCURACY_FINE);
+        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        Criteria criteria = new Criteria();
 
-        myLocation = getLastKnownLocation();
-        if(myLocation != null) {
-            double latInDouble = myLocation.getLatitude();
-            double lonInDouble = myLocation.getLongitude();
-
-            LatLng latLng = new LatLng(latInDouble, lonInDouble);
-
-            // Delete the old marker of user location.
-            if (myLocationMarker != null)
-                myLocationMarker.remove();
-
-            // Add a marker of user existing location.
-            myLocationMarker = googleMap.addMarker(new MarkerOptions()
-                    .position(latLng)
-                    .title(getResources().getString(R.string.nearby_userLocation))
-                    .icon(BitmapDescriptorFactory.fromResource(R.drawable.usercar_icon)));
-
-            myLocationMarker.showInfoWindow();
-
-            // Move camera to the position that shows user existing location.
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+        String bestProvider = locationManager.getBestProvider(criteria, true);
+        myLocation  = locationManager.getLastKnownLocation(bestProvider);
+        if (myLocation != null) {
+            onLocationChanged(myLocation);
         }
-        else
-            Toast.makeText(getBaseContext(), getResources().getString(R.string.nearby_alert_gpsOff), Toast.LENGTH_SHORT).show();
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, this);
+    }
+    public void onLocationChanged(Location location) {
+
+        double latInDouble = location.getLatitude();
+        double lonInDouble = location.getLongitude();
+
+        LatLng latLng = new LatLng(latInDouble, lonInDouble);
+
+        // Delete the old marker of user location.
+        if (myLocationMarker != null)
+            myLocationMarker.remove();
+
+        myLocationMarker = googleMap.addMarker(new MarkerOptions()
+                .position(latLng)
+                .title(getResources().getString(R.string.nearby_userLocation))
+                .icon(BitmapDescriptorFactory.fromResource(R.drawable.usercar_icon)));
+
+        myLocation = location;
+
+        myLocationMarker.showInfoWindow();
+        Log.v("Debug", "IN ON LOCATION CHANGE, lat=" + latInDouble + ", lon=" + lonInDouble);
+    }
+    @Override
+    public void onProviderDisabled(String provider) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
     }
 
     public Location getLastKnownLocation() {
@@ -334,28 +332,6 @@ public class NearbyActivity extends ActionBarActivity {
 //        }
     }
 
-    public void onNavigate(Location location, LatLng latlng) {
-
-        double fromLat = location.getLatitude();
-        double fromLng = location.getLongitude();
-        double toLat = latlng.latitude;
-        double toLng = latlng.longitude;
-
-        String uriStr = String.format(Locale.ENGLISH,
-                "http://maps.google.com/maps?saddr=%f,%f&daddr=%f,%f", fromLat,
-                fromLng, toLat, toLng);
-
-        Intent intent = new Intent();
-
-        intent.setClassName("com.google.android.apps.maps",
-                "com.google.android.maps.MapsActivity");
-
-        intent.setAction(Intent.ACTION_VIEW);
-
-        intent.setData(Uri.parse(uriStr));
-
-        startActivity(intent);
-    }
     /***************************************/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

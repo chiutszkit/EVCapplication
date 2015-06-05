@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -35,7 +36,6 @@ public class SearchResultActivity extends ActionBarActivity {
     private String quantity;
     private Boolean nearest;
     private Boolean availability;
-    private Boolean GPSExist;
 
     private ArrayList<ItemCS> searchResultList = new ArrayList<>();
     private ItemCS_DBController db;
@@ -81,6 +81,8 @@ public class SearchResultActivity extends ActionBarActivity {
 
         if(searchResultList.size() == 0)
             showEmptyListDialog();
+
+        Log.v("Debug", searchResultList.size() + "");
 
         listView = (ListView) this.findViewById(R.id.searchresult_list_view);
 
