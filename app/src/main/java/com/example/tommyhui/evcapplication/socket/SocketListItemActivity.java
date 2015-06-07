@@ -181,25 +181,4 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
             });
         }
     }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.nearby_options_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // handle item selection
-        switch (item.getItemId()) {
-            case R.id.nearby_action_locate:
-//                locateUserPosition();
-//                calculateDistance();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
 }

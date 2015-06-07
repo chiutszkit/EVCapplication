@@ -153,7 +153,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
                 @Override
                 public void onCameraChange(CameraPosition arg0) {
                     // Move camera to the position that shows all markers.
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 50));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
                     // Remove listener to prevent position reset on camera move.
                     googleMap.setOnCameraChangeListener(null);
                 }
@@ -200,7 +200,6 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
 
         myLocation = location;
 
-        myLocationMarker.showInfoWindow();
         Log.v("Debug", "IN ON LOCATION CHANGE, lat=" + latInDouble + ", lon=" + lonInDouble);
     }
     @Override

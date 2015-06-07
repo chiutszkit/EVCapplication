@@ -45,16 +45,20 @@
         <activity
             android:name=".menu.MenuActivity"
             android:label="@string/app_name"
-            android:logo="@drawable/evc_icon">
+            android:logo="@drawable/evc_icon"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".HomeActivity" />
+        <activity android:name=".HomeActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".overview.OverviewActivity">
+        <activity
+            android:name=".overview.OverviewActivity"
+            android:screenOrientation="portrait" >
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
@@ -63,27 +67,49 @@
                 android:resource="@xml/searchable" />
         </activity>
 
-        <activity android:name=".search.SearchActivity" />
+        <activity
+            android:name=".search.SearchActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".search.SearchResultActivity" />
+        <activity
+            android:name=".search.SearchResultActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".overview.ItemCSActivity" />
+        <activity
+            android:name=".overview.ItemCSActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".setting.SettingActivity" />
+        <activity
+            android:name=".setting.SettingActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".about.AboutActivity" />
+        <activity
+            android:name=".about.AboutActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".favourite.FavoriteActivity" />
+        <activity
+            android:name=".favourite.FavoriteActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".socket.SocketActivity" />
+        <activity
+            android:name=".socket.SocketActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".socket.SocketListActivity" />
+        <activity
+            android:name=".socket.SocketListActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".socket.SocketListItemActivity" />
+        <activity
+            android:name=".socket.SocketListItemActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".realtime.RealTimeActivity" />
+        <activity
+            android:name=".realtime.RealTimeActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".nearby.NearbyActivity" />
+        <activity
+            android:name=".nearby.NearbyActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>
