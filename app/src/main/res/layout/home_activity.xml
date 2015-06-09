@@ -27,7 +27,7 @@
         android:src="@drawable/evc_icon" />
 
     <TextView
-        android:id="@+id/home_text_desciption"
+        android:id="@+id/homepage_text_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="0.5"
@@ -38,10 +38,9 @@
         android:textSize="30sp" />
 
     <ProgressBar
-        android:id="@+id/progressBar"
+        android:id="@+id/homepage_progressBar"
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:secondaryProgress="50" />
+        android:layout_height="wrap_content"/>
 
 </LinearLayout>

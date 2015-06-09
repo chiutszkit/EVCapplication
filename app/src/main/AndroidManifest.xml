@@ -47,7 +47,8 @@
             android:label="@string/app_name"
             android:logo="@drawable/evc_icon"
             android:screenOrientation="portrait"
-            android:noHistory="true">
+            android:noHistory="true"
+            android:configChanges="locale|orientation">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />

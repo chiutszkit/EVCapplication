@@ -9,12 +9,11 @@ import android.content.res.Resources;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS;
@@ -51,7 +50,7 @@ public class HomeActivity extends Activity {
     private ArrayList<String> list_ID_favorite;
     private ArrayList<String> list_ID_history;
 
-    private ProgressBar spinner;
+    private ProgressBar mProgress;
 
     private ItemCS_DBController db_ItemCS;
     private FavoriteItemCS_DBController db_FavoriteItemCS;
@@ -67,12 +66,12 @@ public class HomeActivity extends Activity {
 
     private List<LatLng> markersLatLng;
     private Location myLocation;
+    private StringBuilder stringBuilder = new StringBuilder();
     private int count = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.home_activity);
 
         /** Set up the language of application */
         SharedPreferences sharedPref = getSharedPreferences("UserConfigs", Context.MODE_PRIVATE);
@@ -88,11 +87,83 @@ public class HomeActivity extends Activity {
             setLocale(sharedPref.getString("language","no"));
         editor.apply();
 
-
-        spinner = (ProgressBar)findViewById(R.id.progressBar);
-        spinner.setVisibility(View.VISIBLE);
+        setContentView(R.layout.home_activity);
 
         /** Set up all the database **/
+        setUpDataBase();
+
+        /** Preload the real time data **/
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
+        locateUserPosition();
+        locateAllChargingStationPosition();
+
+        mProgress = (ProgressBar) findViewById(R.id.homepage_progressBar);
+        new LoadRealTimeDataTask().execute((Void[])null);
+    }
+
+    private class LoadRealTimeDataTask extends AsyncTask<Void,Integer,Integer> {
+        // Do the long-running work in here
+        protected Integer doInBackground(Void... params) {
+
+            if (myLocation != null) {
+
+                for (int i = 0; i < markersLatLng.size(); i++) {
+
+                    final double lat1 = myLocation.getLatitude();
+                    final double lng1 = myLocation.getLongitude();
+                    final double lat2 = markersLatLng.get(i).latitude;
+                    final double lng2 = markersLatLng.get(i).longitude;
+
+                    String realTimeData[] = connectToGoogleMap(lat1, lat2, lng1, lng2);
+                    String distance = realTimeData[0];
+                    String time = realTimeData[1];
+
+                    // Update the list of socketVenueList.
+                    if (Double.parseDouble(socketVenueList.get(i).getLatitude()) == markersLatLng.get(i).latitude &&
+                            Double.parseDouble(socketVenueList.get(i).getLongitude()) == markersLatLng.get(i).longitude) {
+                        socketVenueList.get(i).setDistance(distance);
+                        socketVenueList.get(i).setTime(time);
+                    }
+
+                    // Take a pause in order to prevent blocking from Google Map.
+                    if(i%5 == 0) {
+                        try {
+                            Thread.sleep(1800);
+                            Log.i("Pause","Pause");
+                        } catch (InterruptedException ex) {
+                        }
+                    }
+
+                    float file = i;
+                    float noOfFile = socketVenueList.size();
+                    publishProgress((int) ((file / noOfFile) * 100));
+                    Log.i("Progress", (int) ((file / noOfFile) * 100) + "");
+                }
+            }
+            // Pass the real time data of distance and travelling time to list of realTimeInfoList for further processing.
+            MenuActivity.realTimeInfoList = socketVenueList;
+            return null;
+        }
+
+        // Called each time you call publishProgress()
+        protected void onProgressUpdate(Integer... progress) {
+            mProgress.setProgress(progress[0]);
+        }
+
+        // Called when doInBackground() is finished
+        protected void onPostExecute(Integer result) {
+            Intent menuIntent = new Intent();
+            menuIntent.setClass(HomeActivity.this, MenuActivity.class);
+            startActivity(menuIntent);
+        }
+    }
+
+    /** Set up all the database **/
+    public void setUpDataBase() {
+
         db_ItemCS = new ItemCS_DBController(this);
         db_FavoriteItemCS = new FavoriteItemCS_DBController(this);
         db_HistoryItemCS = new HistoryItemCS_DBController(this);
@@ -120,6 +191,7 @@ public class HomeActivity extends Activity {
         }
         MenuActivity.ItemCSes = db_ItemCS.inputQueryCSes(this, new String[]{}, 1);
 
+        SharedPreferences sharedPref = getSharedPreferences("UserConfigs", Context.MODE_PRIVATE);
         Set mySetFavorite = sharedPref.getStringSet("favoriteList", null);
         Set mySetHistory = sharedPref.getStringSet("historyList", null);
 
@@ -150,20 +222,6 @@ public class HomeActivity extends Activity {
                 }
             }
         }
-
-        /** Preload the real time data **/
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
-        locateUserPosition();
-        locateAllChargingStationPosition();
-//        calculateRealTimeData();
-
-        Intent menuIntent = new Intent();
-        menuIntent.setClass(HomeActivity.this, MenuActivity.class);
-        startActivity(menuIntent);
-
     }
 
     /** Locate user current position **/
@@ -199,61 +257,32 @@ public class HomeActivity extends Activity {
     }
 
     /** Calculate the distance and travelling time between user and charging stations **/
-    public void calculateRealTimeData() {
+    public String[] connectToGoogleMap(double lat1, double lat2, double lng1, double lng2) {
 
-        if (myLocation != null) {
+        // Set up the connection to Google Map.
+        try {
+            String url = "http://maps.googleapis.com/maps/api/directions/json?origin=" + lat1 + "," + lng1 +
+                    "&destination=" + lat2 + "," + lng2 + "&mode=driving";
 
-            for (int i = 0; i < markersLatLng.size(); i++) {
+            HttpPost httppost = new HttpPost(url);
 
-                final StringBuilder stringBuilder = new StringBuilder();
-
-                final double lat1 = myLocation.getLatitude();
-                final double lng1 = myLocation.getLongitude();
-                final double lat2 = markersLatLng.get(i).latitude;
-                final double lng2 = markersLatLng.get(i).longitude;
-
-                // Set up the connection to Google Map.
-                try {
-                    String url = "http://maps.googleapis.com/maps/api/directions/json?origin=" + lat1 + "," + lng1 +
-                            "&destination=" + lat2 + "," + lng2 + "&mode=driving";
-
-                    HttpPost httppost = new HttpPost(url);
-
-                    HttpClient client = new DefaultHttpClient();
-                    HttpResponse response;
-                    response = client.execute(httppost);
-                    HttpEntity entity = response.getEntity();
-                    InputStream stream = entity.getContent();
-                    int b;
-                    while ((b = stream.read()) != -1) {
-                        stringBuilder.append((char) b);
-                    }
-                } catch (ClientProtocolException e) {
-                } catch (IOException e) {
-                }
-
-                String distance = calculateDistance(stringBuilder);
-                String time = calculateTime(stringBuilder);
-
-                // Update the list of socketVenueList.
-                if (Double.parseDouble(socketVenueList.get(i).getLatitude()) == markersLatLng.get(i).latitude &&
-                        Double.parseDouble(socketVenueList.get(i).getLongitude()) == markersLatLng.get(i).longitude) {
-                    socketVenueList.get(i).setDistance(distance);
-                    socketVenueList.get(i).setTime(time);
-                }
-
-                // Take a pause in order to prevent blocking from Google Map.
-                if(i%5 == 0) {
-                    try {
-                        Thread.sleep(1800);
-                        Log.i("STOP","Pause");
-                    } catch (InterruptedException ex) {
-                    }
-                }
+            HttpClient client = new DefaultHttpClient();
+            HttpResponse response;
+            response = client.execute(httppost);
+            HttpEntity entity = response.getEntity();
+            InputStream stream = entity.getContent();
+            int b;
+            while ((b = stream.read()) != -1) {
+                stringBuilder.append((char) b);
             }
+        } catch (ClientProtocolException e) {
+        } catch (IOException e) {
         }
-        // Pass the real time data of distance and travelling time to list of realTimeInfoList for further processing.
-        MenuActivity.realTimeInfoList = socketVenueList;
+
+        String distance = calculateDistance(stringBuilder);
+        String time = calculateTime(stringBuilder);
+
+        return new String[] {distance, time};
     }
     /** Get the distances from charging stations to user position **/
     public String calculateDistance(StringBuilder stringBuilder) {
@@ -270,7 +299,7 @@ public class HomeActivity extends Activity {
                     JSONObject steps = legs.getJSONObject(j);
                     JSONObject distance = steps.getJSONObject("distance");
 
-                    Log.i("Distance" + count, distance.toString());
+                    Log.i("Distance " + count, distance.toString());
                     count ++;
                     fDistance = distance.getString("text").split(" ")[0];
                 }
