@@ -1,6 +1,8 @@
 package com.example.tommyhui.evcapplication.menu;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -12,20 +14,25 @@ import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.tommyhui.evcapplication.HomeActivity;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.about.AboutActivity;
+import com.example.tommyhui.evcapplication.database.FavoriteItemCS;
+import com.example.tommyhui.evcapplication.database.FavoriteItemCS_DBController;
+import com.example.tommyhui.evcapplication.database.HistoryItemCS;
+import com.example.tommyhui.evcapplication.database.HistoryItemCS_DBController;
 import com.example.tommyhui.evcapplication.database.ItemCS;
-import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
 import com.example.tommyhui.evcapplication.favourite.FavoriteActivity;
 import com.example.tommyhui.evcapplication.nearby.NearbyActivity;
 import com.example.tommyhui.evcapplication.overview.OverviewActivity;
 import com.example.tommyhui.evcapplication.realtime.RealTimeActivity;
 import com.example.tommyhui.evcapplication.search.SearchActivity;
-import com.example.tommyhui.evcapplication.setting.SettingActivity;
 import com.example.tommyhui.evcapplication.socket.SocketActivity;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 
 public class MenuActivity extends ActionBarActivity {
@@ -33,53 +40,27 @@ public class MenuActivity extends ActionBarActivity {
     public static ArrayList<ItemCS> ItemCSes = new ArrayList<>();
     public static ArrayList<ItemCS> realTimeInfoList = new ArrayList<>();
 
-    private ItemCS_DBController db;
-    private String[] address;
-    private String[] district;
-    private String[] description;
-    private String[] type;
-    private String[] socket;
-    private int[] quantity;
-    private String[] latitude;
-    private String[] longitude;
+    private Set<String> list_ID_favorite = new HashSet<>();
+    private Set<String> list_ID_history = new HashSet<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.menu_activity);
 
-        /*Use Customized Action Bar*/
+        /** Use customized action bar **/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
-        //        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
 
-        /*Set Action Bar's Title*/
+        /** Set up action bar's title **/
         TextView title = (TextView) findViewById(R.id.action_bar_title);
-        title.setText("Menu");
+        title.setText(R.string.menu_title_menu);
 
-        /*Set Action Bar's Icon*/
+        /** Set up action bar's icon **/
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.evc_icon);
 
-        /*To Set Up ItemCS_DBController*/
-        db = new ItemCS_DBController(this);
-
-        address = getResources().getStringArray(R.array.address);
-        district = getResources().getStringArray(R.array.district);
-        description = getResources().getStringArray(R.array.description);
-        type = getResources().getStringArray(R.array.type);
-        socket = getResources().getStringArray(R.array.socket);
-        quantity = getResources().getIntArray(R.array.quantity);
-        latitude = getResources().getStringArray(R.array.latitude);
-        longitude = getResources().getStringArray(R.array.longitude);
-
-        for (int i = 0; i < address.length; i++) {
-
-            db.addCS(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i]));
-            ItemCSes.add(i, new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i]));
-        }
-        ItemCSes = db.inputQueryCSes(this, new String[] {""}, 1);
-
+        /** Set up menu page's button **/
         final View.OnClickListener mGlobal_OnClickListener = new View.OnClickListener() {
             public void onClick(final View v) {
                 switch (v.getId()) {
@@ -117,7 +98,7 @@ public class MenuActivity extends ActionBarActivity {
                 }
             }
         };
-        /*Set Menu Page Button*/
+
         findViewById(R.id.menu_grid_overview).setOnClickListener(mGlobal_OnClickListener);
         findViewById(R.id.menu_grid_search).setOnClickListener(mGlobal_OnClickListener);
         findViewById(R.id.menu_grid_favourite).setOnClickListener(mGlobal_OnClickListener);
@@ -127,36 +108,91 @@ public class MenuActivity extends ActionBarActivity {
 
     }
 
+    /** Share the information of this application to others **/
     public void shareApp() {
-        //create the send intent
+        // Create the send intent
         Intent shareIntent =
                 new Intent(android.content.Intent.ACTION_SEND);
 
-        //set the type
+        // Set the type
         shareIntent.setType("text/plain");
 
-        //add a subject
+        // Add a subject
         shareIntent.putExtra(android.content.Intent.EXTRA_SUBJECT,
                 getString(R.string.share_subject));
 
-        //build the body of the message to be shared
+        // Build the body of the message to be shared
         String shareMessage = getString(R.string.app_name) + getString(R.string.share_message);
 
-        //add the message
+        // Add the message
         shareIntent.putExtra(android.content.Intent.EXTRA_TEXT,
                 shareMessage);
 
-        //start the chooser for sharing
+        // Start the chooser for sharing
         startActivity(Intent.createChooser(shareIntent,
                 getString(R.string.share_hint)));
     }
 
+    /** Save the current user data **/
+    public void saveUserSetting() {
+
+        SharedPreferences sharedPref = getSharedPreferences("UserConfigs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+
+        // Save user's favorite items
+        FavoriteItemCS_DBController db_FavoriteItemCS = new FavoriteItemCS_DBController(this);
+        ArrayList<FavoriteItemCS> favoriteItemCS_list = db_FavoriteItemCS.getAllFavoriteCSes();
+        list_ID_favorite = new HashSet<>();
+
+        for(int i = 0; i < favoriteItemCS_list.size(); i++)
+            for(int j = 0; j < HomeActivity.matchingList.size(); j++) {
+                ItemCS cs1 = HomeActivity.matchingList.get(j);
+                ItemCS cs2 = favoriteItemCS_list.get(i);
+                if (cs1.getAddress().equals(cs2.getAddress()) && cs1.getDistrict().equals(cs2.getDistrict())
+                        && cs1.getDescription().equals(cs2.getDescription()) && cs1.getSocket().equals(cs2.getSocket())
+                        && cs1.getType().equals(cs2.getType()) && cs1.getQuantity() == cs2.getQuantity())
+                    list_ID_favorite.add(j + "");
+            }
+        if(list_ID_favorite.size() > 0) {
+            editor.putStringSet("favoriteList", list_ID_favorite);
+            editor.commit();
+        }
+
+        // Save user's history items
+        HistoryItemCS_DBController db_HistoryItemCS = new HistoryItemCS_DBController(this);
+        ArrayList<HistoryItemCS> historyItemCS_list = db_HistoryItemCS.getAllHistoryCSes();
+        list_ID_history = new HashSet<>();
+
+        for(int i = 0; i < historyItemCS_list.size(); i++)
+            for(int j = 0; j < HomeActivity.matchingList.size(); j++) {
+                ItemCS cs1 = HomeActivity.matchingList.get(j);
+                ItemCS cs2 = historyItemCS_list.get(i);
+                if (cs1.getAddress().equals(cs2.getAddress()) && cs1.getDistrict().equals(cs2.getDistrict())
+                        && cs1.getDescription().equals(cs2.getDescription()) && cs1.getSocket().equals(cs2.getSocket())
+                        && cs1.getType().equals(cs2.getType()) && cs1.getQuantity() == cs2.getQuantity())
+                    list_ID_history.add(j + "");
+            }
+        if(list_ID_history.size() > 0) {
+            editor.putStringSet("historyList", list_ID_history);
+            editor.commit();
+        }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_options_menu, menu);
+
+        SharedPreferences sharedPref = getSharedPreferences("UserConfigs", Context.MODE_PRIVATE);
+
+        if(sharedPref.getString("language","no").equals("en")) {
+            menu.findItem(R.id.menu_options_language).setTitle(getString(R.string.menu_optionsmenu_language) + ": English");
+        }
+        else {
+            menu.findItem(R.id.menu_options_language).setTitle(getString(R.string.menu_optionsmenu_language) + ": 繁體中文");
+        }
+
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -178,15 +214,26 @@ public class MenuActivity extends ActionBarActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // handle item selection
+        SharedPreferences sharedPref = getSharedPreferences("UserConfigs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
         switch (item.getItemId()) {
             case R.id.menu_options_share:
                 shareApp();
                 return true;
 
-            case R.id.menu_options_settings:
-                Intent settingIntent = new Intent();
-                settingIntent.setClass(MenuActivity.this, SettingActivity.class);
-                startActivity(settingIntent);
+            case R.id.menu_options_language:
+                if(!sharedPref.getString("language","no").equals("en"))
+                    editor.putString("language", "en");
+                else
+                    editor.putString("language", "zh");
+
+                editor.apply();
+
+                saveUserSetting();
+
+                Intent homeIntent = new Intent();
+                homeIntent.setClass(MenuActivity.this, HomeActivity.class);
+                startActivity(homeIntent);
                 return true;
 
             case R.id.menu_options_about:

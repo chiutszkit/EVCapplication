@@ -22,7 +22,6 @@ import com.example.tommyhui.evcapplication.adapter.SearchResultListViewAdapter;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
-import com.example.tommyhui.evcapplication.nearby.NearbyActivity;
 import com.example.tommyhui.evcapplication.overview.ItemCSActivity;
 
 import java.util.ArrayList;
@@ -48,19 +47,21 @@ public class SearchResultActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_result_activity);
 
-        /*Use Customized Action Bar*/
+        /** Use customized action bar **/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
-        /*Set Action Bar's Title*/
+        /** Set up action bar's title **/
         TextView title = (TextView) findViewById(R.id.action_bar_title);
-        title.setText("Search Result");
+        title.setText(R.string.searchresult_title);
 
-        /*Set Action Bar's Icon*/
+        /** Set up action bar's icon **/
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.filter_icon);
 
+        /** Get the data passed **/
         Bundle bundle = getIntent().getExtras();
+
         district = bundle.getString("district");
         description = bundle.getString("description");
         type = bundle.getString("type");
@@ -117,6 +118,7 @@ public class SearchResultActivity extends ActionBarActivity {
         });
     }
 
+    /** Handle the case of sort by nearest and available **/
     private ArrayList Sorting(ArrayList<ItemCS> tempList) {
         ArrayList<ItemCS> result = new ArrayList<>();
         if(nearest) {
@@ -146,13 +148,6 @@ public class SearchResultActivity extends ActionBarActivity {
         }
         return result;
     }
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.menu_options_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -167,6 +162,8 @@ public class SearchResultActivity extends ActionBarActivity {
                 return super.onOptionsItemSelected(item);
         }
     }
+
+    /** Show alert dialog for empty list of search item **/
     private void showEmptyListDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle(R.string.searchresult_alertDialog_no_result_title);
@@ -183,20 +180,4 @@ public class SearchResultActivity extends ActionBarActivity {
         alertDialog.setCancelable(false);
         alertDialog.show();
     }
-//    private void showNoGPSDialog() {
-//        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-//        alertDialog.setTitle(R.string.searchresult_alertDialog_no_gps_title);
-//        alertDialog.setMessage(R.string.searchresult_alertDialog_no_gps_text);
-//        alertDialog.setNeutralButton(R.string.searchresult_alertDialog_revise_option, new DialogInterface.OnClickListener() {
-//
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                // TODO Auto-generated method stub
-//                SearchResultActivity.this.finish();
-//            }
-//        });
-//
-//        alertDialog.setCancelable(false);
-//        alertDialog.show();
-//    }
 }

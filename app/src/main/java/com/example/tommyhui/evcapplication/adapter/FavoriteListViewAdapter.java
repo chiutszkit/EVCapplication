@@ -3,7 +3,6 @@ package com.example.tommyhui.evcapplication.adapter;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,8 +17,6 @@ import android.widget.Toast;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS_DBController;
-import com.example.tommyhui.evcapplication.overview.OverviewActivity;
-import com.example.tommyhui.evcapplication.search.SearchActivity;
 
 import java.util.ArrayList;
 
@@ -83,13 +80,14 @@ public class FavoriteListViewAdapter extends BaseAdapter {
             @Override
             public void onClick(View v) {
 
-                showDeletConfirmDialog(rowView, imageView, position);
+                showDeleteConfirmDialog(rowView, imageView, position);
             }
         });
 
         return rowView;
     }
 
+    /** Remove the favorite item selected **/
     protected void removeListItem(View rowView, final int position) {
         final Animation animation = AnimationUtils.loadAnimation(
                 context, android.R.anim.fade_out);
@@ -103,7 +101,9 @@ public class FavoriteListViewAdapter extends BaseAdapter {
             }
         }, 1000);
     }
-    private void showDeletConfirmDialog(final View rowView, final ImageView imageView, final int position) {
+
+    /** Show confirm dialog for deletion **/
+    private void showDeleteConfirmDialog(final View rowView, final ImageView imageView, final int position) {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(context);
         alertDialog.setTitle(R.string.favorites_alertDialog_delete_favorites_title);
         alertDialog.setMessage(R.string.favorites_alertDialog_delete_favorites_text);

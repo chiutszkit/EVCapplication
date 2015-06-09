@@ -1,0 +1,571 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="address">
+        <item>中環愛丁堡廣場9號</item>
+        <item>柴灣怡豐街</item>
+        <item>鴨脷洲怡雅路二號</item>
+        <item>赤柱佳美道23號</item>
+        <item>金鐘山頂道118號</item>
+        <item>中環雲咸街60號</item>
+        <item>金鐘花園道3號</item>
+        <item>中環皇后大道中16-18號</item>
+        <item>中環愛丁堡廣場9號</item>
+        <item>中環愛丁堡廣場9號</item>
+        <item>愛丁堡廣場1號</item>
+        <item>愛丁堡廣場1號</item>
+        <item>上環林士街2號</item>
+        <item>上環林士街2號</item>
+        <item>中環美利道2號 </item>
+        <item>中環美利道2號 </item>
+        <item>金鐘金鐘道66號</item>
+        <item>金鐘金鐘道66號</item>
+        <item>筲箕灣愛東村</item>
+        <item>天后留仙街與電氣道交界 </item>
+        <item>天后留仙街與電氣道交界 </item>
+        <item>太古城太古城道18號</item>
+        <item>北角電氣道148號</item>
+        <item>柴灣永泰道50號</item>
+        <item>柴灣小西灣道28號</item>
+        <item>筲箕灣興民街68號</item>
+        <item>鰂魚涌華蘭路22號</item>
+        <item>鰂魚涌英皇道979號</item>
+        <item>鰂魚涌太古坊 </item>
+        <item>太古城康山道1號</item>
+        <item>柴灣祥利街29-31號</item>
+        <item>北角渣華道333號</item>
+        <item>北角渣華道333號</item>
+        <item>筲箕灣寶文街1號</item>
+        <item>筲箕灣寶文街1號</item>
+        <item>北角電氣道183號</item>
+        <item>杏花邨盛泰道</item>
+        <item>大坑勵德邨路2-38號</item>
+        <item>數碼港數碼港道100號</item>
+        <item>跑馬地樂活道12號</item>
+        <item>灣仔港灣道23號</item>
+        <item>灣仔皇后大道東183號</item>
+        <item>灣仔皇后大道東213號</item>
+        <item>銅鑼灣大球場徑1號</item>
+        <item>銅鑼灣告士打道255-257號</item>
+        <item>銅鑼灣勿地臣街1號</item>
+        <item>灣仔告士打道7號</item>
+        <item>灣仔告士打道7號</item>
+        <item>灣仔港灣道1號</item>
+        <item>灣仔博覽道1號</item>
+        <item>灣仔港灣道6至8號 </item>
+        <item>中環愛丁堡廣場9號</item>
+        <item>中環愛丁堡廣場1號</item>
+        <item>上環林士街2號</item>
+        <item>中環美利道2號 </item>
+        <item>金鐘金鐘道66號</item>
+        <item>中環港景街1號</item>
+        <item>中環金融街8號</item>
+        <item>天后留仙街與電氣道交界 </item>
+        <item>鰂魚涌英皇道683號</item>
+        <item>北角渣華道333號</item>
+        <item>筲箕灣寶文街1號</item>
+        <item>灣仔告士打道7號</item>
+        <item>灣仔港灣道6至8號</item>
+        <item>數碼港鋼綫灣數碼港道100號</item>
+        <item>灣仔皇后大道東183號</item>
+        <item>數碼港數碼港道100號</item>
+        <item>灣仔皇后大道東183號</item>
+        <item>銅鑼灣恩平道2-38號</item>
+    </string-array>
+    <string-array name="district">
+        <item>中環</item>
+        <item>柴灣</item>
+        <item>鴨脷洲</item>
+        <item>赤柱</item>
+        <item>金鐘</item>
+        <item>中環</item>
+        <item>金鐘</item>
+        <item>中環</item>
+        <item>中環</item>
+        <item>中環</item>
+        <item>中環</item>
+        <item>中環</item>
+        <item>上環</item>
+        <item>上環</item>
+        <item>中環</item>
+        <item>中環</item>
+        <item>金鐘</item>
+        <item>金鐘</item>
+        <item>筲箕灣</item>
+        <item>天后</item>
+        <item>天后</item>
+        <item>太古城</item>
+        <item>北角</item>
+        <item>柴灣</item>
+        <item>柴灣</item>
+        <item>筲箕灣</item>
+        <item>鰂魚涌</item>
+        <item>鰂魚涌</item>
+        <item>鰂魚涌</item>
+        <item>太古城</item>
+        <item>柴灣</item>
+        <item>北角</item>
+        <item>北角</item>
+        <item>筲箕灣</item>
+        <item>筲箕灣</item>
+        <item>北角</item>
+        <item>杏花邨</item>
+        <item>大坑</item>
+        <item>數碼港</item>
+        <item>跑馬地</item>
+        <item>灣仔</item>
+        <item>灣仔</item>
+        <item>灣仔</item>
+        <item>銅鑼灣</item>
+        <item>銅鑼灣</item>
+        <item>銅鑼灣</item>
+        <item>灣仔</item>
+        <item>灣仔</item>
+        <item>灣仔</item>
+        <item>灣仔</item>
+        <item>灣仔</item>
+        <item>中環</item>
+        <item>中環</item>
+        <item>上環</item>
+        <item>中環</item>
+        <item>金鐘</item>
+        <item>中環</item>
+        <item>中環</item>
+        <item>天后</item>
+        <item>鰂魚涌</item>
+        <item>北角</item>
+        <item>筲箕灣</item>
+        <item>灣仔</item>
+        <item>灣仔</item>
+        <item>數碼港</item>
+        <item>灣仔</item>
+        <item>數碼港</item>
+        <item>灣仔</item>
+        <item>銅鑼灣</item>
+    </string-array>
+    <string-array name="description">
+        <item>天星碼頭停車場</item>
+        <item>漁灣村停車場</item>
+        <item>港燈的前營運大樓</item>
+        <item>赤柱廣場停車場</item>
+        <item>山頂廣場</item>
+        <item>中央廣場</item>
+        <item>花旗銀行廣場</item>
+        <item>新世界大廈</item>
+        <item>天星碼頭停車場</item>
+        <item>天星碼頭停車場</item>
+        <item>大會堂停車場</item>
+        <item>大會堂停車場</item>
+        <item>林士街停車場</item>
+        <item>林士街停車場</item>
+        <item>美利道停車場</item>
+        <item>美利道停車場</item>
+        <item>金鐘道政府合署</item>
+        <item>金鐘道政府合署</item>
+        <item>愛東村</item>
+        <item>天后停車場</item>
+        <item>天后停車場</item>
+        <item>太古城中心</item>
+        <item>電氣道148號</item>
+        <item>港利中心</item>
+        <item>藍灣廣場</item>
+        <item>海天廣場</item>
+        <item>濠豐大廈</item>
+        <item>多盛大廈</item>
+        <item>港島東中心</item>
+        <item>康怡廣場（南）</item>
+        <item>國貿中心</item>
+        <item>北角政府合署</item>
+        <item>北角政府合署</item>
+        <item>筲箕灣停車場</item>
+        <item>筲箕灣停車場</item>
+        <item>友邦廣場</item>
+        <item>杏花新城 (西翼)</item>
+        <item>勵德村</item>
+        <item>數碼港2座</item>
+        <item>樂天峯</item>
+        <item>鷹君中心</item>
+        <item>合和中心</item>
+        <item>胡忠大廈</item>
+        <item>奧運大樓</item>
+        <item>信和廣場</item>
+        <item>時代廣場</item>
+        <item>灣仔政府大樓和入境事務大樓</item>
+        <item>灣仔政府大樓和入境事務大樓</item>
+        <item>會展中心（港灣道）停車場</item>
+        <item>會展中心（博覽道中）停車場</item>
+        <item>瑞安中心</item>
+        <item>天星碼頭停車場</item>
+        <item>大會堂停車場</item>
+        <item>林士街停車場</item>
+        <item>美利道停車場</item>
+        <item>金鐘道政府合署</item>
+        <item>國際金融中心一期</item>
+        <item>國際金融中心二期</item>
+        <item>天后停車場</item>
+        <item>嘉里中心</item>
+        <item>北角政府合署</item>
+        <item>筲箕灣停車場</item>
+        <item>灣仔政府大樓和入境事務大樓</item>
+        <item>瑞安中心</item>
+        <item>香港數碼港艾美酒店</item>
+        <item>合和中心</item>
+        <item>數碼港2座 </item>
+        <item>合和中心</item>
+        <item>利園2期</item>
+    </string-array>
+    <string-array name="type">
+        <item>快速 - CHAdeMO</item>
+        <item>快速 - CHAdeMO</item>
+        <item>快速 - CHAdeMO</item>
+        <item>快速 - CHAdeMO</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>標準 - 13A</item>
+        <item>中速- IEC 62196</item>
+        <item>中速- IEC 62196</item>
+        <item>中速- IEC 62196</item>
+        <item>中速- IEC 62196</item>
+        <item>中速- IEC 62196</item>
+        <item>中速- IEC 62196</item>
+        <item>中速- IEC 62196</item>
+        <item>中速- IEC 62196</item>
+        <item>中速- IEC 62196</item>
+        <item>中速- IEC 62196</item>
+        <item>中速- IEC 62196</item>
+        <item>中速- IEC 62196</item>
+        <item>中速- SAE J1772</item>
+        <item>中速- 其他</item>
+        <item>中速- 其他</item>
+        <item>快速 - 其他</item>
+        <item>快速 - 其他</item>
+        <item>快速 - 其他</item>
+    </string-array>
+    <string-array name="socket">
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>雙插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+    </string-array>
+    <integer-array name="quantity">
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>2</item>
+        <item>1</item>
+        <item>30</item>
+        <item>8</item>
+        <item>24</item>
+        <item>6</item>
+        <item>30</item>
+        <item>5</item>
+        <item>29</item>
+        <item>6</item>
+        <item>14</item>
+        <item>6</item>
+        <item>1</item>
+        <item>32</item>
+        <item>6</item>
+        <item>1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>4</item>
+        <item>1</item>
+        <item>2</item>
+        <item>2</item>
+        <item>1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>9</item>
+        <item>6</item>
+        <item>30</item>
+        <item>5</item>
+        <item>2</item>
+        <item>1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>1</item>
+        <item>1</item>
+        <item>1</item>
+        <item>9</item>
+        <item>1</item>
+        <item>2</item>
+        <item>16</item>
+        <item>18</item>
+        <item>12</item>
+        <item>3</item>
+        <item>2</item>
+        <item>1</item>
+        <item>8</item>
+        <item>6</item>
+        <item>5</item>
+        <item>6</item>
+        <item>6</item>
+        <item>1</item>
+        <item>2</item>
+        <item>6</item>
+        <item>2</item>
+        <item>6</item>
+        <item>5</item>
+        <item>12</item>
+        <item>1</item>
+        <item>1</item>
+        <item>2</item>
+        <item>6</item>
+        <item>6</item>
+        <item>2</item>
+    </integer-array>
+    <string-array name="latitude">
+        <item>22.282938</item>
+        <item>22.265944</item>
+        <item>22.244225</item>
+        <item>22.220467</item>
+        <item>22.270302</item>
+        <item>22.280671</item>
+        <item>22.27872</item>
+        <item>22.280428</item>
+        <item>22.282938</item>
+        <item>22.282938</item>
+        <item>22.281974</item>
+        <item>22.281974</item>
+        <item>22.287381</item>
+        <item>22.287381</item>
+        <item>22.280066</item>
+        <item>22.280066</item>
+        <item>22.277749</item>
+        <item>22.277749</item>
+        <item>22.281744</item>
+        <item>22.283697</item>
+        <item>22.283697</item>
+        <item>22.285722</item>
+        <item>22.286637</item>
+        <item>22.267473</item>
+        <item>22.266286</item>
+        <item>22.280801</item>
+        <item>22.287163</item>
+        <item>22.287097</item>
+        <item>22.286259</item>
+        <item>22.284235</item>
+        <item>22.265318</item>
+        <item>22.292038</item>
+        <item>22.292038</item>
+        <item>22.278869</item>
+        <item>22.278869</item>
+        <item>22.288138</item>
+        <item>22.278089</item>
+        <item>22.27841</item>
+        <item>22.262194</item>
+        <item>22.272122</item>
+        <item>22.28104</item>
+        <item>22.274701</item>
+        <item>22.274223</item>
+        <item>22.273666</item>
+        <item>22.281309</item>
+        <item>22.278167</item>
+        <item>22.279795</item>
+        <item>22.279795</item>
+        <item>22.281176</item>
+        <item>22.282971</item>
+        <item>22.280144</item>
+        <item>22.282938</item>
+        <item>22.281974</item>
+        <item>22.287381</item>
+        <item>22.280066</item>
+        <item>22.277749</item>
+        <item>22.284924</item>
+        <item>22.285301</item>
+        <item>22.283697</item>
+        <item>22.290484</item>
+        <item>22.292038</item>
+        <item>22.278869</item>
+        <item>22.279795</item>
+        <item>22.280144</item>
+        <item>22.260826</item>
+        <item>22.274701</item>
+        <item>22.262194</item>
+        <item>22.274701</item>
+        <item>22.278916</item>
+    </string-array>
+    <string-array name="longitude">
+        <item>114.160415</item>
+        <item>114.241424</item>
+        <item>114.147792</item>
+        <item>114.209094</item>
+        <item>114.149908</item>
+        <item>114.154658</item>
+        <item>114.16067</item>
+        <item>114.156861</item>
+        <item>114.160415</item>
+        <item>114.160415</item>
+        <item>114.162033</item>
+        <item>114.162033</item>
+        <item>114.153229</item>
+        <item>114.153229</item>
+        <item>114.162223</item>
+        <item>114.162223</item>
+        <item>114.164041</item>
+        <item>114.164041</item>
+        <item>114.227363</item>
+        <item>114.191799</item>
+        <item>114.191799</item>
+        <item>114.217369</item>
+        <item>114.191731</item>
+        <item>114.242837</item>
+        <item>114.250842</item>
+        <item>114.224439</item>
+        <item>114.213385</item>
+        <item>114.211801</item>
+        <item>114.213354</item>
+        <item>114.216883</item>
+        <item>114.235291</item>
+        <item>114.208315</item>
+        <item>114.208315</item>
+        <item>114.228516</item>
+        <item>114.228516</item>
+        <item>114.192263</item>
+        <item>114.238802</item>
+        <item>114.194132</item>
+        <item>114.130716</item>
+        <item>114.186329</item>
+        <item>114.174885</item>
+        <item>114.171992</item>
+        <item>114.172801</item>
+        <item>114.187476</item>
+        <item>114.182468</item>
+        <item>114.182252</item>
+        <item>114.172993</item>
+        <item>114.172993</item>
+        <item>114.171904</item>
+        <item>114.172974</item>
+        <item>114.17127</item>
+        <item>114.160415</item>
+        <item>114.162033</item>
+        <item>114.153229</item>
+        <item>114.162223</item>
+        <item>114.164041</item>
+        <item>114.156847</item>
+        <item>114.159271</item>
+        <item>114.191799</item>
+        <item>114.209716</item>
+        <item>114.208315</item>
+        <item>114.228516</item>
+        <item>114.172993</item>
+        <item>114.17127</item>
+        <item>114.130816</item>
+        <item>114.171992</item>
+        <item>114.130716</item>
+        <item>114.171992</item>
+        <item>114.185192</item>
+    </string-array>
+</resources>

@@ -52,13 +52,6 @@ public class SocketListPageListViewAdapter extends BaseAdapter implements Sticky
         this.itemList = itemList;
     }
 
-    public ArrayList<ItemCS> getRealTimeInfoList() {
-        return realTimeInfoList;
-    }
-
-    public void setRealTimeInfoList(ArrayList<ItemCS> realTimeInfoList) {
-        this.realTimeInfoList = realTimeInfoList;
-    }
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
@@ -76,13 +69,10 @@ public class SocketListPageListViewAdapter extends BaseAdapter implements Sticky
             for(int i = 0; i < realTimeInfoList.size(); i++) {
                 if(itemList.get(position).getLatitude().equals(realTimeInfoList.get(i).getLatitude()) &&
                         itemList.get(position).getLongitude().equals(realTimeInfoList.get(i).getLongitude())) {
-                    distance.setText(realTimeInfoList.get(i).getDistance() + " km");
-                    time.setText(realTimeInfoList.get(i).getTime() + " mins");
+                    distance.setText(realTimeInfoList.get(i).getDistance() + context.getString(R.string.snippet_distance));
+                    time.setText(realTimeInfoList.get(i).getTime() + context.getString(R.string.snippet_time));
                 }
             }
-        else
-            Toast.makeText(context, context.getResources().getString(R.string.nearby_alert_gpsOff), Toast.LENGTH_SHORT).show();
-
         return rowView;
     }
     @Override
@@ -100,7 +90,7 @@ public class SocketListPageListViewAdapter extends BaseAdapter implements Sticky
             holder = (HeaderViewHolder) convertView.getTag();
 
         }
-        //set header text as first char in name
+        // Set header text as first char in name
         String headerText = "" + itemList.get(position).getDistrict();
 
         holder.text.setText(headerText);
@@ -110,6 +100,7 @@ public class SocketListPageListViewAdapter extends BaseAdapter implements Sticky
     @Override
     public long getHeaderId(int position) {
 
+            /** Group the item by district **/
             String district = itemList.get(position).getDistrict();
             long id = 0;
             for(int i = 0; i < district.length(); i++)
@@ -118,10 +109,6 @@ public class SocketListPageListViewAdapter extends BaseAdapter implements Sticky
     }
 
     class HeaderViewHolder {
-        TextView text;
-    }
-
-    class ViewHolder {
         TextView text;
     }
 }

@@ -66,6 +66,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
     private Location myLocation;
     private Marker chargingStationMarker;
     private Marker myLocationMarker;
+    private LatLngBounds.Builder builder = new LatLngBounds.Builder();;
 
     private FavoriteItemCS_DBController db;
     private FavoriteItemCS favouriteItem;
@@ -75,9 +76,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.chargingstation_item_activity);
 
-//        /*Hide Action Bar*/
-//        getSupportActionBar().hide();
-
+        /** Get the data passed **/
         Bundle bundle = getIntent().getExtras();
 
         address = bundle.getString("address");
@@ -89,15 +88,15 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
         latitude = bundle.getString("latitude");
         longitude = bundle.getString("longitude");
 
-        // Use customized action bar.
+        /** Use customized action bar **/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
-        // Set up the action bar's title.
+        /** Set up action bar's title **/
         TextView title = (TextView) findViewById(R.id.action_bar_title);
         title.setText(description);
 
-        // Set up the action bar's icon.
+        /** Set up action bar's icon **/
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.chargingstation_icon);
 
@@ -108,28 +107,28 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
         TextView socketText = (TextView) findViewById(R.id.chargingstation_item_text_socket);
         socketText.setText(socket);
         TextView quantityText = (TextView) findViewById(R.id.chargingstation_item_text_quantity);
-        quantityText.setText("Total: " + quantity.toString());
+        quantityText.setText(getString(R.string.item_title_availability_text) + quantity.toString());
 
+        /** Set up the map fragment **/
         if (!isGooglePlayServicesAvailable()) {
             finish();
         }
-
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.chargingstation_item_map);
         googleMap = supportMapFragment.getMap();
 
         locateUserPosition();
-        locateChargingStationPosition();
 
+        /** Draw the travelling path **/
         String url = getDirectionsUrl(new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude)));
         DownloadTask downloadTask = new DownloadTask();
 
         downloadTask.execute(url);
+
+        locateChargingStationPosition();
     }
-
+    /** Locate the marker of charging stations selected in the map **/
     public void locateChargingStationPosition() {
-
-        final LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
         if(latitude != null || longitude != null){
             double latInDouble = Double.valueOf(latitude.trim()).doubleValue();
@@ -142,7 +141,6 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
                     .position(latLng)
                     .title(description)
                     .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
         }
 
         if(myLocation != null) {
@@ -153,7 +151,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
                 @Override
                 public void onCameraChange(CameraPosition arg0) {
                     // Move camera to the position that shows all markers.
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 300));
                     // Remove listener to prevent position reset on camera move.
                     googleMap.setOnCameraChangeListener(null);
                 }
@@ -161,11 +159,12 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
         }
         for (ItemCS socket : MenuActivity.realTimeInfoList) {
             if (socket.getLatitude().equals(latitude) && socket.getLongitude().equals(longitude))
-                chargingStationMarker.setSnippet(socket.getDistance() + " km " + socket.getTime() + " mins");
+                chargingStationMarker.setSnippet(socket.getDistance() + getString(R.string.snippet_distance) + " " + socket.getTime() + getString(R.string.snippet_time));
         }
         chargingStationMarker.showInfoWindow();
     }
 
+    /** Locate user current position **/
     public void locateUserPosition() {
 
         googleMap.setMyLocationEnabled(true);
@@ -182,6 +181,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, this);
     }
 
+    /** Handle the case when user position changes **/
     public void onLocationChanged(Location location) {
 
         double latInDouble = location.getLatitude();
@@ -354,6 +354,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
                     LatLng position = new LatLng(lat, lng);
 
                     points.add(position);
+                    builder.include(position);
                 }
 
                 // Adding all the points in the route to LineOptions
@@ -380,7 +381,18 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
         // Inflate the menu; this adds items to the action bar if it is present.
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.itemcs_options_menu, menu);
-        return super.onCreateOptionsMenu(menu);
+
+        db = new FavoriteItemCS_DBController(getApplicationContext());
+        favouriteItem = new FavoriteItemCS(address, district, description, type, socket, quantity, latitude, longitude);
+        if (db.checkFavoriteCSExist(favouriteItem)) {
+            menu.findItem(R.id.itemCS_action_favorite).setIcon(R.drawable.del_favorite_icon);
+            menu.findItem(R.id.itemCS_action_favorite).setTitle(R.string.item_button_deleteFromFavorites);
+        }
+        else {
+            menu.findItem(R.id.itemCS_action_favorite).setIcon(R.drawable.add_favorite_icon);
+            menu.findItem(R.id.itemCS_action_favorite).setTitle(R.string.item_button_addToFavorites);
+        }
+            return super.onCreateOptionsMenu(menu);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -394,10 +406,18 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
             case R.id.itemCS_action_favorite:
                 db = new FavoriteItemCS_DBController(getApplicationContext());
                 favouriteItem = new FavoriteItemCS(address, district, description, type, socket, quantity, latitude, longitude);
-                if (db.addFavoriteCS(favouriteItem) == null)
-                    Toast.makeText(getApplicationContext(), R.string.item_toast_addToFavorites_before, Toast.LENGTH_SHORT).show();
-                else
+                if (db.checkFavoriteCSExist(favouriteItem)) {
+                    db.deleteFavoriteCS(db.getFavoriteCS(db.getFavoriteCSId(favouriteItem)));
+                    Toast.makeText(getApplicationContext(), R.string.item_toast_deleteFromFavorites, Toast.LENGTH_SHORT).show();
+                    item.setIcon(R.drawable.add_favorite_icon);
+                    item.setTitle(R.string.item_button_addToFavorites);
+                }
+                else {
+                    db.addFavoriteCS(favouriteItem);
                     Toast.makeText(getApplicationContext(), R.string.item_toast_addToFavorites, Toast.LENGTH_SHORT).show();
+                    item.setIcon(R.drawable.del_favorite_icon);
+                    item.setTitle(R.string.item_button_deleteFromFavorites);
+                }
                 return true;
 
             default:

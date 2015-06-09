@@ -30,13 +30,12 @@ public class OverviewListFragmentActivity extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
+
         setRetainInstance(true);
         setHasOptionsMenu(true);
 
-        /*Get the Overview List from OverviewActivity*/
-//        Bundle args = getArguments();
-//        ListOfCSes = args.getParcelableArrayList("list");
         ListOfCSes = ((OverviewActivity) getActivity()).ItemCSes;
+
         return inflater.inflate(R.layout.overview_list_fragment, container, false);
     }
 
@@ -46,12 +45,12 @@ public class OverviewListFragmentActivity extends Fragment {
         super.onActivityCreated(savedInstanceState);
         db = new HistoryItemCS_DBController(getActivity());
 
-        /*To Display the List of CS with the Original List of CS*/
+        /** To display the original list of cs **/
         listview = (ListView) getActivity().findViewById(R.id.overview_list_view);
         listview.setAdapter(new OverviewListViewAdapter(getActivity(), ListOfCSes));
         listview.setTextFilterEnabled(true);
 
-        /*To Handle the Click of item of a CS*/
+        /** To handle the click of item of cs item **/
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override

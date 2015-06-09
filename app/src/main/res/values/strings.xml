@@ -1,21 +1,19 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <!-- Home Page-->
     <string name="app_name">EV Charging Station Helper</string>
     <string name="description_icon">EV Charging Station Helper\'s icon</string>
     <string name="home_slogan">Go Green, Go Electric</string>
 
-    <!-- Home Page-->
-    <string name="home_swipe">Please swipe to enter</string>
-
     <!-- Menu Page-->
-    <string name="menu_overview">Overview</string>
-    <string name="menu_search">Search</string>
-    <string name="menu_favourite">Favourite</string>
-    <string name="menu_nearby">Nearby</string>
-    <string name="menu_socket">Socket Types</string>
-    <string name="menu_realTime">Real-time Status</string>
-
+    <string name="menu_title_menu">Menu</string>
+    <string name="menu_title_overview">Overview</string>
+    <string name="menu_title_search">Search</string>
+    <string name="menu_title_favourite">Favourite</string>
+    <string name="menu_title_nearby">Nearby</string>
+    <string name="menu_title_socket">Socket Types</string>
+    <string name="menu_title_realTime">Real-Time Status</string>
 
     <string name="menu_description_overview">Find out all charging stations</string>
     <string name="menu_description_search">Search your wanted charging stations</string>
@@ -24,15 +22,12 @@
     <string name="menu_description_socket">Sort the related charging station by charger types</string>
     <string name="menu_description_realTime">Get the real time status of charging station</string>
 
-    <!-- Nearby Page-->
-    <string name="nearby_userLocation">My Current Location</string>
-    <string name="nearby_alert_gpsOff">Your GPS is OFF. Please turn on the GPS and retry.</string>
-
-    <!-- Search Result Page-->
-    <string name="search_result_title">Search Result</string>
-    <string name="search_result_searchAgain">Search Again</string>
+    <string name="menu_optionsmenu_share">Share</string>
+    <string name="menu_optionsmenu_language">Language</string>
+    <string name="menu_optionsmenu_about">About</string>
 
     <!-- About Page-->
+    <string name="about_title">About</string>
     <string name="about_author">Author</string>
     <string name="about_telephone">Call Me</string>
     <string name="about_email">Email Me</string>
@@ -43,9 +38,14 @@
     <string name="about_author_tel">+85298490124</string>
     <string name="about_author_email">aesops0124@gmail.com</string>
     <string name="about_app_version">1.0</string>
-    <string name="about_app_date">June 1, 2015</string>
+    <string name="about_app_date">June 20, 2015</string>
+
+    <string name="about_email_subject">Email Enquiry on EVC application</string>
+    <string name="about_email_text">I would like to ask ...</string>
+    <string name="about_email_intent">Send Email</string>
 
     <!-- Search Page-->
+    <string name="search_title">Search</string>
     <string name="search_text_title_address">Place:</string>
     <string name="search_text_title_district">District:</string>
     <string name="search_text_title_type">Type:</string>
@@ -54,6 +54,7 @@
     <string name="search_text_title_sort">Sort results by</string>
     <string name="search_text_title_nearest">Nearest locations</string>
     <string name="search_text_title_availability">Available right now</string>
+    <string name="search_text_all">ALL</string>
     <string name="search_button_search">Search</string>
     <string name="search_button_clear">Clear</string>
 
@@ -61,31 +62,35 @@
     <string name="searchresult_alertDialog_no_result_title">No Matched Charging Stations Found</string>
     <string name="searchresult_alertDialog_no_result_text">You may modify the search criteria and search again.</string>
     <string name="searchresult_alertDialog_revise_option">Revise search</string>
+    <string name="searchresult_title">Search Result</string>
+    <string name="searchresult_searchAgain">Search Again</string>
     <!--<string name="searchresult_alertDialog_no_gps_title">No GPS Signal is Found</string>-->
     <!--<string name="searchresult_alertDialog_no_gps_text">You may turn on the GPS and search again.</string>-->
 
-
     <!-- Overview Page-->
-    <string name="list_overview">List</string>
-    <string name="list_history">History</string>
+    <string name="overview_title">Overview</string>
+    <string name="overview_tab_list">List</string>
+    <string name="overview_tab_history">History</string>
     <string name="overview_search_view_title">Search Here...</string>
+    <string name="overview_search_result_text">&#160; charging station items for &#160;</string>
     <string name="overview_history_alertDialog_delete_history">Are you sure you want to clear history?</string>
     <string name="overview_history_alertDialog_no_undo">You can\'t undo this action.</string>
     <string name="history_alertDialog_no_option">Cancel</string>
     <string name="overview_history_alertDialog_yes_option">Clear</string>
-    <!--<string name="overview_search_message">請鍵入國家名稱(e.g.美國)在搜索列</string>-->
 
     <!-- Item Page-->
     <string name="item_title_location">Location</string>
     <string name="item_title_type">Type</string>
     <string name="item_title_socket">Socket</string>
     <string name="item_title_availability">Availability</string>
+    <string name="item_title_availability_text">Total: &#160;</string>
     <string name="item_toast_addToFavorites">This has been added successfully.</string>
-    <string name="item_toast_addToFavorites_before">This has been added before.</string>
     <string name="item_toast_deleteFromFavorites">This has been removed successfully.</string>
-    <string name="item_toast_locatePosition">Please wait...</string>
+    <string name="item_button_addToFavorites">Add to Favorite</string>
+    <string name="item_button_deleteFromFavorites">Delete from Favorite</string>
 
     <!-- Favorites Page-->
+    <string name="favorites_title">Favorite</string>
     <string name="favorites_alertDialog_no_favorites_title">No Favorite Charging Stations Found</string>
     <string name="favorites_alertDialog_no_favorites_text">You may add a station to this list via \"Add To Favorite\" button on the station\'s details.</string>
     <string name="favorites_alertDialog_ok_option">OK</string>
@@ -98,10 +103,11 @@
 
     <!-- Share Page-->
     <string name="share_subject">Check out this app!</string>
-    <string name="share_message"> - A easy way to find the nearest charging station in HK.</string>
+    <string name="share_message"> - An easy way to find the nearest charging station in HK.</string>
     <string name="share_hint">Share via</string>
 
-    <!-- Socket Page-->
+    <!-- Socket Type Page-->
+    <string name="socket_type_title">Socket Type</string>
     <string name="socket_type_standard_title">Standard</string>
     <string name="socket_type_standard_subtitle">13A</string>
     <string name="socket_type_medium_title">Medium</string>
@@ -109,10 +115,30 @@
     <string name="socket_type_quick_title">Quick</string>
     <string name="socket_type_quick_subtitle">CHAdeMO, Others</string>
 
-    <!--<string name="favorite_added">已新增為「我的最愛」</string>-->
-    <!--<string name="favorite_added_message">請按下面的選項以繼續</string>-->
-    <!--<string name="favorite_possible_duplicated">已在「我的最愛」列表中</string>-->
-    <!--<string name="favorite_possible_duplicated_message">由於先前已將此地方納入為「我的最愛」，因此剛才的動作會被取消</string>-->
+    <!-- Socket List Page-->
+    <string name="socket_list_title">&#160; Charger</string>
+    <string name="socket_list_title_standard">Standard</string>
+    <string name="socket_list_title_medium">Medium</string>
+    <string name="socket_list_title_quick">Quick</string>
 
+    <!-- Socket List Page-->
+    <string name="socket_listitem_title">&#160; Charger</string>
+
+    <!-- Nearby Page-->
+    <string name="nearby_title">Nearby</string>
+    <string name="nearby_userLocation">My Current Location</string>
+    <string name="nearby_alert_gpsOff">GPS navigation service is OFF. Please turn on the GPS and retry.</string>
+    <string name="nearby_progressDialog_title">Processing...</string>
+    <string name="nearby_progressDialog_content">Please Wait.</string>
+
+    <!-- Real-Time Page-->
+    <string name="realTime_title">Real-Time Status</string>
+
+    <!-- Setting Page-->
+    <string name="setting_title">Setting</string>
+
+    <!-- Snippet-->
+    <string name="snippet_distance">&#160;km</string>
+    <string name="snippet_time">&#160;mins</string>
 
 </resources>

@@ -195,26 +195,4 @@
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>
-    <!--&lt;!&ndash;Button Bar&ndash;&gt;-->
-    <!--<LinearLayout-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:orientation="horizontal">-->
 
-        <!--<Button-->
-            <!--android:id="@+id/chargingstation_item_button_favorite"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="0.22"-->
-            <!--android:background="@drawable/custombutton_background_selector"-->
-            <!--android:text="@string/item_button_addToFavorites" />-->
-
-        <!--<Button-->
-            <!--android:id="@+id/chargingstation_item_button_locate"-->
-            <!--android:layout_width="wrap_content"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:layout_weight="0.22"-->
-            <!--android:background="@drawable/custombutton_background_selector"-->
-            <!--android:text="@string/item_button_locatePosition" />-->
-    <!--</LinearLayout>-->

@@ -58,17 +58,14 @@ public class SearchResultListViewAdapter extends BaseAdapter {
         TextView chargingStation = (TextView) rowView.findViewById(R.id.search_result_list_view_item_chargingStation);
         TextView type = (TextView) rowView.findViewById(R.id.search_result_list_view_item_type);
         TextView socket = (TextView) rowView.findViewById(R.id.search_result_list_view_item_socket);
-//        TextView quantity = (TextView) rowView.findViewById(R.id.search_result_list_view_item_quantity);
 
         address.setText(itemList.get(position).getAddress());
         district.setText(itemList.get(position).getDistrict());
         chargingStation.setText(itemList.get(position).getDescription());
         type.setText(itemList.get(position).getType());
         socket.setText(itemList.get(position).getSocket());
-//        quantity.setText(Integer.toString(itemList.get(position).getQuantity()));
 
         return rowView;
     }
-
 }
 

@@ -68,6 +68,7 @@ public class HistoryListViewAdapter extends BaseAdapter {
         type.setText(itemList.get(position).getType());
         socket.setText(itemList.get(position).getSocket());
 
+        /** Delete the history item selected **/
         imageView.setOnClickListener(new OnClickListener() {
 
             @Override

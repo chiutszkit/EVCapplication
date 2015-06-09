@@ -39,7 +39,9 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center_horizontal"
-                android:text="@string/menu_overview"
+                android:text="@string/menu_title_overview"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:textSize="25dp" />
         </LinearLayout>
 
@@ -68,7 +70,9 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center_horizontal"
-                android:text="@string/menu_socket"
+                android:text="@string/menu_title_socket"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:textSize="25dp" />
         </LinearLayout>
     </LinearLayout>
@@ -107,7 +111,9 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center_horizontal"
-                android:text="@string/menu_nearby"
+                android:text="@string/menu_title_nearby"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:textSize="25dp" />
         </LinearLayout>
 
@@ -136,7 +142,9 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center_horizontal"
-                android:text="@string/menu_search"
+                android:text="@string/menu_title_search"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:textSize="25dp" />
         </LinearLayout>
     </LinearLayout>
@@ -174,7 +182,9 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center_horizontal"
-                android:text="@string/menu_favourite"
+                android:text="@string/menu_title_favourite"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:textSize="25dp" />
         </LinearLayout>
 
@@ -204,7 +214,9 @@
                 android:layout_height="50dp"
                 android:layout_marginBottom="20dp"
                 android:gravity="center_horizontal"
-                android:text="@string/menu_realTime"
+                android:text="@string/menu_title_realTime"
+                android:textColor="@color/black"
+                android:textStyle="bold"
                 android:textSize="25dp" />
         </LinearLayout>
     </LinearLayout>

@@ -48,32 +48,35 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
         super.onCreate(savedInstanceState);
         setContentView(R.layout.socket_list_item_activity);
 
-        // Get the bundle passed by SocketListActivity.
+        /** Get the data passed by SocketListActivity**/
         Bundle bundle = getIntent().getExtras();
 
-        // Use customized action bar.
+        /** Use customized action bar **/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
-        // Set up the action bar's title.
+        /** Set up action bar's title **/
         TextView title = (TextView) findViewById(R.id.action_bar_title);
-        title.setText("Nearby");
         if (bundle != null) {
             type = bundle.getString("type");
-            title.setText(type + " Charger");
+            title.setText(type + getString(R.string.socket_listitem_title));
         }
 
-        // Set up the action bar's icon.
+        /** Set up action bar's icon **/
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.map_icon);
 
-        // Set up the map.
+        /** Set up all the map fragment **/
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.socket_list_item_map);
         googleMap = supportMapFragment.getMap();
+
+        /** Loading the real time data **/
         locateUserPosition();
         locateSameTypeChargingStationPosition();
     }
+
+    /** Locate user current position **/
     public void locateUserPosition() {
 
         googleMap.setMyLocationEnabled(true);
@@ -90,6 +93,7 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, this);
     }
 
+    /** Handle the case when user position changes **/
     public void onLocationChanged(Location location) {
 
         double latInDouble = location.getLatitude();
@@ -107,8 +111,6 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.usercar_icon)));
 
         myLocation = location;
-
-        myLocationMarker.showInfoWindow();
         Log.v("Debug", "IN ON LOCATION CHANGE, lat=" + latInDouble + ", lon=" + lonInDouble);
     }
     @Override
@@ -126,6 +128,7 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
         // TODO Auto-generated method stub
     }
 
+    /** Locate all the markers of charging stations with specific type in the map **/
     public void locateSameTypeChargingStationPosition() {
 
         final LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -138,7 +141,7 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
         db = new ItemCS_DBController(getApplicationContext());
         socketList = db.inputQueryCSes(this, new String[]{type}, 1);
 
-        // Add all markers to the map according to the socketList
+        // Add all markers to the map according to the socketVenueList
         for (int i = 0; i < socketList.size(); i++) {
             if (socketList.get(i).getType().contains(type)) {
 
@@ -156,7 +159,7 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
 
                 for (ItemCS socket : MenuActivity.realTimeInfoList) {
                     if (socket.getLatitude().equals(socketList.get(i).getLatitude()) && socket.getLongitude().equals(socketList.get(i).getLongitude()))
-                        marker.setSnippet(socket.getDistance() + " km " + socket.getTime() + " mins");
+                        marker.setSnippet(socket.getDistance() + getString(R.string.snippet_distance) + " " + socket.getTime() + getString(R.string.snippet_time));
                 }
 
                 markers.add(marker);

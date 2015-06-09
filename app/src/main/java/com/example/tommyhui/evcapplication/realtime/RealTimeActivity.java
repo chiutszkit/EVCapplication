@@ -23,7 +23,7 @@ public class RealTimeActivity extends ActionBarActivity {
 
         /*Set Action Bar's Title*/
         TextView title = (TextView) findViewById(R.id.action_bar_title);
-        title.setText("Real-Time Status");
+        title.setText(R.string.realTime_title);
 
         /*Set Action Bar's Icon*/
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);

@@ -1,9 +1,11 @@
 package com.example.tommyhui.evcapplication.nearby;
 
+import android.app.ProgressDialog;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.StrictMode;
 import android.support.v7.app.ActionBar;
@@ -43,15 +45,15 @@ import java.util.List;
 
 public class NearbyActivity extends ActionBarActivity implements LocationListener {
 
-    public static ArrayList<ItemCS> socketList = new ArrayList<>();
+    public static ArrayList<ItemCS> socketVenueList = new ArrayList<>();
     private ItemCS_DBController db;
+    private ProgressDialog progressDialog;
+    private int count = 1;
+    private boolean firstTime = true;
 
     private GoogleMap googleMap;
-    private LocationManager locationManager;
-    private Criteria criteria;
     private List<Marker> markers;
     private List<LatLng> markersLatLng;
-    private int count = 1;
     private Location myLocation;
     private Marker myLocationMarker;
 
@@ -60,32 +62,69 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
         super.onCreate(savedInstanceState);
         setContentView(R.layout.nearby_activity);
 
-        // Use customized action bar.
+        /** Use customized action bar **/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
-        // Set up the action bar's title.
+        /** Set up action bar's title **/
         TextView title = (TextView) findViewById(R.id.action_bar_title);
-        title.setText("Nearby");
+        title.setText(R.string.nearby_title);
 
-        // Set up the action bar's icon.
+        /** Set up action bar's icon **/
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.map_icon);
 
-        if (android.os.Build.VERSION.SDK_INT > 9) {
-            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
-            StrictMode.setThreadPolicy(policy);
-        }
-        // Set up the map.
+        /** Set up all the map fragment **/
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.nearby_map);
         googleMap = supportMapFragment.getMap();
 
+        /** Loading the real time data **/
+        if (android.os.Build.VERSION.SDK_INT > 9) {
+            StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+            StrictMode.setThreadPolicy(policy);
+        }
         locateAllChargingStationPosition();
         locateUserPosition();
-        calculateRealTimeData();
+
+        AsyncTask<Void, Void, Void> realTimeDataLoader = new AsyncTask<Void, Void, Void>() {
+
+            @Override
+            protected Void doInBackground(Void... params) {
+                calculateRealTimeData();
+                return null;
+            }
+
+            @Override
+            protected void onPostExecute(Void result) {
+                progressDialog.dismiss();
+            }
+        };
+        progressDialog = ProgressDialog.show(this, getResources().getString(R.string.nearby_progressDialog_title), getResources().getString(R.string.nearby_progressDialog_content), true, true);
+        progressDialog.setCancelable(false);
+        realTimeDataLoader.execute((Void[])null);
+
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                // TODO Auto-generated method stub
+                for (int i = 0; i < markersLatLng.size(); i++) {
+                    if (marker.getPosition().latitude == markersLatLng.get(i).latitude &&
+                            marker.getPosition().longitude == markersLatLng.get(i).longitude) {
+                        String distance = socketVenueList.get(i).getDistance();
+                        String time = socketVenueList.get(i).getTime();
+                        if(!distance.isEmpty() && !time.isEmpty())
+                            marker.setSnippet(distance + getString(R.string.snippet_distance) + " " + time + getString(R.string.snippet_time));
+                    }
+                }
+                marker.showInfoWindow();
+                return true;
+            }
+        });
     }
-    /***************************************/
+
+    /** Calculate the distance and travelling time between user and charging stations **/
     public void calculateRealTimeData() {
 
         if (myLocation != null) {
@@ -99,6 +138,7 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
                 final double lat2 = markersLatLng.get(i).latitude;
                 final double lng2 = markersLatLng.get(i).longitude;
 
+                // Set up the connection to Google Map.
                 try {
                     String url = "http://maps.googleapis.com/maps/api/directions/json?origin=" + lat1 + "," + lng1 +
                             "&destination=" + lat2 + "," + lng2 + "&mode=driving";
@@ -120,28 +160,30 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
 
                 String distance = calculateDistance(stringBuilder);
                 String time = calculateTime(stringBuilder);
-                if (Double.parseDouble(socketList.get(i).getLatitude()) == markersLatLng.get(i).latitude &&
-                        Double.parseDouble(socketList.get(i).getLongitude()) == markersLatLng.get(i).longitude) {
-                    socketList.get(i).setDistance(distance);
-                    socketList.get(i).setTime(time);
-                    markers.get(i).setSnippet(distance + " km " + time + " mins");
+
+                // Update the list of socketVenueList.
+                if (Double.parseDouble(socketVenueList.get(i).getLatitude()) == markersLatLng.get(i).latitude &&
+                        Double.parseDouble(socketVenueList.get(i).getLongitude()) == markersLatLng.get(i).longitude) {
+                    socketVenueList.get(i).setDistance(distance);
+                    socketVenueList.get(i).setTime(time);
                 }
+
+                // Take a pause in order to prevent blocking from Google Map.
                 if(i%5 == 0) {
                     try {
-                        Thread.sleep(2000);
+                        Thread.sleep(1800);
                         Log.i("STOP","Pause");
                     } catch (InterruptedException ex) {
                     }
                 }
             }
         }
-        MenuActivity.realTimeInfoList = socketList;
+        // Pass the real time data of distance and travelling time to list of realTimeInfoList for further processing.
+        MenuActivity.realTimeInfoList = socketVenueList;
     }
-    // Calculate the distances from charging stations to user position.
+    /** Get the distances from charging stations to user position **/
     public String calculateDistance(StringBuilder stringBuilder) {
 
-//        Location.distanceBetween(lat1, lng1, lat2, lng2, results);
-//        String distance = NumberFormat.getInstance().format(results[0] / 1000);
         String fDistance = "";
         JSONObject jsonObject;
         try {
@@ -167,7 +209,7 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
         return fDistance;
     }
 
-    // Calculate the driving time from charging stations to user position.
+    /** Get the travelling time from charging stations to user position **/
     public String calculateTime(StringBuilder stringBuilder) {
 
         String fTime = "";
@@ -193,7 +235,7 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
         return fTime;
     }
 
-    // Locate user current position.
+    /** Locate user current position **/
     public void locateUserPosition() {
 
         googleMap.setMyLocationEnabled(true);
@@ -209,6 +251,8 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, this);
     }
+
+    /** Handle the case when user position changes **/
     public void onLocationChanged(Location location) {
 
         double latInDouble = location.getLatitude();
@@ -225,9 +269,12 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
                 .title(getResources().getString(R.string.nearby_userLocation))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.usercar_icon)));
 
+        if(firstTime) {
+            myLocationMarker.showInfoWindow();
+            firstTime = false;
+        }
         myLocation = location;
 
-        myLocationMarker.showInfoWindow();
         Log.v("Debug", "IN ON LOCATION CHANGE, lat=" + latInDouble + ", lon=" + lonInDouble);
     }
     @Override
@@ -245,24 +292,7 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
         // TODO Auto-generated method stub
     }
 
-    public Location getLastKnownLocation() {
-        locationManager = (LocationManager) getApplicationContext().getSystemService(LOCATION_SERVICE);
-        List<String> providers = locationManager.getProviders(true);
-        Location bestLocation = null;
-        for (String provider : providers) {
-            Location l = locationManager.getLastKnownLocation(provider);
-            if (l == null) {
-                continue;
-            }
-            if (bestLocation == null || l.getAccuracy() < bestLocation.getAccuracy()) {
-                // Found best last known location: %s", l);
-                bestLocation = l;
-            }
-        }
-        return bestLocation;
-    }
-
-    // Locate all the markers of charging stations in the map.
+    /** Locate all the markers of charging stations in the map **/
     public void locateAllChargingStationPosition() {
 
         final LatLngBounds.Builder builder = new LatLngBounds.Builder();
@@ -271,14 +301,14 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
 
         // Get the list of ALL nearby charging stations.
         db = new ItemCS_DBController(getApplicationContext());
-        socketList = db.inputQueryCSes(this, new String[]{}, 1);
+        socketVenueList = db.inputQueryCSes(this, new String[]{}, 1);
 
-        // Add all markers to the map according to the socketList
-        for (int i = 0; i < socketList.size(); i++) {
-            if (socketList.get(i).getLatitude() != null || socketList.get(i).getLongitude() != null) {
+        // Add all markers to the map according to the socketVenueList
+        for (int i = 0; i < socketVenueList.size(); i++) {
+            if (socketVenueList.get(i).getLatitude() != null || socketVenueList.get(i).getLongitude() != null) {
 
-                double latInDouble = Double.valueOf(socketList.get(i).getLatitude().trim()).doubleValue();
-                double lonInDouble = Double.valueOf(socketList.get(i).getLongitude().trim()).doubleValue();
+                double latInDouble = Double.valueOf(socketVenueList.get(i).getLatitude().trim()).doubleValue();
+                double lonInDouble = Double.valueOf(socketVenueList.get(i).getLongitude().trim()).doubleValue();
 
                 LatLng latLng = new LatLng(latInDouble, lonInDouble);
                 builder.include(latLng);
@@ -286,7 +316,7 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
                 // Add a marker to the map.
                 Marker marker = googleMap.addMarker(new MarkerOptions()
                         .position(latLng)
-                        .title(socketList.get(i).getDescription())
+                        .title(socketVenueList.get(i).getDescription())
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
                 markers.add(i, marker);
@@ -305,25 +335,5 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
                 googleMap.setOnCameraChangeListener(null);
             }
         });
-
-//        if(type != null) {
-//
-//            String latInDouble = getIntent().getExtras().getString("latitude");
-//            String lonInDouble = getIntent().getExtras().getString("longitude");
-//
-//            LatLng latLng = new LatLng(Double.parseDouble(latInDouble), Double.parseDouble(lonInDouble));
-//
-//            // Focus on the click item charging station
-//            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
-//            Marker clickedMarker = markers.get(markersLatLng.indexOf(latLng));
-//            clickedMarker.showInfoWindow();
-//
-//            locateUserPosition();
-//            calculateRealTimeData();
-//
-//            onNavigate(myLocation, latLng);
-//        }
     }
-
-    /***************************************/
 }

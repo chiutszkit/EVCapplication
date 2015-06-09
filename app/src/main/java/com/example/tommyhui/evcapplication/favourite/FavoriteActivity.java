@@ -38,20 +38,20 @@ public class FavoriteActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.favourite_activity);
 
-        /*Use Customized Action Bar*/
+        /** Use customized action bar **/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
-        /*Set Action Bar's Title*/
+        /** Set up action bar's title **/
         TextView title = (TextView) findViewById(R.id.action_bar_title);
-        title.setText("Favourite");
+        title.setText(R.string.favorites_title);
 
-        /*Set Action Bar's Icon*/
+        /** Set up action bar's icon **/
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.favorite_icon);
 
-        /*Set Up the Database of FavoriteItem*/
-        db = new FavoriteItemCS_DBController(getApplicationContext());
+        /** Set Up the database of favorite item **/
+        db = new FavoriteItemCS_DBController(this);
         if (db.getFavoriteCSCount() == 0) {
             showEmptyListDialog();
         }
@@ -67,11 +67,11 @@ public class FavoriteActivity extends ActionBarActivity {
             favoriteListViewAdapter = new FavoriteListViewAdapter(FavoriteActivity.this, favoriteList);
             listView.setAdapter(favoriteListViewAdapter);
 
+            /** To handle the case of clicking favorite item **/
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                 @Override
-                public void onItemClick(AdapterView<?> parent, View view, int position,
-                                        long id) {
+                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                     // TODO Auto-generated method stub
 
                     FavoriteItemCS cs = favoriteList.get(position);
@@ -82,6 +82,7 @@ public class FavoriteActivity extends ActionBarActivity {
                     Bundle bundle = new Bundle();
 
                     bundle.putString("address", cs.getAddress());
+                    bundle.putString("district", cs.getDistrict());
                     bundle.putString("description", cs.getDescription());
                     bundle.putString("type", cs.getType());
                     bundle.putString("socket", cs.getSocket());
@@ -100,6 +101,7 @@ public class FavoriteActivity extends ActionBarActivity {
         }
     }
 
+    /** Show alert dialog for empty list of favorite item **/
     private void showEmptyListDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         alertDialog.setTitle(R.string.favorites_alertDialog_no_favorites_title);

@@ -35,32 +35,32 @@ public class SocketListActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.socket_listpage_activity);
 
+        /** Get the data passed **/
         Bundle bundle = getIntent().getExtras();
         type = bundle.getString("type");
 
-        /*Use Customized Action Bar*/
+        /** Use customized action bar **/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
-        /*Set Action Bar's Title*/
+        /** Set up action bar's title **/
         TextView title = (TextView) findViewById(R.id.action_bar_title);
-        title.setText(type + " Charger");
+        title.setText(type + getString(R.string.socket_list_title));
 
-        /*Set Action Bar's Icon*/
+        /** Set up action bar's icon **/
         int resId = 0;
-        switch (type) {
-            case "Standard":
-                resId = R.drawable.standard_icon;
-                break;
-            case "Medium":
-                resId = R.drawable.medium_icon;
-                break;
-            case "Quick":
-                resId = R.drawable.quick_icon;
-                break;
-            default:
-                break;
-        }
+
+        String standard = getString(R.string.socket_list_title_standard);
+        String medium = getString(R.string.socket_list_title_medium);
+        String quick = getString(R.string.socket_list_title_quick);
+
+        if (type.equals(standard))
+            resId = R.drawable.standard_icon;
+        else if(type.equals(medium))
+            resId = R.drawable.medium_icon;
+        else if(type.equals(quick))
+            resId = R.drawable.quick_icon;
+
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(resId);
 
@@ -90,7 +90,7 @@ public class SocketListActivity extends ActionBarActivity {
                     bundle.putString("type", type);
                     bundle.putString("latitude", cs.getLatitude());
                     bundle.putString("longitude", cs.getLongitude());
-                    intent.putParcelableArrayListExtra("socketList", socketList);
+                    intent.putParcelableArrayListExtra("socketVenueList", socketList);
 
                     intent.putExtras(bundle);
                     startActivity(intent);
@@ -99,13 +99,6 @@ public class SocketListActivity extends ActionBarActivity {
         }
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        MenuInflater inflater = getMenuInflater();
-//        inflater.inflate(R.menu.menu_options_menu, menu);
-//        return super.onCreateOptionsMenu(menu);
-//    }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 

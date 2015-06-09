@@ -25,6 +25,7 @@ public class SearchActivity extends ActionBarActivity {
     private Spinner spinnerDescription, spinnerDistrict, spinnerType, spinnerSocket, spinnerQuantity;
     private CheckBox checkBoxNearest, checkBoxAvailability;
     private Button btnSearch, btnClear;
+    private String all;
 
     ItemCS_DBController db;
 
@@ -33,25 +34,27 @@ public class SearchActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.search_activity);
 
-        /*Use Customized Action Bar*/
+        /** Use customized action bar **/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
-        /*Set Action Bar's Title*/
+        /** Set up action bar's title **/
         TextView title = (TextView) findViewById(R.id.action_bar_title);
-        title.setText("Search");
+        title.setText(R.string.search_title);
 
-        /*Set Action Bar's Icon*/
+        /** Set up action bar's icon **/
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.search_icon);
 
-        /*Set Up the Database of Item of Charging Station*/
+        /** Set up the database of item of charging station **/
         db = new ItemCS_DBController(this);
 
-        /*Set Up the Spinner*/
+        all = getString(R.string.search_text_all);
+
+        /** Set up the spinner **/
         addListenerOnSpinners();
 
-        /*Set Up the CheckBox, Search and Clear Button*/
+        /** Set up the checkbox, search and clear button **/
         addListenerOnButton();
     }
 
@@ -67,7 +70,7 @@ public class SearchActivity extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String description = spinnerDescription.getItemAtPosition(position).toString();
 
-                if(description != "ALL") {
+                if(!description.equals(all)) {
                     ArrayList<ItemCS> queryItemCSes = db.inputQueryCSes(SearchActivity.this, new String[] {description}, 2);
 
                     String district = queryItemCSes.get(0).getDistrict();
@@ -86,8 +89,8 @@ public class SearchActivity extends ActionBarActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String description = spinnerDistrict.getItemAtPosition(position).toString();
 
-                if(description == "ALL")
-                    spinnerDescription.setSelection(getIndexByValue(spinnerDescription, "ALL"));
+                if(description.equals(all))
+                    spinnerDescription.setSelection(getIndexByValue(spinnerDescription, all));
             }
             @Override
             public void onNothingSelected(AdapterView<?> parent) {
@@ -164,7 +167,7 @@ public class SearchActivity extends ActionBarActivity {
                     break;
             }
         }
-        list.add(0,"ALL");
+        list.add(0,all);
     }
 
     public void addListenerOnButton() {

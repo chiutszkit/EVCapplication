@@ -25,7 +25,7 @@ public class FavoriteItemCS_DBController {
     private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY, KEY_LATITUDE, KEY_LONGITUDE};
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
-            KEY_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," +
+            KEY_ID + " INTEGER PRIMARY KEY ," +
             KEY_ADDRESS + " TEXT," +
             KEY_DISTRICT + " TEXT," +
             KEY_DESCRIPTION + " TEXT," +
@@ -45,6 +45,7 @@ public class FavoriteItemCS_DBController {
         db.close();
     }
 
+    /** Add favorite item into db **/
     public FavoriteItemCS addFavoriteCS(FavoriteItemCS favoriteCS) {
 
         // 1. create ContentValues to add key "column"/value
@@ -59,23 +60,26 @@ public class FavoriteItemCS_DBController {
         values.put(KEY_LONGITUDE, favoriteCS.getLongitude()); // get longitude
 
         // 2. insert or update
-
-        String[] input_column = new String[]{KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY};
-        String[] input_data = new String[]{favoriteCS.getAddress(), favoriteCS.getDistrict(), favoriteCS.getDescription(), favoriteCS.getType(), favoriteCS.getSocket(), Integer.toString(favoriteCS.getQuantity())};
-
-        if (!checkRecordExist(TABLE_NAME, input_column, input_data)) {
+        if (!checkFavoriteCSExist(favoriteCS)) {
             // Perform the insert query
             db.insert(TABLE_NAME, null, values);
             Log.d("addFavoriteCS", favoriteCS.toString());
-
+        }
             // Return the item favoriteCS
             return favoriteCS;
-        }
-
-        // Return null if the favourite item was added before
-        return null;
     }
 
+    /** Check favorite item existence **/
+    public boolean checkFavoriteCSExist(FavoriteItemCS favoriteCS) {
+        String[] input_column = new String[]{KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY};
+        String[] input_data = new String[]{favoriteCS.getAddress(), favoriteCS.getDistrict(), favoriteCS.getDescription(), favoriteCS.getType(), favoriteCS.getSocket(), Integer.toString(favoriteCS.getQuantity())};
+
+        Log.d("addFavoriteCS", "Exist? = " + checkRecordExist(TABLE_NAME, input_column, input_data));
+
+        return (checkRecordExist(TABLE_NAME, input_column, input_data));
+    }
+
+    /** Check data existence **/
     private boolean checkRecordExist(String tableName, String[] keys, String[] values) {
 
         StringBuilder sb = new StringBuilder();
@@ -95,13 +99,35 @@ public class FavoriteItemCS_DBController {
         Cursor cursor = db.rawQuery(query, null);
 
         exists = (cursor.getCount() > 0);
-        Log.d("addFavoriteCS", "Exist? = " + exists);
-
         cursor.close();
 
         return exists;
     }
+    /** Get ID of favorite item **/
+    public int getFavoriteCSId(FavoriteItemCS favoriteCS) {
+        String[] input_column = new String[]{KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY};
+        String[] input_data = new String[]{favoriteCS.getAddress(), favoriteCS.getDistrict(), favoriteCS.getDescription(), favoriteCS.getType(), favoriteCS.getSocket(), Integer.toString(favoriteCS.getQuantity())};
+        int id = -1;
 
+        if(checkFavoriteCSExist(favoriteCS)) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < input_column.length; i++) {
+                sb.append(input_column[i])
+                        .append("=\"")
+                        .append(input_data[i])
+                        .append("\" ");
+                if (i < input_column.length - 1) sb.append("AND ");
+            }
+            String query = "SELECT * FROM " + TABLE_NAME + " WHERE " + sb.toString();
+            Cursor cursor = db.rawQuery(query, null);
+
+            if (cursor != null)
+                cursor.moveToFirst();
+            id = cursor.getInt(0);
+        }
+        return id;
+    }
+    /** Get favorite item by ID **/
     public FavoriteItemCS getFavoriteCS(int id) {
 
         // 1. build query
@@ -141,6 +167,7 @@ public class FavoriteItemCS_DBController {
         return null;
     }
 
+    /** Get all favorite items **/
     public ArrayList<FavoriteItemCS> getAllFavoriteCSes() {
 
         ArrayList<FavoriteItemCS> FavoriteCSes = new ArrayList<>();
@@ -180,6 +207,7 @@ public class FavoriteItemCS_DBController {
         return FavoriteCSes;
     }
 
+    /** Get size of favorite items in db **/
     public int getFavoriteCSCount() {
 
         // 1. build the query
@@ -195,6 +223,7 @@ public class FavoriteItemCS_DBController {
         return count;
     }
 
+    /** Update favorite item **/
     public int updateFavoriteCS(FavoriteItemCS favoriteCS) {
 
         // 1. create ContentValues to add key "column"/value
@@ -218,14 +247,20 @@ public class FavoriteItemCS_DBController {
         return i;
     }
 
+    /** Delete the favorite item **/
     public void deleteFavoriteCS(FavoriteItemCS favoriteCS) {
-
         // 1. delete
         db.delete(TABLE_NAME, //table name
                 KEY_ID + " = ?",  // selections
                 new String[]{String.valueOf(favoriteCS.getId())}); //selections args
 
         Log.d("deleteFavoriteCS", favoriteCS.toString());
+    }
+
+    /** Delete all favorite items **/
+    public void removeAll() {
+        db.delete(TABLE_NAME, null, null);
+        Log.d("deleteFavoriteCS", "Remove All FavoriteCS");
     }
 
     public void clear() {

@@ -25,19 +25,19 @@ public class AboutActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.about_activity);
 
-        /*Use Customized Action Bar*/
+        /** Use customized action bar **/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
-        /*Set Action Bar's Title*/
+        /** Set up action bar's title **/
         TextView title = (TextView) findViewById(R.id.action_bar_title);
-        title.setText("About");
+        title.setText(R.string.about_title);
 
-        /*Set Action Bar's Icon*/
+        /** Set up action bar's icon **/
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.about_icon);
 
-        /*Display Action Bar's Icon*/
+        /** Display action bar's icon **/
         try {
             ViewConfiguration config = ViewConfiguration.get(this);
             Field menuKeyField = ViewConfiguration.class
@@ -50,7 +50,7 @@ public class AboutActivity extends ActionBarActivity {
             e.printStackTrace();
         }
 
-        /*Display the List View*/
+        /** Display the listview **/
         final ListView listview = (ListView) findViewById(R.id.about_list_view);
 
         int[] aboutTitle = new int[]{
@@ -82,10 +82,11 @@ public class AboutActivity extends ActionBarActivity {
                         Intent emailIntent = new Intent(Intent.ACTION_SEND);
                         emailIntent.setType("text/plain");
                         emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{getString(R.string.about_author_email)});
-                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Email Enquiry on EVC application");
-                        emailIntent.putExtra(Intent.EXTRA_TEXT, "I would like to ask ...");
+                        emailIntent.putExtra(Intent.EXTRA_SUBJECT, R.string.about_email_subject);
+                        emailIntent.putExtra(Intent.EXTRA_TEXT, R.string.about_email_text);
 
-                        startActivity(Intent.createChooser(emailIntent, "Send Email"));
+                        CharSequence cs = getString(R.string.about_email_intent);
+                        startActivity(Intent.createChooser(emailIntent, cs));
                         break;
                     default:
                 }

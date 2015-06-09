@@ -112,7 +112,7 @@ public class OverviewHistoryFragmentActivity extends Fragment {
                 return super.onOptionsItemSelected(item);
         }
     }
-
+    /** Show confirm dialog for deletion of all history items **/
     private void showConfirmDeleteDialog() {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(getActivity());
         alertDialog.setTitle(R.string.overview_history_alertDialog_delete_history);

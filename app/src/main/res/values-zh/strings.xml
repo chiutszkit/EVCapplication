@@ -1,0 +1,144 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- Home Page-->
+    <string name="app_name">EV Charging Station Helper</string>
+    <string name="description_icon">EV Charging Station Helper 的圖標</string>
+    <string name="home_slogan">綠色生活，綠色汽車</string>
+
+    <!-- Menu Page-->
+    <string name="menu_title_menu">目錄</string>
+    <string name="menu_title_overview">概覽</string>
+    <string name="menu_title_search">搜索</string>
+    <string name="menu_title_favourite">收藏</string>
+    <string name="menu_title_nearby">附近</string>
+    <string name="menu_title_socket">插頭種類</string>
+    <string name="menu_title_realTime">實時狀態</string>
+
+    <string name="menu_description_overview">找出所有充電站</string>
+    <string name="menu_description_search">搜索您想要的充電站</string>
+    <string name="menu_description_favourite">保存您最常用的充電站</string>
+    <string name="menu_description_nearby">搜索最近的充電站</string>
+    <string name="menu_description_socket">找出所有相關種類的充電站</string>
+    <string name="menu_description_realTime">獲取充電站的實時狀態</string>
+
+    <string name="menu_optionsmenu_share">分享</string>
+    <string name="menu_optionsmenu_language">語言</string>
+    <string name="menu_optionsmenu_about">關於</string>
+
+    <!-- About Page-->
+    <string name="about_title">關於</string>
+    <string name="about_author">作者</string>
+    <string name="about_telephone">致電給我</string>
+    <string name="about_email">電郵給我</string>
+    <string name="about_version">版本</string>
+    <string name="about_date">發布日期</string>
+
+    <string name="about_author_name">許堯榮 (Tommy) 53032539</string>
+    <string name="about_author_tel">+85298490124</string>
+    <string name="about_author_email">aesops0124@gmail.com</string>
+    <string name="about_app_version">1.0</string>
+    <string name="about_app_date">2015年6月20日</string>
+
+    <string name="about_email_subject">有關EV Charging Station Helper的應用查詢</string>
+    <string name="about_email_text">我想發問的是...</string>
+    <string name="about_email_intent">發送電郵</string>
+
+    <!-- Search Page-->
+    <string name="search_title">搜索</string>
+    <string name="search_text_title_address">地點：</string>
+    <string name="search_text_title_district">地區：</string>
+    <string name="search_text_title_type">插座類型：</string>
+    <string name="search_text_title_socket">充電插座：</string>
+    <string name="search_text_title_quantity">數量：</string>
+    <string name="search_text_title_sort">排序結果方式</string>
+    <string name="search_text_title_nearest">最近的充電站</string>
+    <string name="search_text_title_availability">現在可用的充電站</string>
+    <string name="search_text_all">所有</string>
+    <string name="search_button_search">搜索</string>
+    <string name="search_button_clear">清除</string>
+
+    <!-- Search Result Page-->
+    <string name="searchresult_alertDialog_no_result_title">沒有匹配的充電站</string>
+    <string name="searchresult_alertDialog_no_result_text">您可以修改搜索條件並重新搜索。</string>
+    <string name="searchresult_alertDialog_revise_option">修訂搜索</string>
+    <string name="searchresult_title">搜索結果</string>
+    <string name="searchresult_searchAgain">再次搜索</string>
+    <!--<string name="searchresult_alertDialog_no_gps_title">No GPS Signal is Found</string>-->
+    <!--<string name="searchresult_alertDialog_no_gps_text">You may turn on the GPS and search again.</string>-->
+
+    <!-- Overview Page-->
+    <string name="overview_title">概覽</string>
+    <string name="overview_tab_list">列表</string>
+    <string name="overview_tab_history">歷史記錄</string>
+    <string name="overview_search_view_title">請鍵入在搜索列</string>
+    <string name="overview_search_result_text">個充電站項目有關於</string>
+    <string name="overview_history_alertDialog_delete_history">您確定要清除歷史記錄嗎？</string>
+    <string name="overview_history_alertDialog_no_undo">您不能撤消此操作。</string>
+    <string name="history_alertDialog_no_option">取消</string>
+    <string name="overview_history_alertDialog_yes_option">清除</string>
+
+
+    <!-- Item Page-->
+    <string name="item_title_location">位置</string>
+    <string name="item_title_type">插座類型</string>
+    <string name="item_title_socket">充電插座</string>
+    <string name="item_title_availability">充電站狀況</string>
+    <string name="item_title_availability_text">總共: </string>
+    <string name="item_toast_addToFavorites">成功新增到「收藏」。</string>
+    <string name="item_toast_deleteFromFavorites">成功在「收藏」列表中刪除。</string>
+    <string name="item_button_addToFavorites">添加到收藏夾</string>
+    <string name="item_button_deleteFromFavorites">從收藏夾中刪除</string>
+
+    <!-- Favorites Page-->
+    <string name="favorites_title">收藏</string>
+    <string name="favorites_alertDialog_no_favorites_title">沒有收藏的充電站</string>
+    <string name="favorites_alertDialog_no_favorites_text">您可以通過“添加到收藏夾”按鈕，收藏充電站的詳細資料.</string>
+    <string name="favorites_alertDialog_ok_option">確定</string>
+    <string name="favorites_alertDialog_search_option">按此搜索</string>
+    <string name="favorites_alertDialog_select_option">按此選擇</string>
+    <string name="favorites_alertDialog_delete_favorites_title">你確定要刪除這個收藏嗎？</string>
+    <string name="favorites_alertDialog_delete_favorites_text">您不能撤消此操作。</string>
+    <string name="favorites_alertDialog_remove_option">刪除</string>
+    <string name="favorites_alertDialog_cancel_option">取消</string>
+
+    <!-- Share Page-->
+    <string name="share_subject">看看這個程式吧!</string>
+    <string name="share_message"> - 一個簡單的方法來找出在香港島中最近的充電站。</string>
+    <string name="share_hint">透過以下程式分享</string>
+
+    <!-- Socket Page-->
+    <string name="socket_type_title">插頭種類</string>
+    <string name="socket_type_standard_title">標準</string>
+    <string name="socket_type_standard_subtitle">13A</string>
+    <string name="socket_type_medium_title">中速</string>
+    <string name="socket_type_medium_subtitle">IEC 62196, SAE J1772, 其他</string>
+    <string name="socket_type_quick_title">快速</string>
+    <string name="socket_type_quick_subtitle">CHAdeMO, 其他</string>
+
+    <!-- Socket List Page-->
+    <string name="socket_list_title">插頭</string>
+    <string name="socket_list_title_standard">標準</string>
+    <string name="socket_list_title_medium">中速</string>
+    <string name="socket_list_title_quick">快速</string>
+
+    <!-- Socket List Page-->
+    <string name="socket_listitem_title">插頭</string>
+
+    <!-- Nearby Page-->
+    <string name="nearby_title">附近</string>
+    <string name="nearby_userLocation">我的當前位置</string>
+    <string name="nearby_alert_gpsOff">裝置的GPS導航服務處於關閉狀態。請打開GPS，然後重試。</string>
+    <string name="nearby_progressDialog_title">正在處理中...</string>
+    <string name="nearby_progressDialog_content">由於處理需時，請耐心等待...</string>
+
+    <!-- Real-Time Page-->
+    <string name="realTime_title">實時狀態</string>
+
+    <!-- Setting Page-->
+    <string name="setting_title">設定</string>
+
+    <!-- Snippet-->
+    <string name="snippet_distance"> 公里</string>
+    <string name="snippet_time"> 分鐘</string>
+</resources>

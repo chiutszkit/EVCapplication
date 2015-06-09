@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
+import com.example.tommyhui.evcapplication.HomeActivity;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.adapter.OverviewListViewAdapter;
 import com.example.tommyhui.evcapplication.adapter.OverviewPagerAdapter;
@@ -38,7 +39,7 @@ public class OverviewActivity extends ActionBarActivity {
 
     private OverviewPagerAdapter overviewPagerAdapter;
     private ViewPager mViewPager;
-    private ItemCS_DBController db;
+    private ItemCS_DBController db = new ItemCS_DBController(this);
     private boolean searchBefore = false;
 
     @Override
@@ -46,31 +47,29 @@ public class OverviewActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.overview_activity);
 
-        /*To Use Customized Action Bar*/
+        /** Use customized action bar **/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
-        /*To Set Up Action Bar's Title*/
+        /** Set up action bar's title **/
         TextView title = (TextView) findViewById(R.id.action_bar_title);
-        title.setText("Overview");
+        title.setText(R.string.overview_title);
 
-        /*To Set Up Action Bar's Icon*/
+        /** Set up action bar's icon **/
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.overview_icon);
 
-        /*Get the Overview List from MenuActivity*/
+        /** Get the list of overview from MenuActivity **/
         ItemCSes = MenuActivity.ItemCSes;
-//        ItemCSes = getIntent().getParcelableArrayListExtra("list");
 
-        /*To Set Up Viewpager*/
-        overviewPagerAdapter = new OverviewPagerAdapter(getSupportFragmentManager());
+        /** To set up the viewpager **/
+        overviewPagerAdapter = new OverviewPagerAdapter(getSupportFragmentManager(), getBaseContext());
 
         mViewPager = (ViewPager) findViewById(R.id.overview_pager);
         mViewPager.setAdapter(overviewPagerAdapter);
 
-        // Give the PagerSlidingTabStrip the ViewPager
+        /** Give the PagerSlidingTabStrip the ViewPager **/
         PagerSlidingTabStrip tabsStrip = (PagerSlidingTabStrip) findViewById(R.id.overview_tabs);
-        // Attach the view pager to the tab strip
         tabsStrip.setViewPager(mViewPager);
 
         tabsStrip.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
@@ -87,8 +86,6 @@ public class OverviewActivity extends ActionBarActivity {
                 }
             }
         });
-
-        db = new ItemCS_DBController(this);
     }
 
     @Override
@@ -102,17 +99,17 @@ public class OverviewActivity extends ActionBarActivity {
             menu.findItem(R.id.overview_action_search).setVisible(true);
         }
 
-        /*To Expand Search Bar*/
+        // To expand search bar
         searchItem = menu.findItem(R.id.overview_action_search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
-        /*To Set Up a Search Hint for Search Bar*/
+        // To set up a search hint for search bar
         searchView.setQueryHint(getResources().getString(R.string.overview_search_view_title));
 
         searchView.setOnSearchClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*To Go back to the view page of LIST*/
+                // To go back to the view page of list
                 mViewPager.setCurrentItem(0);
             }
         });
@@ -120,14 +117,12 @@ public class OverviewActivity extends ActionBarActivity {
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
-            /*To Handle the Case When Texts on SearchView are changed*/
+            /** To handle the case when texts on SearchView are changed*/
             public boolean onQueryTextChange(String query) {
 
-//                setSuggestionForSearch(query);
-
-                /*To Update the List of CS with the Query*/
+                // To update the list of cs with the query
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
-                QueryItemCSes = db.inputQueryCSes(OverviewActivity.this, new String[] {query}, 1);
+                QueryItemCSes = db.inputQueryCSes(OverviewActivity.this, new String[]{query}, 1);
                 mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, QueryItemCSes));
                 mListView.setTextFilterEnabled(true);
 
@@ -135,27 +130,27 @@ public class OverviewActivity extends ActionBarActivity {
             }
 
             @Override
-            /*To Handle the Case When texts on SearchView are submit*/
+            /** To handle the case when texts on SearchView are submit **/
             public boolean onQueryTextSubmit(String query) {
                 // TODO Auto-generated method stub
 
-                /*To Go back to the view page of LIST*/
+                // To go back to the view page of list
                 mViewPager.setCurrentItem(0);
 
-                /*To Put the Query on the Search Bar*/
+                // to put the query on the search bar
                 searchViewQuery = query;
                 searchView.setQuery(query, false);
                 searchView.clearFocus();
 
-                /*To Update the List of CS with the Query*/
+                // To update the list of cs with the query
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
-                QueryItemCSes = db.inputQueryCSes(OverviewActivity.this, new String[] {query}, 1);
+                QueryItemCSes = db.inputQueryCSes(OverviewActivity.this, new String[]{query}, 1);
                 mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, QueryItemCSes));
                 mListView.setTextFilterEnabled(true);
 
-                /*To Show the search result*/
+                // To show the search result
                 TextView status = (TextView) findViewById(R.id.overview_text_status);
-                Spanned result = Html.fromHtml("<strong>" + QueryItemCSes.size() + "</strong>" + " charging stations for " + '"' + "<strong>" + query + "</strong>" + '"');
+                Spanned result = Html.fromHtml("<strong>" + QueryItemCSes.size() + "</strong>" + getString(R.string.overview_search_result_text) + '"' + "<strong>" + query + "</strong>" + '"');
                 status.setText(result);
                 LinearLayout layout = (LinearLayout) findViewById(R.id.overview_layout_status);
                 layout.setVisibility(View.VISIBLE);
@@ -166,14 +161,14 @@ public class OverviewActivity extends ActionBarActivity {
         });
         searchView.setOnCloseListener(new SearchView.OnCloseListener() {
             @Override
-            /*To Handle the Case When the User Loses Focus on SearchView*/
+            /** To handle the case when the user loses focus on SearchView **/
             public boolean onClose() {
 
-                /*To Clear the Query on the Search Bar*/
+                // To clear the query on the search bar
                 searchView.setQuery("", false);
                 searchView.clearFocus();
 
-                /*To Display back the List of CS with the Original List of CS*/
+                // To display back the list of cs with the original list of cs
                 ListView mListView = (ListView) findViewById(R.id.overview_list_view);
                 mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, ItemCSes));
                 mListView.setTextFilterEnabled(true);
@@ -185,74 +180,5 @@ public class OverviewActivity extends ActionBarActivity {
             }
         });
         return true;
-
-//        /*Hide dropdown pop up of  SearchView*/
-//        LinearLayout linearLayout1 = (LinearLayout) searchView.getChildAt(0);
-//        LinearLayout linearLayout2 = (LinearLayout) linearLayout1.getChildAt(2);
-//        LinearLayout linearLayout3 = (LinearLayout) linearLayout2.getChildAt(1);
-//        AutoCompleteTextView autoComplete = (AutoCompleteTextView) linearLayout3.getChildAt(0);
-//        autoComplete.setDropDownHeight(0);
     }
-
-
-//        protected void setSuggestionForSearch(String query) {
-//            // TODO Auto-generated method stub
-//
-//            ArrayList<ItemCS> suggestionArray;
-//            suggestionArray = getListOfChargingStations();
-//
-//            searchView.setSuggestionsAdapter(SearchUtil
-//                    .getCursorAdapter(OverviewActivity.this, suggestionArray,
-//                            query));
-//
-//            searchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-//
-//                @Override
-//                public boolean onSuggestionClick(int position) {
-//
-//                    showSearchResult(SearchUtil
-//                            .getItemTag((MatrixCursor) searchView
-//                                    .getSuggestionsAdapter().getItem(position)));
-//                    return false;
-//                }
-//
-//                @Override
-//                public boolean onSuggestionSelect(int position) {
-//                    return false;
-//                }
-//            });
-//
-//        }
-//
-//        private ArrayList<ItemCS> getListOfChargingStations() {
-//            // TODO Auto-generated method stub
-//
-//            ArrayList<ItemCS> items = ItemCSes;
-//
-//            String[] isoCountries = Locale.getISOCountries();
-//            for (int i = 0; i < items.size(); i++)
-//                ItemCS item = items.get(i);
-//
-//                String address = items.get();
-//                String description = items.getDisplayCountry();
-//
-//                if (!"".equals(name)) {
-//                    items.add(name);
-//                }
-//            }
-//
-//            return items;
-//
-//        }
-//        protected void showSearchResult(String itemTag) {
-//            // TODO Auto-generated method stub
-//
-//            /*Clear the Query and Display the Result*/
-//            searchView.setQuery("", false);
-//            searchView.clearFocus();
-//            searchView.onActionViewCollapsed();
-//
-//            Toast.makeText(getApplicationContext(), "Please wait...", Toast.LENGTH_SHORT).show();
-//        }
-
 }

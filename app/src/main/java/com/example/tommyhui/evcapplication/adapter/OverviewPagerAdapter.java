@@ -1,24 +1,23 @@
 package com.example.tommyhui.evcapplication.adapter;
 
-import android.os.Bundle;
+import android.content.Context;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
-import com.example.tommyhui.evcapplication.database.ItemCS;
+import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.overview.OverviewHistoryFragmentActivity;
 import com.example.tommyhui.evcapplication.overview.OverviewListFragmentActivity;
-
-import java.util.ArrayList;
 
 
 public class OverviewPagerAdapter extends FragmentPagerAdapter {
 
-    ArrayList<ItemCS> itemCSes = new ArrayList<>();
-    private String tabTitles[] = new String[]{"List", "History"};
+    Context mContext;
+    private String tabTitles[];
 
-    public OverviewPagerAdapter(FragmentManager fm) {
+    public OverviewPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
-//        this.itemCSes = items;
+        mContext = context;
+        tabTitles = new String[]{mContext.getResources().getString(R.string.overview_tab_list), mContext.getResources().getString(R.string.overview_tab_history)};
     }
 
     @Override
@@ -26,11 +25,6 @@ public class OverviewPagerAdapter extends FragmentPagerAdapter {
         // TODO Auto-generated method stub
         switch (position) {
             case 0:
-                /*Pass the Overview List to OverviewListFragment*/
-//                OverviewListFragmentActivity frag = new OverviewListFragmentActivity();
-//                Bundle bundle = new Bundle();
-//                bundle.putParcelableArrayList("list", itemCSes);
-//                frag.setArguments(bundle);
                 return new OverviewListFragmentActivity();
             case 1:
                 return new OverviewHistoryFragmentActivity();

@@ -24,19 +24,19 @@ public class SocketActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.socket_activity);
 
-        /*Use Customized Action Bar*/
+        /** Use customized action bar **/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
         getSupportActionBar().setCustomView(R.layout.actionbar);
 
-        /*Set Action Bar's Title*/
+        /** Set up action bar's title **/
         TextView title = (TextView) findViewById(R.id.action_bar_title);
-        title.setText("Socket Types");
+        title.setText(R.string.socket_type_title);
 
-        /*Set Action Bar's Icon*/
+        /** Set up action bar's icon **/
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.big_socket);
 
-        /*Display the List View*/
+        /** Display the list of socket **/
         final ListView listview = (ListView) findViewById(R.id.socket_list_view);
 
         final int[] typeTitle = new int[]{
