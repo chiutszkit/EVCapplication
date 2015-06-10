@@ -57,7 +57,6 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
     private List<LatLng> markersLatLng;
     private Location myLocation;
     private Marker myLocationMarker;
-    private StringBuilder stringBuilder = new StringBuilder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,24 +97,6 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
         progressDialog.show();
 
         new LoadRealTimeDataTask().execute((Void[])null);
-
-//        AsyncTask<Void, Void, Void> realTimeDataLoader = new AsyncTask<Void, Void, Void>() {
-//
-//            @Override
-//            protected Void doInBackground(Void... params) {
-//                calculateRealTimeData();
-//                return null;
-//            }
-//
-//            @Override
-//            protected void onPostExecute(Void result) {
-//                progressDialog.dismiss();
-//            }
-//        };
-//        progressDialog.setProgressStyle(progressDialog.STYLE_HORIZONTAL);
-//        progressDialog = ProgressDialog.show(this, getResources().getString(R.string.nearby_progressDialog_title), getResources().getString(R.string.nearby_progressDialog_content), true, true);
-//        progressDialog.setCancelable(false);
-//        realTimeDataLoader.execute((Void[])null);
 
         googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
 
@@ -194,6 +175,8 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
 
     /** Calculate the distance and travelling time between user and charging stations **/
     public String[] connectToGoogleMap(double lat1, double lat2, double lng1, double lng2) {
+
+        StringBuilder stringBuilder = new StringBuilder();
 
         // Set up the connection to Google Map.
         try {

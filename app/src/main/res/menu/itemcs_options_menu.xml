@@ -1,0 +1,10 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:evcapplication="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/itemCS_action_favorite"
+        android:icon="@drawable/add_favorite_icon"
+        android:title="@string/item_button_addToFavorites"
+        evcapplication:showAsAction="always" />
+
+</menu>

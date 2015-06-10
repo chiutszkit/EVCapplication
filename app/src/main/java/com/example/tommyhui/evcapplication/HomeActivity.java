@@ -66,7 +66,6 @@ public class HomeActivity extends Activity {
 
     private List<LatLng> markersLatLng;
     private Location myLocation;
-    private StringBuilder stringBuilder = new StringBuilder();
     private int count = 1;
 
     @Override
@@ -259,6 +258,7 @@ public class HomeActivity extends Activity {
     /** Calculate the distance and travelling time between user and charging stations **/
     public String[] connectToGoogleMap(double lat1, double lat2, double lng1, double lng2) {
 
+        StringBuilder stringBuilder = new StringBuilder();
         // Set up the connection to Google Map.
         try {
             String url = "http://maps.googleapis.com/maps/api/directions/json?origin=" + lat1 + "," + lng1 +
