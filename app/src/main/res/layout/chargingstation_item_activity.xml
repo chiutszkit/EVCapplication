@@ -46,7 +46,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:text="@string/item_title_location"
-                android:textSize="20dp"
+                android:textSize="@dimen/chargingstation_item_title_textsize"
                 android:textStyle="bold"/>
         </LinearLayout>
         <LinearLayout
@@ -68,7 +68,7 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="10dp"
                 android:text="[Charging Station Address]"
-                android:textSize="20sp"
+                android:textSize="@dimen/chargingstation_item_text_textsize"
                 android:gravity="center_vertical"/>
         </LinearLayout>
 
@@ -86,7 +86,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:text="@string/item_title_type"
-                android:textSize="20dp"
+                android:textSize="@dimen/chargingstation_item_title_textsize"
                 android:textStyle="bold"/>
         </LinearLayout>
 
@@ -110,7 +110,7 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="10dp"
                 android:text="[Charging Station Type]"
-                android:textSize="20sp"
+                android:textSize="@dimen/chargingstation_item_text_textsize"
                 android:gravity="center_vertical"/>
         </LinearLayout>
         // Socket
@@ -127,7 +127,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:text="@string/item_title_socket"
-                android:textSize="20dp"
+                android:textSize="@dimen/chargingstation_item_title_textsize"
                 android:textStyle="bold"/>
         </LinearLayout>
 
@@ -150,7 +150,7 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="10dp"
                 android:text="[Charging Station Socket]"
-                android:textSize="20sp"
+                android:textSize="@dimen/chargingstation_item_text_textsize"
                 android:gravity="center_vertical"/>
         </LinearLayout>
 
@@ -168,7 +168,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:text="@string/item_title_availability"
-                android:textSize="20dp"
+                android:textSize="@dimen/chargingstation_item_title_textsize"
                 android:textStyle="bold"/>
         </LinearLayout>
         <LinearLayout
@@ -190,7 +190,7 @@
                 android:layout_height="match_parent"
                 android:paddingLeft="10dp"
                 android:text="[Charging Station Quantity]"
-                android:textSize="20sp"
+                android:textSize="@dimen/chargingstation_item_text_textsize"
                 android:gravity="center_vertical"/>
         </LinearLayout>
     </LinearLayout>

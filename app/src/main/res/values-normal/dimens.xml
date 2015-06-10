@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <dimen name="list_view_item_height">100dp</dimen>
+    <dimen name="list_view_item_bigIcon">35dp</dimen>
+    <dimen name="list_view_item_smallIcon">15dp</dimen>
+    <dimen name="list_view_item_chargingStation_textsize">13sp</dimen>
+    <dimen name="list_view_item_address_textsize">9sp</dimen>
+    <dimen name="list_view_item_type_textsize">9sp</dimen>
+    <dimen name="list_view_item_socket_textsize">9sp</dimen>
+
+    <dimen name="sticky_list_item_text_textsize">15sp</dimen>
+    <dimen name="sticky_list_header_text_textsize">15sp</dimen>
+
+    <!-- Home Page -->
+    <dimen name="homepage_text_description_textsize">25sp</dimen>
+    <dimen name="homepage_text_title_textsize">25sp</dimen>
+
+    <!-- Action Bar -->
+    <dimen name="action_bar_title_textsize">15sp</dimen>
+    <dimen name="action_bar_icon_imagesize">30dp</dimen>
+
+    <!-- Menu Page -->
+    <dimen name="menu_grid_title_textsize">20sp</dimen>
+
+    <!-- About Page -->
+    <dimen name="about_list_view_item_title_textsize">15sp</dimen>
+    <dimen name="about_list_view_item_text_textsize">15sp</dimen>
+
+    <!-- Item Page -->
+    <dimen name="chargingstation_item_title_textsize">15sp</dimen>
+    <dimen name="chargingstation_item_text_textsize">13sp</dimen>
+
+    <!--  Overview Page -->
+    <dimen name="overview_text_status_textsize">15sp</dimen>
+
+    <!--  Search Page -->
+    <dimen name="search_text_title_textsize">15sp</dimen>
+    <dimen name="search_button_textsize">10sp</dimen>
+
+    <!--  Socket Page -->
+    <dimen name="socket_list_view_item_title_textsize">18sp</dimen>
+    <dimen name="socket_list_view_item_subtitle_textsize">15sp</dimen>
+
+    <!--  Socket Item Page -->
+    <dimen name="socket_listpage_list_view_item_chargingStation_textsize">15sp</dimen>
+    <dimen name="socket_listpage_list_view_item_address_textsize">10sp</dimen>
+    <dimen name="socket_listpage_list_view_item_distance_textsize">10sp</dimen>
+    <dimen name="socket_listpage_list_view_item_time_textsize">10sp</dimen>
+
+</resources>

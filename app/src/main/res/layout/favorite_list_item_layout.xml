@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:descendantFocusability="blocksDescendants"
     android:gravity="center_vertical"
-    android:minHeight="150sp"
+    android:minHeight="@dimen/list_view_item_height"
     android:orientation="vertical">
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -14,8 +14,8 @@
 
         <ImageView
             android:id="@+id/favorite_list_view_icon_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="@dimen/list_view_item_bigIcon"
+            android:layout_height="@dimen/list_view_item_bigIcon"
             android:layout_gravity="center"
             android:layout_marginLeft="15dp"
             android:src="@drawable/addfavourite_icon" />
@@ -29,24 +29,21 @@
 
             <TextView
                 android:id="@+id/favorite_list_view_item_chargingStation"
-                android:layout_width="350dp"
+                android:layout_width="300dp"
                 android:layout_height="wrap_content"
                 android:text="[charging station]"
-                android:textSize="22sp" />
+                android:textSize="@dimen/list_view_item_chargingStation_textsize"
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/favorite_list_view_item_address"
                 android:layout_width="300dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:text="[address]"
-                android:textSize="15sp" />
+                android:textSize="@dimen/list_view_item_address_textsize" />
 
-            <TextView
-                android:id="@+id/favorite_list_view_item_district"
-                android:layout_width="300dp"
-                android:layout_height="wrap_content"
-                android:text="[district]"
-                android:textSize="15sp" />
+
         </LinearLayout>
 
         <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -63,8 +60,8 @@
 
                 <ImageView
                     android:id="@+id/favorite_list_view_icon_speed"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="@dimen/list_view_item_smallIcon"
+                    android:layout_height="@dimen/list_view_item_smallIcon"
                     android:layout_gravity="center"
                     android:src="@drawable/speed_icon" />
 
@@ -75,7 +72,7 @@
                     android:layout_marginLeft="15dp"
                     android:gravity="center"
                     android:text="[type]"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/list_view_item_type_textsize" />
             </LinearLayout>
 
             <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -86,8 +83,8 @@
 
                 <ImageView
                     android:id="@+id/favorite_list_view_icon_socket"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_width="@dimen/list_view_item_smallIcon"
+                    android:layout_height="@dimen/list_view_item_smallIcon"
                     android:layout_gravity="center"
                     android:src="@drawable/small_socket_icon" />
 
@@ -98,7 +95,7 @@
                     android:layout_marginLeft="15dp"
                     android:gravity="center"
                     android:text="[socket]"
-                    android:textSize="15sp" />
+                    android:textSize="@dimen/list_view_item_socket_textsize" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

@@ -109,7 +109,7 @@ public class HomeActivity extends Activity {
 
             if (myLocation != null) {
 
-                for (int i = 0; i < markersLatLng.size(); i++) {
+                for (int i = 0; i < markersLatLng.size()-46; i++) {
 
                     final double lat1 = myLocation.getLatitude();
                     final double lng1 = myLocation.getLongitude();

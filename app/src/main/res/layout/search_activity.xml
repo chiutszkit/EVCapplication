@@ -32,7 +32,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text="@string/search_text_title_address"
-                    android:textSize="20dp"                 
+                    android:textSize="@dimen/search_text_title_textsize"
                     android:textStyle="bold"/>
                 <Spinner
                     android:id="@+id/search_spinner_description"
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
                 android:text="@string/search_text_title_district"
-                android:textSize="20dp" 
+                android:textSize="@dimen/search_text_title_textsize"
                 android:textStyle="bold"/>
 
             <Spinner
@@ -85,7 +85,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text="@string/search_text_title_type"
-                    android:textSize="20dp" 
+                    android:textSize="@dimen/search_text_title_textsize"
                     android:textStyle="bold"/>
                 <Spinner
                     android:id="@+id/search_spinner_type"
@@ -115,7 +115,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text="@string/search_text_title_socket"
-                    android:textSize="20dp" 
+                    android:textSize="@dimen/search_text_title_textsize"
                     android:textStyle="bold"/>
                 <Spinner
                     android:id="@+id/search_spinner_socket"
@@ -136,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:text="@string/search_text_title_quantity"
-                    android:textSize="20dp" 
+                    android:textSize="@dimen/search_text_title_textsize"
                     android:textStyle="bold"/>
                 <Spinner
                     android:id="@+id/search_spinner_quantity"
@@ -165,7 +165,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="10dp"
                 android:text="@string/search_text_title_sort"
-                android:textSize="20dp" 
+                android:textSize="@dimen/search_text_title_textsize"
                 android:textStyle="bold"/>
         </LinearLayout>
         <LinearLayout
@@ -181,7 +181,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
                 android:text="@string/search_text_title_nearest"
-                android:textSize="20dp" 
+                android:textSize="@dimen/search_text_title_textsize"
 />
             <CheckBox
                 android:id="@+id/search_checkbox_nearest"
@@ -203,7 +203,7 @@
                 android:layout_gravity="center"
                 android:layout_marginLeft="20dp"
                 android:text="@string/search_text_title_availability"
-                android:textSize="20dp" />
+                android:textSize="@dimen/search_text_title_textsize" />
             <CheckBox
                 android:id="@+id/search_checkbox_availability"
                 android:layout_width="0dp"
@@ -226,7 +226,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="@string/search_button_search" />
+            android:text="@string/search_button_search"
+            android:textSize="10sp"/>
 
         <Button
             android:id="@+id/search_button_clear"
@@ -234,7 +235,8 @@
             android:layout_height="match_parent"
             android:layout_gravity="center"
             android:layout_weight="1"
-            android:text="@string/search_button_clear" />
+            android:text="@string/search_button_clear"
+            android:textSize="10sp"/>
     </LinearLayout>
 
 </LinearLayout>

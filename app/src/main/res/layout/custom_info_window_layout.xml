@@ -28,7 +28,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="[Charging Station]"
-
+            android:textSize="15sp"
             android:textStyle="bold" />
 
         <TextView
@@ -36,6 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:textSize="12sp"
             android:text="[Address]"      />
 
     </LinearLayout>
@@ -53,6 +54,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:textSize="12sp"
             android:text="[Distance]" />
 
         <TextView
@@ -60,6 +62,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
+            android:textSize="12sp"
             android:text="[Time]"/>
 
     </LinearLayout>

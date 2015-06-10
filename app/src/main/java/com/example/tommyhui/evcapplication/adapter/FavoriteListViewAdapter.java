@@ -63,14 +63,12 @@ public class FavoriteListViewAdapter extends BaseAdapter {
         final View rowView = inflater.inflate(R.layout.favorite_list_item_layout, parent, false);
 
         TextView address = (TextView) rowView.findViewById(R.id.favorite_list_view_item_address);
-        TextView district = (TextView) rowView.findViewById(R.id.favorite_list_view_item_district);
         TextView chargingStation = (TextView) rowView.findViewById(R.id.favorite_list_view_item_chargingStation);
         TextView type = (TextView) rowView.findViewById(R.id.favorite_list_view_item_type);
         TextView socket = (TextView) rowView.findViewById(R.id.favorite_list_view_item_socket);
         final ImageView imageView = (ImageView) rowView.findViewById(R.id.favorite_list_view_icon_favorite);
 
         address.setText(itemList.get(position).getAddress());
-        district.setText(itemList.get(position).getDistrict());
         chargingStation.setText(itemList.get(position).getDescription());
         type.setText(itemList.get(position).getType());
         socket.setText(itemList.get(position).getSocket());

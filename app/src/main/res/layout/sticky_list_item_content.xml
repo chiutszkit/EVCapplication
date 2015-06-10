@@ -13,6 +13,6 @@
         android:layout_gravity="center_vertical"
         android:layout_margin="5dp"
         android:textColor="@color/black"
-        android:textSize="18sp" />
+        android:textSize="@dimen/sticky_list_item_text_textsize" />
 
 </LinearLayout>
