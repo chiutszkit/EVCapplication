@@ -227,7 +227,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:text="@string/search_button_search"
-            android:textSize="10sp"/>
+            android:textSize="@dimen/search_button_textsize"/>
 
         <Button
             android:id="@+id/search_button_clear"
@@ -236,7 +236,7 @@
             android:layout_gravity="center"
             android:layout_weight="1"
             android:text="@string/search_button_clear"
-            android:textSize="10sp"/>
+            android:textSize="@dimen/search_button_textsize"/>
     </LinearLayout>
 
 </LinearLayout>

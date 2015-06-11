@@ -24,6 +24,7 @@ import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Polyline;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -46,6 +47,7 @@ public class HomeActivity extends Activity {
 
     public static ArrayList<ItemCS> socketVenueList = new ArrayList<ItemCS>();
     public static ArrayList <ItemCS> matchingList = new ArrayList<ItemCS>();
+    public static Polyline polyline;
 
     private ArrayList<String> list_ID_favorite;
     private ArrayList<String> list_ID_history;
@@ -109,7 +111,7 @@ public class HomeActivity extends Activity {
 
             if (myLocation != null) {
 
-                for (int i = 0; i < markersLatLng.size(); i++) {
+                for (int i = 0; i < markersLatLng.size()-46; i++) {
 
                     final double lat1 = myLocation.getLatitude();
                     final double lng1 = myLocation.getLongitude();

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
+import com.example.tommyhui.evcapplication.map.DirectionsJSONDrawPath;
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -27,6 +28,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.Polyline;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -38,10 +40,13 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
     private ItemCS_DBController db;
 
     private GoogleMap googleMap;
+    private String latitude;
+    private String longitude;
     private List<Marker> markers;
     private List<LatLng> markersLatLng;
     private Location myLocation;
     private Marker myLocationMarker;
+    private LatLngBounds.Builder builder = new LatLngBounds.Builder();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,9 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
 
         /** Get the data passed by SocketListActivity**/
         Bundle bundle = getIntent().getExtras();
+
+        latitude = bundle.getString("latitude");
+        longitude = bundle.getString("longitude");
 
         /** Use customized action bar **/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
@@ -73,7 +81,25 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
 
         /** Loading the real time data **/
         locateUserPosition();
+
+        /** Draw the travelling path **/
+        DirectionsJSONDrawPath directionsJSONDrawPath = new DirectionsJSONDrawPath(googleMap, new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude)));
+        directionsJSONDrawPath.drawDirectionPath();
+
         locateSameTypeChargingStationPosition();
+
+        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                // TODO Auto-generated method stub
+                /** Draw the travelling path **/
+                DirectionsJSONDrawPath directionsJSONDrawPath = new DirectionsJSONDrawPath(googleMap, new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), new LatLng(marker.getPosition().latitude, marker.getPosition().longitude));
+                directionsJSONDrawPath.drawDirectionPath();
+                marker.showInfoWindow();
+                return true;
+            }
+        });
     }
 
     /** Locate user current position **/
@@ -131,9 +157,6 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
     /** Locate all the markers of charging stations with specific type in the map **/
     public void locateSameTypeChargingStationPosition() {
 
-        final LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        Bundle bundle = getIntent().getExtras();
-
         markers = new ArrayList<Marker>();
         markersLatLng = new ArrayList<LatLng>();
 
@@ -165,7 +188,7 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
                 markers.add(marker);
                 markersLatLng.add(latLng);
 
-                if(latInDouble == Double.valueOf(bundle.getString("latitude")) && lonInDouble == Double.valueOf(bundle.getString("longitude")))
+                if(latInDouble == Double.valueOf(latitude) && lonInDouble == Double.valueOf(longitude))
                     marker.showInfoWindow();
             }
         }
