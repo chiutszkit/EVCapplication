@@ -36,7 +36,7 @@ public class SearchResultActivity extends ActionBarActivity {
     private Boolean nearest;
     private Boolean availability;
 
-    private ArrayList<ItemCS> searchResultList = new ArrayList<>();
+    private ArrayList<ItemCS> searchResultList = new ArrayList<ItemCS>();
     private ItemCS_DBController db;
 
     private SearchResultListViewAdapter searchResultListViewAdapter;
@@ -120,7 +120,7 @@ public class SearchResultActivity extends ActionBarActivity {
 
     /** Handle the case of sort by nearest and available **/
     private ArrayList Sorting(ArrayList<ItemCS> tempList) {
-        ArrayList<ItemCS> result = new ArrayList<>();
+        ArrayList<ItemCS> result = new ArrayList<ItemCS>();
         if(nearest) {
             double min = 0;
             boolean firstItem = true;

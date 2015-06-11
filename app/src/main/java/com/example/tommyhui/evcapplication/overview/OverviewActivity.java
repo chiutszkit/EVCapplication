@@ -34,8 +34,8 @@ public class OverviewActivity extends ActionBarActivity {
     public static SearchView searchView;
     public static String searchViewQuery = "";
 
-    public static ArrayList<ItemCS> ItemCSes = new ArrayList<>();
-    public static ArrayList<ItemCS> QueryItemCSes = new ArrayList<>();
+    public static ArrayList<ItemCS> ItemCSes = new ArrayList<ItemCS>();
+    public static ArrayList<ItemCS> QueryItemCSes = new ArrayList<ItemCS>();
 
     private OverviewPagerAdapter overviewPagerAdapter;
     private ViewPager mViewPager;

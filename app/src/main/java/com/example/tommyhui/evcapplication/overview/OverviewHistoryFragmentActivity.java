@@ -24,7 +24,7 @@ import java.util.ArrayList;
 
 public class OverviewHistoryFragmentActivity extends Fragment {
 
-    private ArrayList<HistoryItemCS> historyList = new ArrayList<>();
+    private ArrayList<HistoryItemCS> historyList = new ArrayList<HistoryItemCS>();
     private HistoryListViewAdapter historyListViewAdapter;
     private HistoryItemCS_DBController db;
     private ListView listView;

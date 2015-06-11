@@ -44,8 +44,8 @@ import java.util.Set;
 
 public class HomeActivity extends Activity {
 
-    public static ArrayList<ItemCS> socketVenueList = new ArrayList<>();
-    public static ArrayList <ItemCS> matchingList = new ArrayList<>();
+    public static ArrayList<ItemCS> socketVenueList = new ArrayList<ItemCS>();
+    public static ArrayList <ItemCS> matchingList = new ArrayList<ItemCS>();
 
     private ArrayList<String> list_ID_favorite;
     private ArrayList<String> list_ID_history;
@@ -109,7 +109,7 @@ public class HomeActivity extends Activity {
 
             if (myLocation != null) {
 
-                for (int i = 0; i < markersLatLng.size()-46; i++) {
+                for (int i = 0; i < markersLatLng.size(); i++) {
 
                     final double lat1 = myLocation.getLatitude();
                     final double lng1 = myLocation.getLongitude();
@@ -236,7 +236,7 @@ public class HomeActivity extends Activity {
     /** Locate all the markers of charging stations **/
     public void locateAllChargingStationPosition() {
 
-        markersLatLng = new ArrayList<>();
+        markersLatLng = new ArrayList<LatLng>();
 
         // Get the list of ALL nearby charging stations.
         db_ItemCS = new ItemCS_DBController(getApplicationContext());

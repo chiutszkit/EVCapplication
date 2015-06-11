@@ -24,11 +24,11 @@ import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 public class SocketListActivity extends ActionBarActivity {
 
     private String type = "";
-    private ArrayList<ItemCS> socketList = new ArrayList<>();
+    private ArrayList<ItemCS> socketList = new ArrayList<ItemCS>();
     private SocketListPageListViewAdapter socketListPageListViewAdapter;
     private ItemCS_DBController db;
     private StickyListHeadersListView  listView;
-    private ArrayList<ItemCS> realTimeInfoList = new ArrayList<>();
+    private ArrayList<ItemCS> realTimeInfoList = new ArrayList<ItemCS>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

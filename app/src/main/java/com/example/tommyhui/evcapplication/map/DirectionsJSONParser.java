@@ -16,7 +16,7 @@ public class DirectionsJSONParser {
     /** Receives a JSONObject and returns a list of lists containing latitude and longitude */
     public List<List<HashMap<String,String>>> parse(JSONObject jObject){
 
-        List<List<HashMap<String, String>>> routes = new ArrayList<>() ;
+        List<List<HashMap<String, String>>> routes = new ArrayList<List<HashMap<String, String>>>() ;
         JSONArray jRoutes;
         JSONArray jLegs;
         JSONArray jSteps;
@@ -42,7 +42,7 @@ public class DirectionsJSONParser {
 
                         /** Traversing all points */
                         for(int l=0;l<list.size();l++){
-                            HashMap<String, String> hm = new HashMap<>();
+                            HashMap<String, String> hm = new HashMap<String, String>();
                             hm.put("lat", Double.toString((list.get(l)).latitude));
                             hm.put("lng", Double.toString((list.get(l)).longitude));
                             path.add(hm);
@@ -65,7 +65,7 @@ public class DirectionsJSONParser {
      * */
     private List<LatLng> decodePoly(String encoded) {
 
-        List<LatLng> poly = new ArrayList<>();
+        List<LatLng> poly = new ArrayList<LatLng>();
         int index = 0, len = encoded.length();
         int lat = 0, lng = 0;
 

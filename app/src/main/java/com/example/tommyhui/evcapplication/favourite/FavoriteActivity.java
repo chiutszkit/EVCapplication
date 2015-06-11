@@ -28,7 +28,7 @@ import java.util.ArrayList;
 
 public class FavoriteActivity extends ActionBarActivity {
 
-    private ArrayList<FavoriteItemCS> favoriteList = new ArrayList<>();
+    private ArrayList<FavoriteItemCS> favoriteList = new ArrayList<FavoriteItemCS>();
     private FavoriteListViewAdapter favoriteListViewAdapter;
     private FavoriteItemCS_DBController db;
     private ListView listView;

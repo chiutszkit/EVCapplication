@@ -187,7 +187,7 @@ public class ItemCS_DBController {
     /** Get all cs items **/
     public ArrayList<ItemCS> getAllCSes() {
 
-        ArrayList<ItemCS> cses = new ArrayList<>();
+        ArrayList<ItemCS> cses = new ArrayList<ItemCS>();
 
         // 1. build the query
         String query = "SELECT * FROM " + TABLE_NAME;
@@ -243,7 +243,7 @@ public class ItemCS_DBController {
     /** Process the SQL query from Activity **/
     public ArrayList<ItemCS> inputQueryCSes(Activity activity, String[] query, int numberQuery) {
 
-        ArrayList<ItemCS> cses = new ArrayList<>();
+        ArrayList<ItemCS> cses = new ArrayList<ItemCS>();
         String sql = "";
 
         if (activity instanceof HomeActivity) {

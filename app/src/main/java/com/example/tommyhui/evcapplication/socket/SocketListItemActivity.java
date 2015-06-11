@@ -134,8 +134,8 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
         final LatLngBounds.Builder builder = new LatLngBounds.Builder();
         Bundle bundle = getIntent().getExtras();
 
-        markers = new ArrayList<>();
-        markersLatLng = new ArrayList<>();
+        markers = new ArrayList<Marker>();
+        markersLatLng = new ArrayList<LatLng>();
 
         // Get the list of nearby charging stations with the specific type.
         db = new ItemCS_DBController(getApplicationContext());

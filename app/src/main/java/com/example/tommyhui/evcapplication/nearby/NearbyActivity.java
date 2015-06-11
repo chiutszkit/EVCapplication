@@ -46,7 +46,7 @@ import java.util.List;
 
 public class NearbyActivity extends ActionBarActivity implements LocationListener {
 
-    public static ArrayList<ItemCS> socketVenueList = new ArrayList<>();
+    public static ArrayList<ItemCS> socketVenueList = new ArrayList<ItemCS>();
     private ItemCS_DBController db;
     private ProgressDialog progressDialog;
     private int count = 1;
@@ -319,8 +319,8 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
     public void locateAllChargingStationPosition() {
 
         final LatLngBounds.Builder builder = new LatLngBounds.Builder();
-        markers = new ArrayList<>();
-        markersLatLng = new ArrayList<>();
+        markers = new ArrayList<Marker>();
+        markersLatLng = new ArrayList<LatLng>();
 
         // Get the list of ALL nearby charging stations.
         db = new ItemCS_DBController(getApplicationContext());

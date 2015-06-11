@@ -170,7 +170,7 @@ public class FavoriteItemCS_DBController {
     /** Get all favorite items **/
     public ArrayList<FavoriteItemCS> getAllFavoriteCSes() {
 
-        ArrayList<FavoriteItemCS> FavoriteCSes = new ArrayList<>();
+        ArrayList<FavoriteItemCS> FavoriteCSes = new ArrayList<FavoriteItemCS>();
 
         // 1. build the query
         String query = "SELECT * FROM " + TABLE_NAME;

@@ -37,11 +37,11 @@ import java.util.Set;
 
 public class MenuActivity extends ActionBarActivity {
 
-    public static ArrayList<ItemCS> ItemCSes = new ArrayList<>();
-    public static ArrayList<ItemCS> realTimeInfoList = new ArrayList<>();
+    public static ArrayList<ItemCS> ItemCSes = new ArrayList<ItemCS>();
+    public static ArrayList<ItemCS> realTimeInfoList = new ArrayList<ItemCS>();
 
-    private Set<String> list_ID_favorite = new HashSet<>();
-    private Set<String> list_ID_history = new HashSet<>();
+    private Set<String> list_ID_favorite = new HashSet<String>();
+    private Set<String> list_ID_history = new HashSet<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -142,7 +142,7 @@ public class MenuActivity extends ActionBarActivity {
         // Save user's favorite items
         FavoriteItemCS_DBController db_FavoriteItemCS = new FavoriteItemCS_DBController(this);
         ArrayList<FavoriteItemCS> favoriteItemCS_list = db_FavoriteItemCS.getAllFavoriteCSes();
-        list_ID_favorite = new HashSet<>();
+        list_ID_favorite = new HashSet<String>();
 
         for(int i = 0; i < favoriteItemCS_list.size(); i++)
             for(int j = 0; j < HomeActivity.matchingList.size(); j++) {
@@ -161,7 +161,7 @@ public class MenuActivity extends ActionBarActivity {
         // Save user's history items
         HistoryItemCS_DBController db_HistoryItemCS = new HistoryItemCS_DBController(this);
         ArrayList<HistoryItemCS> historyItemCS_list = db_HistoryItemCS.getAllHistoryCSes();
-        list_ID_history = new HashSet<>();
+        list_ID_history = new HashSet<String>();
 
         for(int i = 0; i < historyItemCS_list.size(); i++)
             for(int j = 0; j < HomeActivity.matchingList.size(); j++) {

@@ -138,7 +138,7 @@ public class SearchActivity extends ActionBarActivity {
     }
 
     public void arrayListToSpinners(ArrayList<String> list, Spinner spinner) {
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, list);
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, list);
         dataAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(dataAdapter);
     }

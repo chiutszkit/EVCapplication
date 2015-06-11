@@ -173,7 +173,7 @@ public class HistoryItemCS_DBController {
     /** Get all history items **/
     public ArrayList<HistoryItemCS> getAllHistoryCSes() {
 
-        ArrayList<HistoryItemCS> historyCSes = new ArrayList<>();
+        ArrayList<HistoryItemCS> historyCSes = new ArrayList<HistoryItemCS>();
 
         // 1. build the query
         String query = "SELECT * FROM " + TABLE_NAME;

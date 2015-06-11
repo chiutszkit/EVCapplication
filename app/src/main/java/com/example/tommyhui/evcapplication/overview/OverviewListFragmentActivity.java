@@ -23,7 +23,7 @@ public class OverviewListFragmentActivity extends Fragment {
 
     private HistoryItemCS_DBController db;
     private HistoryItemCS historyItem;
-    private ArrayList<ItemCS> ListOfCSes = new ArrayList<>();
+    private ArrayList<ItemCS> ListOfCSes = new ArrayList<ItemCS>();
     private ListView listview;
 
     @Override
