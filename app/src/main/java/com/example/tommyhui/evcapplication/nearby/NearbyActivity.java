@@ -2,7 +2,6 @@ package com.example.tommyhui.evcapplication.nearby;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -19,8 +18,9 @@ import com.example.tommyhui.evcapplication.HomeActivity;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
-import com.example.tommyhui.evcapplication.map.DirectionsJSONDrawPath;
+import com.example.tommyhui.evcapplication.JSONParser.DirectionsJSONDrawPath;
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
+import com.example.tommyhui.evcapplication.overview.OverviewActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -30,8 +30,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
@@ -106,7 +104,6 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
 
             @Override
             public boolean onMarkerClick(Marker marker) {
-                // TODO Auto-generated method stub
                 for (int i = 0; i < markersLatLng.size(); i++) {
                     if (marker.getPosition().latitude == markersLatLng.get(i).latitude &&
                             marker.getPosition().longitude == markersLatLng.get(i).longitude) {
@@ -121,6 +118,19 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
                 directionsJSONDrawPath.drawDirectionPath();
                 marker.showInfoWindow();
                 return true;
+            }
+        });
+        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+            @Override
+            public void onInfoWindowClick(Marker marker) {
+                Intent intent = new Intent();
+                intent.setClass(NearbyActivity.this, OverviewActivity.class);
+
+                Bundle bundle = new Bundle();
+                bundle.putString("query", marker.getTitle());
+
+                intent.putExtras(bundle);
+                startActivity(intent);
             }
         });
     }
@@ -269,12 +279,10 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
     public void locateUserPosition() {
 
         googleMap.setMyLocationEnabled(true);
-
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
 
-        String bestProvider = locationManager.getBestProvider(criteria, true);
-        myLocation  = locationManager.getLastKnownLocation(bestProvider);
+        myLocation = HomeActivity.myLocation;
+
         if (myLocation != null) {
             onLocationChanged(myLocation);
         }

@@ -5,7 +5,7 @@
     android:orientation="vertical">
 
     <se.emilsjolander.stickylistheaders.StickyListHeadersListView
-        android:id="@+id/socket_listpage_list_view"
+        android:id="@+id/charger_listpage_list_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"/>
 

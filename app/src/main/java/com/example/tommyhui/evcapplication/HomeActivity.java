@@ -8,6 +8,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -16,6 +17,7 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.ProgressBar;
 
+import com.example.tommyhui.evcapplication.JSONParser.RealTimeStatusJSONParser;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS_DBController;
 import com.example.tommyhui.evcapplication.database.HistoryItemCS;
@@ -28,6 +30,7 @@ import com.google.android.gms.maps.model.Polyline;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -43,17 +46,33 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Set;
 
-public class HomeActivity extends Activity {
+public class HomeActivity extends Activity implements LocationListener {
 
     public static ArrayList<ItemCS> socketVenueList = new ArrayList<ItemCS>();
     public static ArrayList <ItemCS> matchingList = new ArrayList<ItemCS>();
+    public static ArrayList <String> realTimeStatusList = new ArrayList<String>();
     public static Polyline polyline;
+    public static Location myLocation;
+    public static String localhost = "192.168.0.104";
+
+    // JSON Node names
+    public static final String TAG_SUCCESS = "success";
+    public static final String TAG_STATUS = "realtimestatus";
+    public static final String TAG_INDEX = "index_cs";
+    public static final String TAG_AVAILABILITY = "availability";
+    public static final String TAG_UPDATED = "updated_at";
+
+    // url to update product
+    private static String url_get_all_status = "http://" + localhost + "/com.example.tommyhui.evcapplication/get_all_status.php";
+
+    // products JSONArray
+    private JSONArray status = null;
 
     private ArrayList<String> list_ID_favorite;
     private ArrayList<String> list_ID_history;
 
     private ProgressBar mProgress;
-
+    private RealTimeStatusJSONParser jsonParser = new RealTimeStatusJSONParser();
     private ItemCS_DBController db_ItemCS;
     private FavoriteItemCS_DBController db_FavoriteItemCS;
     private HistoryItemCS_DBController db_HistoryItemCS;
@@ -67,7 +86,6 @@ public class HomeActivity extends Activity {
     private String[] longitude;
 
     private List<LatLng> markersLatLng;
-    private Location myLocation;
     private int count = 1;
 
     @Override
@@ -90,10 +108,10 @@ public class HomeActivity extends Activity {
 
         setContentView(R.layout.home_activity);
 
-        /** Set up all the database **/
-        setUpDataBase();
+        /** Preload the data of Real Time Status and set up the database afterward**/
+        new LoadAllStatus().execute();
 
-        /** Preload the real time data **/
+        /** Preload the data of Google Map **/
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
@@ -103,8 +121,60 @@ public class HomeActivity extends Activity {
 
         mProgress = (ProgressBar) findViewById(R.id.homepage_progressBar);
         new LoadRealTimeDataTask().execute((Void[])null);
+
     }
 
+    /**
+     * Background Async Task to Load all product by making HTTP Request
+     * */
+    class LoadAllStatus extends AsyncTask<String, String, String> {
+
+        /**
+         * getting All products from url
+         * */
+        protected String doInBackground(String... args) {
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            // getting JSON string from URL
+            JSONObject json = jsonParser.makeHttpRequest(url_get_all_status, "GET", params);
+
+            // Check your log cat for JSON response
+            Log.d("All Products: ", json.toString());
+
+            try {
+                // Checking for SUCCESS TAG
+                int success = json.getInt(TAG_SUCCESS);
+
+                if (success == 1) {
+                    // products found
+                    // Getting Array of Products
+                    status = json.getJSONArray(TAG_STATUS);
+
+                    // looping through All Products
+                    for (int i = 0; i < status.length(); i++) {
+                        JSONObject c = status.getJSONObject(i);
+
+                        // Storing each json item in variable
+                        String availability = c.getString(TAG_AVAILABILITY);
+
+                        // adding HashList to ArrayList
+                        realTimeStatusList.add(i, availability);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            return null;
+        }
+
+        // Called when doInBackground() is finished
+        protected void onPostExecute(String file_url) {
+            setUpDataBase();
+        }
+    }
+
+    /** Fetches data from Google Map */
     private class LoadRealTimeDataTask extends AsyncTask<Void,Integer,Integer> {
         // Do the long-running work in here
         protected Integer doInBackground(Void... params) {
@@ -187,14 +257,15 @@ public class HomeActivity extends Activity {
 
         // Set up database for ItemCS
         for (int i = 0; i < address.length; i++) {
-            db_ItemCS.addCS(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i]));
-            matchingList.add(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i]));
+            db_ItemCS.addCS(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i], realTimeStatusList.get(i)));
+            matchingList.add(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i], realTimeStatusList.get(i)));
         }
         MenuActivity.ItemCSes = db_ItemCS.inputQueryCSes(this, new String[]{}, 1);
 
         SharedPreferences sharedPref = getSharedPreferences("UserConfigs", Context.MODE_PRIVATE);
         Set mySetFavorite = sharedPref.getStringSet("favoriteList", null);
         Set mySetHistory = sharedPref.getStringSet("historyList", null);
+        Set mySetRealTimeStatus = sharedPref.getStringSet("realTimeStatusList", null);
 
         // Set up database for FavoriteItemCS
         if(mySetFavorite != null) {
@@ -202,9 +273,9 @@ public class HomeActivity extends Activity {
             if (list_ID_favorite.size() > 0) {
                 for (String index : list_ID_favorite) {
                     int i = Integer.parseInt(index);
-                    ItemCS cs = new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i]);
+                    ItemCS cs = new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i], realTimeStatusList.get(i));
                     FavoriteItemCS favoriteItemCS = new FavoriteItemCS(cs.getAddress(), cs.getDistrict(), cs.getDescription(),
-                            cs.getType(), cs.getSocket(), cs.getQuantity(), cs.getLatitude(), cs.getLongitude());
+                            cs.getType(), cs.getSocket(), cs.getQuantity(), cs.getLatitude(), cs.getLongitude(), cs.getAvailability());
                     db_FavoriteItemCS.addFavoriteCS(favoriteItemCS);
                 }
             }
@@ -216,12 +287,17 @@ public class HomeActivity extends Activity {
             if (list_ID_history.size() > 0) {
                 for (String index : list_ID_history) {
                     int i = Integer.parseInt(index);
-                    ItemCS cs = new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i]);
+                    ItemCS cs = new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i], realTimeStatusList.get(i));
                     HistoryItemCS historyItemCS = new HistoryItemCS(cs.getAddress(), cs.getDistrict(), cs.getDescription(),
-                            cs.getType(), cs.getSocket(), cs.getQuantity(), cs.getLatitude(), cs.getLongitude());
+                            cs.getType(), cs.getSocket(), cs.getQuantity(), cs.getLatitude(), cs.getLongitude(), cs.getAvailability());
                     db_HistoryItemCS.addHistoryCS(historyItemCS);
                 }
             }
+        }
+
+        // Set up database for Real Time Status
+        if(mySetRealTimeStatus != null) {
+            realTimeStatusList = new ArrayList<String>(mySetRealTimeStatus);
         }
     }
 
@@ -233,6 +309,36 @@ public class HomeActivity extends Activity {
 
         String bestProvider = locationManager.getBestProvider(criteria, true);
         myLocation  = locationManager.getLastKnownLocation(bestProvider);
+        if (myLocation != null) {
+            onLocationChanged(myLocation);
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 10, this);
+    }
+
+    /** Handle the case when user position changes **/
+    public void onLocationChanged(Location location) {
+
+        double latInDouble = location.getLatitude();
+        double lonInDouble = location.getLongitude();
+
+        myLocation = location;
+
+        Log.v("Home", "IN ON LOCATION CHANGE, lat=" + latInDouble + ", lon=" + lonInDouble);
+    }
+    @Override
+    public void onProviderDisabled(String provider) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
     }
 
     /** Locate all the markers of charging stations **/

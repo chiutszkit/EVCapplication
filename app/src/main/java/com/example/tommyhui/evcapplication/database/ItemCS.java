@@ -25,9 +25,7 @@ public class ItemCS implements Parcelable {
     public ItemCS() {
     }
 
-    /*Getter and Setter*/
-
-    public ItemCS(String address, String district, String description, String type, String socket, int quantity, String latitude, String longitude) {
+    public ItemCS(String address, String district, String description, String type, String socket, int quantity, String latitude, String longitude, String availability) {
         super();
         this.address = address;
         this.district = district;
@@ -37,6 +35,7 @@ public class ItemCS implements Parcelable {
         this.quantity = quantity;
         this.latitude = latitude;
         this.longitude = longitude;
+        this.availability = availability;
     }
 
     public ItemCS(Parcel in) {
@@ -50,6 +49,9 @@ public class ItemCS implements Parcelable {
         type = in.readString();
         socket = in.readString();
         quantity = in.readInt();
+        latitude = in.readString();
+        longitude = in.readString();
+        availability = in.readString();
 
         ItemCSes = in.readArrayList(ItemCS.class.getClassLoader());
     }
@@ -166,7 +168,8 @@ public class ItemCS implements Parcelable {
                 "socket = '" + socket + "'; " +
                 "quantity = '" + quantity + "'; " +
                 "latitude = '" + latitude + "'; " +
-                "longitude = '" + longitude + "']";
+                "longitude = '" + longitude + "'; " +
+                "availability = '" + availability + "']";
     }
 
     public void readFromParcel(Parcel in) {
@@ -180,6 +183,7 @@ public class ItemCS implements Parcelable {
         quantity = in.readInt();
         longitude = in.readString();
         latitude = in.readString();
+        availability = in.readString();
     }
 
     public static final Parcelable.Creator<ItemCS> CREATOR = new Parcelable.Creator<ItemCS>() {
@@ -196,6 +200,7 @@ public class ItemCS implements Parcelable {
             cs.setQuantity(in.readInt());
             cs.setLatitude(in.readString());;
             cs.setLongitude(in.readString());;
+            cs.setAvailability(in.readString());;
             return cs;
         }
 
@@ -221,5 +226,6 @@ public class ItemCS implements Parcelable {
         dest.writeInt(quantity);
         dest.writeString(latitude);
         dest.writeString(longitude);
+        dest.writeString(availability);
     }
 }

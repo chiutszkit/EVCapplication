@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="0dp"
+    android:layout_weight="1"
+    android:layout_gravity="center"
+    android:layout_marginTop="20dp"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/realtime_sort_item_layout_sort"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="2"
+        android:layout_gravity="center"
+        android:orientation="vertical">
+        <TextView
+            android:id="@+id/realtime_sort_item_title_sort"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:text="[Spinner Title]"
+            android:textSize="@dimen/search_text_title_textsize"
+            android:textStyle="bold"/>
+        <Spinner
+            android:id="@+id/realtime_sort_item_spinner_sort"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="20dp"/>
+    </LinearLayout>
+</LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="8"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal">
+
+        <ListView
+            android:id="@+id/realtime_sort_item_list_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white">
+        </ListView>
+    </LinearLayout>
+</LinearLayout>

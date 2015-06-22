@@ -64,7 +64,7 @@ public class OverviewListFragmentActivity extends Fragment {
 
                 ItemCS cs = ListOfCSes.get(position);
 
-                historyItem = new HistoryItemCS((cs.getAddress()), cs.getDistrict(), cs.getDescription(), cs.getType(), cs.getSocket(), cs.getQuantity(), cs.getLatitude(), cs.getLongitude());
+                historyItem = new HistoryItemCS((cs.getAddress()), cs.getDistrict(), cs.getDescription(), cs.getType(), cs.getSocket(), cs.getQuantity(), cs.getLatitude(), cs.getLongitude(), cs.getAvailability());
                 db.addHistoryCS(historyItem);
 
                 Intent intent = new Intent();
@@ -80,6 +80,7 @@ public class OverviewListFragmentActivity extends Fragment {
                 bundle.putInt("quantity", cs.getQuantity());
                 bundle.putString("latitude", cs.getLatitude());
                 bundle.putString("longitude", cs.getLongitude());
+                bundle.putString("availability", cs.getAvailability());
 
                 intent.putExtras(bundle);
                 startActivity(intent);

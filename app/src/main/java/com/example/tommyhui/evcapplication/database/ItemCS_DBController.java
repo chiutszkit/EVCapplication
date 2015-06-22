@@ -3,20 +3,19 @@ package com.example.tommyhui.evcapplication.database;
 import android.app.Activity;
 import android.content.ContentValues;
 import android.content.Context;
-import android.content.res.Resources;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
 import com.example.tommyhui.evcapplication.HomeActivity;
 import com.example.tommyhui.evcapplication.R;
-import com.example.tommyhui.evcapplication.menu.MenuActivity;
+import com.example.tommyhui.evcapplication.charger.ChargerListActivity;
+import com.example.tommyhui.evcapplication.charger.ChargerListItemActivity;
 import com.example.tommyhui.evcapplication.nearby.NearbyActivity;
 import com.example.tommyhui.evcapplication.overview.OverviewActivity;
+import com.example.tommyhui.evcapplication.realtime.RealTimeSortItemActivity;
 import com.example.tommyhui.evcapplication.search.SearchActivity;
 import com.example.tommyhui.evcapplication.search.SearchResultActivity;
-import com.example.tommyhui.evcapplication.socket.SocketListActivity;
-import com.example.tommyhui.evcapplication.socket.SocketListItemActivity;
 
 import java.util.ArrayList;
 
@@ -33,8 +32,9 @@ public class ItemCS_DBController {
     private static final String KEY_QUANTITY = "quantity";
     private static final String KEY_LATITUDE = "latitude";
     private static final String KEY_LONGITUDE = "longitude";
+    private static final String KEY_AVAILABILITY = "availability";
 
-    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY, KEY_LATITUDE, KEY_LONGITUDE};
+    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY, KEY_LATITUDE, KEY_LONGITUDE, KEY_AVAILABILITY};
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             KEY_ID + " INTEGER PRIMARY KEY ," +
@@ -45,7 +45,8 @@ public class ItemCS_DBController {
             KEY_SOCKET + " TEXT," +
             KEY_QUANTITY + " INTEGER," +
             KEY_LATITUDE + " TEXT," +
-            KEY_LONGITUDE + " TEXT);";
+            KEY_LONGITUDE + " TEXT," +
+            KEY_AVAILABILITY + " TEXT);";
 
     private SQLiteDatabase db;
     private Context context;
@@ -72,6 +73,7 @@ public class ItemCS_DBController {
         values.put(KEY_QUANTITY, cs.getQuantity()); // get quantity
         values.put(KEY_LATITUDE, cs.getLatitude()); // get latitude
         values.put(KEY_LONGITUDE, cs.getLongitude()); // get longitude
+        values.put(KEY_AVAILABILITY, cs.getAvailability()); // get availability
 
         // 2. insert or update
 
@@ -173,6 +175,7 @@ public class ItemCS_DBController {
         cs.setQuantity(cursor.getInt(6));
         cs.setLatitude(cursor.getString(7));
         cs.setLongitude(cursor.getString(8));
+        cs.setAvailability(cursor.getString(9));
 
         cs.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID)));
 
@@ -209,6 +212,7 @@ public class ItemCS_DBController {
                 cs.setQuantity(Integer.parseInt(cursor.getString(6)));
                 cs.setLatitude(cursor.getString(7));
                 cs.setLongitude(cursor.getString(8));
+                cs.setAvailability(cursor.getString(9));
 
                 // Add cs to list of cs
                 cses.add(cs);
@@ -257,7 +261,7 @@ public class ItemCS_DBController {
             sql = "SELECT DISTINCT * FROM " + TABLE_NAME + " WHERE " + KEY_ADDRESS + " LIKE '%" + query[0] + "%'"
                     + " OR " + KEY_DESCRIPTION + " LIKE '%" + query[0] + "%' ORDER BY " + KEY_DISTRICT + ", " + KEY_DESCRIPTION;
 
-        else if (activity instanceof SocketListActivity && (numberQuery == 1))
+        else if (activity instanceof ChargerListActivity && (numberQuery == 1))
             sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_TYPE + " LIKE '%" + query[0]
                     + "%' GROUP BY " + KEY_ADDRESS + " ORDER BY " + KEY_DISTRICT;
 
@@ -276,9 +280,12 @@ public class ItemCS_DBController {
         else if (activity instanceof NearbyActivity && (numberQuery == 1))
             sql = "SELECT * FROM " + TABLE_NAME + " GROUP BY " + KEY_DISTRICT + ", " + KEY_ADDRESS;
 
-        else if (activity instanceof SocketListItemActivity && (numberQuery == 1)) {
+        else if (activity instanceof ChargerListItemActivity && (numberQuery == 1)) {
             sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_TYPE + " LIKE '%" + query[0]
                     + "%' GROUP BY " + KEY_ADDRESS + " ORDER BY " + KEY_DISTRICT;
+        }
+        else if (activity instanceof RealTimeSortItemActivity && (numberQuery == 1)) {
+            sql = "SELECT * FROM " + TABLE_NAME + " GROUP BY " + query[0] + " ORDER BY " + query[0];
         }
 
         Cursor cursor = db.rawQuery(sql, null);
@@ -298,6 +305,7 @@ public class ItemCS_DBController {
                 cs.setQuantity(Integer.parseInt(cursor.getString(6)));
                 cs.setLatitude(cursor.getString(7));
                 cs.setLongitude(cursor.getString(8));
+                cs.setAvailability(cursor.getString(9));
 
                 // Add cs to list of cs
                 cses.add(cs);
@@ -310,7 +318,7 @@ public class ItemCS_DBController {
         return cses;
     }
 
-    /** Generate a SQL in Search page **/
+    /** Generate a SQL in Real Time Sort page **/
     public String searchResultSqlGenerator(String[] column, String[] query) {
 
         StringBuilder sb = new StringBuilder();
@@ -362,6 +370,7 @@ public class ItemCS_DBController {
         values.put("quantity ", cs.getQuantity());
         values.put("latitude", cs.getLatitude());
         values.put("longitude", cs.getLongitude());
+        values.put("availability", cs.getAvailability());
 
         // 2. updating row
         int i = db.update(TABLE_NAME, //table

@@ -3,7 +3,6 @@
 
     <!-- Home Page-->
     <string name="app_name">EV Charging Station Helper</string>
-    <string name="description_icon">EV Charging Station Helper\'s icon</string>
     <string name="home_slogan">Go Green, Go Electric</string>
 
     <!-- Menu Page-->
@@ -75,8 +74,10 @@
     <string name="overview_search_result_text">&#160; charging station items for &#160;</string>
     <string name="overview_history_alertDialog_delete_history">Are you sure you want to clear history?</string>
     <string name="overview_history_alertDialog_no_undo">You can\'t undo this action.</string>
-    <string name="history_alertDialog_no_option">Cancel</string>
-    <string name="overview_history_alertDialog_yes_option">Clear</string>
+    <string name="overview_history_alertDialog_no_option">Cancel</string>
+    <string name="overview_history_alertDialog_yes_option">OK</string>
+    <string name="overview_action_search_title">Quick Search</string>
+    <string name="overview_action_delete_title">Delete All</string>
 
     <!-- Item Page-->
     <string name="item_title_location">Location</string>
@@ -106,23 +107,23 @@
     <string name="share_message"> - An easy way to find the nearest charging station in HK.</string>
     <string name="share_hint">Share via</string>
 
-    <!-- Socket Type Page-->
-    <string name="socket_type_title">Socket Type</string>
-    <string name="socket_type_standard_title">Standard</string>
-    <string name="socket_type_standard_subtitle">13A</string>
-    <string name="socket_type_medium_title">Medium</string>
-    <string name="socket_type_medium_subtitle">IEC 62196, SAE J1772, Others</string>
-    <string name="socket_type_quick_title">Quick</string>
-    <string name="socket_type_quick_subtitle">CHAdeMO, Others</string>
+    <!-- Charger Type Page-->
+    <string name="charger_type_title">Charger Type</string>
+    <string name="charger_type_standard_title">Standard</string>
+    <string name="charger_type_standard_subtitle">13A</string>
+    <string name="charger_type_medium_title">Medium</string>
+    <string name="charger_type_medium_subtitle">IEC 62196, SAE J1772, Others</string>
+    <string name="charger_type_quick_title">Quick</string>
+    <string name="charger_type_quick_subtitle">CHAdeMO, Others</string>
 
-    <!-- Socket List Page-->
-    <string name="socket_list_title">&#160; Charger</string>
-    <string name="socket_list_title_standard">Standard</string>
-    <string name="socket_list_title_medium">Medium</string>
-    <string name="socket_list_title_quick">Quick</string>
+    <!-- Charger List Page-->
+    <string name="charger_list_title">&#160; Charger</string>
+    <string name="charger_list_title_standard">Standard</string>
+    <string name="charger_list_title_medium">Medium</string>
+    <string name="charger_list_title_quick">Quick</string>
 
-    <!-- Socket List Page-->
-    <string name="socket_listitem_title">&#160; Charger</string>
+    <!-- Charger List Item Page-->
+    <string name="charger_list_item_title">&#160; Charger</string>
 
     <!-- Nearby Page-->
     <string name="nearby_title">Nearby</string>
@@ -132,7 +133,20 @@
     <string name="nearby_progressDialog_content">Please Wait.</string>
 
     <!-- Real-Time Page-->
-    <string name="realTime_title">Real-Time Status</string>
+    <string name="realtime_title">Real-Time Status</string>
+    <string name="realtime_action_record_title">Record Status</string>
+    <string name="realtime_alertDialog_no_scanner_title">No Scanner Found</string>
+    <string name="realtime_alertDialog_no_scanner_text">Do you want to download a scanner now?</string>
+    <string name="realtime_alertDialog_no_scanner_yes_option">Yes</string>
+    <string name="realtime_alertDialog_no_scanner_no_option">No</string>
+
+    <!-- Real-Time Sort Page-->
+    <string name="realtime_sort_title">Inquiry</string>
+    <string name="realtime_sort_title_district">By District</string>
+    <string name="realtime_sort_title_type">By Type</string>
+    <string name="realtime_sort_title_socket">By Socket</string>
+    <string name="realtime_sort_title_availability">By Availability</string>
+    <string name="realtime_sort_title_all">By All</string>
 
     <!-- Setting Page-->
     <string name="setting_title">Setting</string>

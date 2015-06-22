@@ -118,34 +118,54 @@ public class SearchResultActivity extends ActionBarActivity {
         });
     }
 
-    /** Handle the case of sort by nearest and available **/
+    /** Handle the case of sorting by nearest and available **/
     private ArrayList Sorting(ArrayList<ItemCS> tempList) {
+
+        ArrayList<ItemCS> resultNearest = new ArrayList<ItemCS>();
+        ArrayList<ItemCS> resultAvailability = new ArrayList<ItemCS>();
         ArrayList<ItemCS> result = new ArrayList<ItemCS>();
-        if(nearest) {
-            double min = 0;
-            boolean firstItem = true;
-            if(MenuActivity.realTimeInfoList.size() > 0) {
-                for (ItemCS socket : MenuActivity.realTimeInfoList) {
-                    for (ItemCS temp : tempList) {
-                        if (socket.getLatitude().equals(temp.getLatitude()) && socket.getLongitude().equals(temp.getLongitude())) {
-                            temp.setDistance(socket.getDistance());
-                            temp.setTime(socket.getTime());
-                            if (firstItem || Double.parseDouble(temp.getDistance()) < min) {
-                                min = Double.parseDouble(temp.getDistance());
-                                firstItem = false;
-                            }
+
+        double min = 0;
+        boolean firstItem = true;
+        if(MenuActivity.realTimeInfoList.size() > 0) {
+            for (ItemCS socket : MenuActivity.realTimeInfoList) {
+                for (ItemCS temp : tempList) {
+                    if (socket.getLatitude().equals(temp.getLatitude()) && socket.getLongitude().equals(temp.getLongitude())) {
+                        temp.setDistance(socket.getDistance());
+                        temp.setTime(socket.getTime());
+                        if (firstItem || Double.parseDouble(temp.getDistance()) < min) {
+                            min = Double.parseDouble(temp.getDistance());
+                            firstItem = false;
                         }
                     }
                 }
-                for (ItemCS temp : tempList) {
-                    if (Double.parseDouble(temp.getDistance()) == min)
-                        result.add(temp);
-                }
+            }
+        }
+
+        if(nearest) {
+            for (ItemCS temp : tempList) {
+                if (Double.parseDouble(temp.getDistance()) == min)
+                    resultNearest.add(temp);
             }
         }
         if(availability) {
-
+            for (ItemCS temp : tempList) {
+                if(temp.getAvailability().equals("0"))
+                    resultAvailability.add(temp);
+            }
         }
+
+        if(nearest | !availability)
+            result = resultNearest;
+        else if(!nearest | availability)
+            result = resultAvailability;
+        else {
+            for(ItemCS nearestItem : resultNearest)
+                for(ItemCS availabilityItem : resultAvailability)
+                    if(nearestItem.equals(availabilityItem))
+                        result.add(nearestItem);
+        }
+
         return result;
     }
 

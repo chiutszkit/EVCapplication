@@ -1,11 +1,8 @@
 package com.example.tommyhui.evcapplication.overview;
 
-import android.graphics.Color;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -17,12 +14,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.tommyhui.evcapplication.HomeActivity;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS_DBController;
 import com.example.tommyhui.evcapplication.database.ItemCS;
-import com.example.tommyhui.evcapplication.map.DirectionsJSONDrawPath;
-import com.example.tommyhui.evcapplication.map.DirectionsJSONParser;
+import com.example.tommyhui.evcapplication.JSONParser.DirectionsJSONDrawPath;
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -35,22 +32,6 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
-import com.google.android.gms.maps.model.PolylineOptions;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 
 public class ItemCSActivity extends ActionBarActivity implements LocationListener{
@@ -63,6 +44,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
     private Integer quantity;
     private String latitude;
     private String longitude;
+    private String availability;
 
     private GoogleMap googleMap;
     private Location myLocation;
@@ -90,6 +72,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
         quantity = bundle.getInt("quantity");
         latitude = bundle.getString("latitude");
         longitude = bundle.getString("longitude");
+        availability = bundle.getString("availability");
 
         /** Use customized action bar **/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
@@ -169,12 +152,10 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
     public void locateUserPosition() {
 
         googleMap.setMyLocationEnabled(true);
-
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
 
-        String bestProvider = locationManager.getBestProvider(criteria, true);
-        myLocation  = locationManager.getLastKnownLocation(bestProvider);
+        myLocation = HomeActivity.myLocation;
+
         if (myLocation != null) {
             onLocationChanged(myLocation);
         }
@@ -235,7 +216,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
         inflater.inflate(R.menu.itemcs_options_menu, menu);
 
         db = new FavoriteItemCS_DBController(getApplicationContext());
-        favouriteItem = new FavoriteItemCS(address, district, description, type, socket, quantity, latitude, longitude);
+        favouriteItem = new FavoriteItemCS(address, district, description, type, socket, quantity, latitude, longitude, availability);
         if (db.checkFavoriteCSExist(favouriteItem)) {
             menu.findItem(R.id.itemCS_action_favorite).setIcon(R.drawable.del_favorite_icon);
             menu.findItem(R.id.itemCS_action_favorite).setTitle(R.string.item_button_deleteFromFavorites);
@@ -257,7 +238,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
 
             case R.id.itemCS_action_favorite:
                 db = new FavoriteItemCS_DBController(getApplicationContext());
-                favouriteItem = new FavoriteItemCS(address, district, description, type, socket, quantity, latitude, longitude);
+                favouriteItem = new FavoriteItemCS(address, district, description, type, socket, quantity, latitude, longitude, availability);
                 if (db.checkFavoriteCSExist(favouriteItem)) {
                     db.deleteFavoriteCS(db.getFavoriteCS(db.getFavoriteCSId(favouriteItem)));
                     Toast.makeText(getApplicationContext(), R.string.item_toast_deleteFromFavorites, Toast.LENGTH_SHORT).show();

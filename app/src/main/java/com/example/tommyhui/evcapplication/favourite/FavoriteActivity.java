@@ -7,8 +7,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
@@ -55,13 +53,14 @@ public class FavoriteActivity extends ActionBarActivity {
         if (db.getFavoriteCSCount() == 0) {
             showEmptyListDialog();
         }
-        favoriteList = db.getAllFavoriteCSes();
     }
 
     public void onResume() {
         super.onResume();
 
         listView = (ListView) this.findViewById(R.id.favourite_list_view);
+
+        favoriteList = db.getAllFavoriteCSes();
 
         if (favoriteListViewAdapter == null) {
             favoriteListViewAdapter = new FavoriteListViewAdapter(FavoriteActivity.this, favoriteList);
@@ -89,6 +88,7 @@ public class FavoriteActivity extends ActionBarActivity {
                     bundle.putInt("quantity", cs.getQuantity());
                     bundle.putString("latitude", cs.getLatitude());
                     bundle.putString("longitude", cs.getLongitude());
+                    bundle.putString("availability", cs.getAvailability());
 
                     intent.putExtras(bundle);
                     startActivity(intent);

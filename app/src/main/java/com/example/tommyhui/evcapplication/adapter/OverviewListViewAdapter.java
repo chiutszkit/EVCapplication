@@ -1,6 +1,7 @@
 package com.example.tommyhui.evcapplication.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,11 @@ public class OverviewListViewAdapter extends BaseAdapter {
         chargingStation.setText(itemList.get(position).getDescription());
         type.setText(itemList.get(position).getType());
         socket.setText(itemList.get(position).getSocket());
+        String availability  = itemList.get(position).getAvailability();
+
+        if (availability.equals("1")) {
+            rowView.setBackgroundColor(context.getResources().getColor(R.color.dark_grey));
+        }
 
         return rowView;
     }

@@ -27,7 +27,7 @@ public class SearchActivity extends ActionBarActivity {
     private Button btnSearch, btnClear;
     private String all;
 
-    ItemCS_DBController db;
+    private ItemCS_DBController db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

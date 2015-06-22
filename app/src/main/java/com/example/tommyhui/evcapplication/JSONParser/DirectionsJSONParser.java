@@ -1,4 +1,4 @@
-package com.example.tommyhui.evcapplication.map;
+package com.example.tommyhui.evcapplication.JSONParser;
 
 import java.util.ArrayList;
 import java.util.HashMap;

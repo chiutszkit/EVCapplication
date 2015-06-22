@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
@@ -15,12 +14,12 @@ import com.example.tommyhui.evcapplication.database.ItemCS;
 
 import java.util.ArrayList;
 
-public class SocketListPageListViewAdapter extends BaseAdapter implements StickyListHeadersAdapter {
+public class ChargerListPageListViewAdapter extends BaseAdapter implements StickyListHeadersAdapter {
     private final Context context;
     private ArrayList<ItemCS> itemList;
     private ArrayList<ItemCS> realTimeInfoList;
 
-    public SocketListPageListViewAdapter(Context context, ArrayList<ItemCS> itemList, ArrayList<ItemCS> realTimeInfoList) {
+    public ChargerListPageListViewAdapter(Context context, ArrayList<ItemCS> itemList, ArrayList<ItemCS> realTimeInfoList) {
         this.context = context;
         this.itemList = itemList;
         this.realTimeInfoList = realTimeInfoList;
@@ -56,12 +55,12 @@ public class SocketListPageListViewAdapter extends BaseAdapter implements Sticky
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.socket_listpage_list_item_layout, parent, false);
+        View rowView = inflater.inflate(R.layout.charger_listpage_list_item_layout, parent, false);
 
-        TextView address = (TextView) rowView.findViewById(R.id.socket_listpage_list_view_item_address);
-        TextView chargingStation = (TextView) rowView.findViewById(R.id.socket_listpage_list_view_item_chargingStation);
-        TextView distance = (TextView) rowView.findViewById(R.id.socket_listpage_list_view_item_distance);
-        TextView time = (TextView) rowView.findViewById(R.id.socket_listpage_list_view_item_time);
+        TextView address = (TextView) rowView.findViewById(R.id.charger_listpage_list_view_item_address);
+        TextView chargingStation = (TextView) rowView.findViewById(R.id.charger_listpage_list_view_item_chargingStation);
+        TextView distance = (TextView) rowView.findViewById(R.id.charger_listpage_list_view_item_distance);
+        TextView time = (TextView) rowView.findViewById(R.id.charger_listpage_list_view_item_time);
 
         address.setText(itemList.get(position).getAddress());
         chargingStation.setText(itemList.get(position).getDescription());

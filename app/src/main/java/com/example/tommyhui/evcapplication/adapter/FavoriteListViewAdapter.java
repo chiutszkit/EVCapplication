@@ -72,7 +72,11 @@ public class FavoriteListViewAdapter extends BaseAdapter {
         chargingStation.setText(itemList.get(position).getDescription());
         type.setText(itemList.get(position).getType());
         socket.setText(itemList.get(position).getSocket());
+        String availability  = itemList.get(position).getAvailability();
 
+        if (availability.equals("1")) {
+            rowView.setBackgroundColor(context.getResources().getColor(R.color.dark_grey));
+        }
         imageView.setOnClickListener(new View.OnClickListener() {
 
             @Override

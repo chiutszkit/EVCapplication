@@ -86,6 +86,7 @@ public class OverviewActivity extends ActionBarActivity {
                 }
             }
         });
+
     }
 
     @Override
@@ -102,6 +103,21 @@ public class OverviewActivity extends ActionBarActivity {
         // To expand search bar
         searchItem = menu.findItem(R.id.overview_action_search);
         searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+
+        // To handle the case of clicking the Info Window in NearbyActivity
+        Bundle bundle = getIntent().getExtras();
+        if (bundle != null) {
+            if (bundle.containsKey("query")) {
+                String query = bundle.getString("query");
+                searchView.setQuery(query, true);
+
+                // To update the list of cs with the query
+                ListView mListView = (ListView) findViewById(R.id.overview_list_view);
+                QueryItemCSes = db.inputQueryCSes(OverviewActivity.this, new String[]{query}, 1);
+                mListView.setAdapter(new OverviewListViewAdapter(OverviewActivity.this, QueryItemCSes));
+                mListView.setTextFilterEnabled(true);
+            }
+        }
 
         // To set up a search hint for search bar
         searchView.setQueryHint(getResources().getString(R.string.overview_search_view_title));
@@ -137,7 +153,7 @@ public class OverviewActivity extends ActionBarActivity {
                 // To go back to the view page of list
                 mViewPager.setCurrentItem(0);
 
-                // to put the query on the search bar
+                // To put the query on the search bar
                 searchViewQuery = query;
                 searchView.setQuery(query, false);
                 searchView.clearFocus();

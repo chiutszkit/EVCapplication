@@ -4,12 +4,12 @@
     <item
         android:id="@+id/overview_action_search"
         android:icon="@drawable/small_search_icon"
-        android:title="Quick Search"
+        android:title="@string/overview_action_search_title"
         evcapplication:actionViewClass="android.support.v7.widget.SearchView"
         evcapplication:showAsAction="always" />
     <item
         android:id="@+id/overview_action_delete"
         android:icon="@drawable/delete_icon"
-        android:title="Delete All"
+        android:title="@string/overview_action_delete_title"
         evcapplication:showAsAction="always" />
 </menu>

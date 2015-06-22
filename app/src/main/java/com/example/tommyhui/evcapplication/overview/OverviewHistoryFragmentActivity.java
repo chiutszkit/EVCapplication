@@ -79,6 +79,7 @@ public class OverviewHistoryFragmentActivity extends Fragment {
                     bundle.putInt("quantity", cs.getQuantity());
                     bundle.putString("latitude", cs.getLatitude());
                     bundle.putString("longitude", cs.getLongitude());
+                    bundle.putString("availability", cs.getAvailability());
 
                     intent.putExtras(bundle);
                     startActivity(intent);
@@ -118,7 +119,7 @@ public class OverviewHistoryFragmentActivity extends Fragment {
         alertDialog.setTitle(R.string.overview_history_alertDialog_delete_history);
         alertDialog.setMessage(R.string.overview_history_alertDialog_no_undo);
 
-        alertDialog.setNegativeButton(R.string.history_alertDialog_no_option, new DialogInterface.OnClickListener() {
+        alertDialog.setNegativeButton(R.string.overview_history_alertDialog_no_option, new DialogInterface.OnClickListener() {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {

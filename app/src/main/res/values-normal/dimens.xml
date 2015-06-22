@@ -48,4 +48,7 @@
     <dimen name="socket_listpage_list_view_item_distance_textsize">10sp</dimen>
     <dimen name="socket_listpage_list_view_item_time_textsize">10sp</dimen>
 
+    <!-- Real-Time Sort Page -->
+    <dimen name="realtime_sort_grid_title_textsize">20sp</dimen>
+
 </resources>

@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.example.tommyhui.evcapplication.HomeActivity;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.about.AboutActivity;
+import com.example.tommyhui.evcapplication.charger.ChargerActivity;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS_DBController;
 import com.example.tommyhui.evcapplication.database.HistoryItemCS;
@@ -27,7 +28,6 @@ import com.example.tommyhui.evcapplication.nearby.NearbyActivity;
 import com.example.tommyhui.evcapplication.overview.OverviewActivity;
 import com.example.tommyhui.evcapplication.realtime.RealTimeActivity;
 import com.example.tommyhui.evcapplication.search.SearchActivity;
-import com.example.tommyhui.evcapplication.socket.SocketActivity;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -86,7 +86,7 @@ public class MenuActivity extends ActionBarActivity {
                         break;
                     case R.id.menu_grid_socket:
                         Intent socketIntent = new Intent();
-                        socketIntent.setClass(MenuActivity.this, SocketActivity.class);
+                        socketIntent.setClass(MenuActivity.this, ChargerActivity.class);
                         startActivity(socketIntent);
                         break;
                     case R.id.menu_grid_realTime:
@@ -105,7 +105,6 @@ public class MenuActivity extends ActionBarActivity {
         findViewById(R.id.menu_grid_nearby).setOnClickListener(mGlobal_OnClickListener);
         findViewById(R.id.menu_grid_socket).setOnClickListener(mGlobal_OnClickListener);
         findViewById(R.id.menu_grid_realTime).setOnClickListener(mGlobal_OnClickListener);
-
     }
 
     /** Share the information of this application to others **/

@@ -1,11 +1,10 @@
-package com.example.tommyhui.evcapplication.map;
+package com.example.tommyhui.evcapplication.JSONParser;
 
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.example.tommyhui.evcapplication.HomeActivity;
-import com.example.tommyhui.evcapplication.nearby.NearbyActivity;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
@@ -39,12 +38,15 @@ public class DirectionsJSONDrawPath {
         this.endLatLng = endLatLng;
     }
 
+    /** Draw the driving path in Google Map */
     public void drawDirectionPath() {
         String url = getDirectionsUrl(startLatLng, endLatLng);
 
         DownloadTask downloadTask = new DownloadTask();
         downloadTask.execute(url);
     }
+
+    /** Get the URL for querying in Google Map */
     private String getDirectionsUrl(LatLng origin,LatLng dest){
 
         // Origin of route
@@ -67,6 +69,7 @@ public class DirectionsJSONDrawPath {
 
         return url;
     }
+
     /** A method to download json data from url */
     private String downloadUrl(String strUrl) throws IOException {
         String data = "";
@@ -105,7 +108,7 @@ public class DirectionsJSONDrawPath {
         return data;
     }
 
-    // Fetches data from url passed
+    /** Fetches data from url passed */
     private class DownloadTask extends AsyncTask<String, Void, String> {
 
         // Downloading data in non-ui thread

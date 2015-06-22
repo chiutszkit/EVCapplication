@@ -1,6 +1,5 @@
-package com.example.tommyhui.evcapplication.socket;
+package com.example.tommyhui.evcapplication.charger;
 
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -8,16 +7,14 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.tommyhui.evcapplication.HomeActivity;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
-import com.example.tommyhui.evcapplication.map.DirectionsJSONDrawPath;
+import com.example.tommyhui.evcapplication.JSONParser.DirectionsJSONDrawPath;
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,15 +25,14 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.LatLngBounds;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.maps.model.Polyline;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SocketListItemActivity extends ActionBarActivity implements LocationListener {
+public class ChargerListItemActivity extends ActionBarActivity implements LocationListener {
 
     private String type;
-    private ArrayList<ItemCS> socketList;
+    private ArrayList<ItemCS> chargerList;
     private ItemCS_DBController db;
 
     private GoogleMap googleMap;
@@ -51,9 +47,9 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.socket_list_item_activity);
+        setContentView(R.layout.charger_list_item_activity);
 
-        /** Get the data passed by SocketListActivity**/
+        /** Get the data passed by ChargerListActivity**/
         Bundle bundle = getIntent().getExtras();
 
         latitude = bundle.getString("latitude");
@@ -67,7 +63,7 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
         TextView title = (TextView) findViewById(R.id.action_bar_title);
         if (bundle != null) {
             type = bundle.getString("type");
-            title.setText(type + getString(R.string.socket_listitem_title));
+            title.setText(type + getString(R.string.charger_list_item_title));
         }
 
         /** Set up action bar's icon **/
@@ -76,7 +72,7 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
 
         /** Set up all the map fragment **/
         SupportMapFragment supportMapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.socket_list_item_map);
+                .findFragmentById(R.id.charger_list_item_map);
         googleMap = supportMapFragment.getMap();
 
         /** Loading the real time data **/
@@ -106,12 +102,10 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
     public void locateUserPosition() {
 
         googleMap.setMyLocationEnabled(true);
-
         LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
 
-        String bestProvider = locationManager.getBestProvider(criteria, true);
-        myLocation  = locationManager.getLastKnownLocation(bestProvider);
+        myLocation = HomeActivity.myLocation;
+
         if (myLocation != null) {
             onLocationChanged(myLocation);
         }
@@ -161,15 +155,15 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
         markersLatLng = new ArrayList<LatLng>();
 
         // Get the list of nearby charging stations with the specific type.
-        db = new ItemCS_DBController(getApplicationContext());
-        socketList = db.inputQueryCSes(this, new String[]{type}, 1);
+        db = new ItemCS_DBController(this);
+        chargerList = db.inputQueryCSes(this, new String[]{type}, 1);
 
         // Add all markers to the map according to the socketVenueList
-        for (int i = 0; i < socketList.size(); i++) {
-            if (socketList.get(i).getType().contains(type)) {
+        for (int i = 0; i < chargerList.size(); i++) {
+            if (chargerList.get(i).getType().contains(type)) {
 
-                double latInDouble = Double.valueOf(socketList.get(i).getLatitude().trim()).doubleValue();
-                double lonInDouble = Double.valueOf(socketList.get(i).getLongitude().trim()).doubleValue();
+                double latInDouble = Double.valueOf(chargerList.get(i).getLatitude().trim()).doubleValue();
+                double lonInDouble = Double.valueOf(chargerList.get(i).getLongitude().trim()).doubleValue();
 
                 LatLng latLng = new LatLng(latInDouble, lonInDouble);
                 builder.include(latLng);
@@ -177,11 +171,11 @@ public class SocketListItemActivity extends ActionBarActivity implements Locatio
                 // Add a marker to the map.
                 Marker marker = googleMap.addMarker(new MarkerOptions()
                         .position(latLng)
-                        .title(socketList.get(i).getDescription())
+                        .title(chargerList.get(i).getDescription())
                         .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
 
                 for (ItemCS socket : MenuActivity.realTimeInfoList) {
-                    if (socket.getLatitude().equals(socketList.get(i).getLatitude()) && socket.getLongitude().equals(socketList.get(i).getLongitude()))
+                    if (socket.getLatitude().equals(chargerList.get(i).getLatitude()) && socket.getLongitude().equals(chargerList.get(i).getLongitude()))
                         marker.setSnippet(socket.getDistance() + getString(R.string.snippet_distance) + " " + socket.getTime() + getString(R.string.snippet_time));
                 }
 

@@ -92,19 +92,27 @@
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".socket.SocketActivity"
+            android:name=".charger.ChargerActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".socket.SocketListActivity"
+            android:name=".charger.ChargerListActivity"
             android:screenOrientation="portrait" />
 
         <activity
-            android:name=".socket.SocketListItemActivity"
+            android:name=".charger.ChargerListItemActivity"
             android:screenOrientation="portrait" />
 
         <activity
             android:name=".realtime.RealTimeActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".realtime.RealTimeSortActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".realtime.RealTimeSortItemActivity"
             android:screenOrientation="portrait" />
 
         <activity

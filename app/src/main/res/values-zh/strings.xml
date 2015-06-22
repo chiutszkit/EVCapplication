@@ -3,7 +3,6 @@
 
     <!-- Home Page-->
     <string name="app_name">EV Charging Station Helper</string>
-    <string name="description_icon">EV Charging Station Helper 的圖標</string>
     <string name="home_slogan">綠色生活，綠色汽車</string>
 
     <!-- Menu Page-->
@@ -48,8 +47,8 @@
     <string name="search_title">搜索</string>
     <string name="search_text_title_address">地點：</string>
     <string name="search_text_title_district">地區：</string>
-    <string name="search_text_title_type">插座類型：</string>
-    <string name="search_text_title_socket">充電插座：</string>
+    <string name="search_text_title_type">充電站類型：</string>
+    <string name="search_text_title_socket">充電插座類型：</string>
     <string name="search_text_title_quantity">數量：</string>
     <string name="search_text_title_sort">排序結果方式</string>
     <string name="search_text_title_nearest">最近的充電站</string>
@@ -75,14 +74,15 @@
     <string name="overview_search_result_text">個充電站項目有關於</string>
     <string name="overview_history_alertDialog_delete_history">您確定要清除歷史記錄嗎？</string>
     <string name="overview_history_alertDialog_no_undo">您不能撤消此操作。</string>
-    <string name="history_alertDialog_no_option">取消</string>
+    <string name="overview_history_alertDialog_no_option">取消</string>
     <string name="overview_history_alertDialog_yes_option">清除</string>
-
+    <string name="overview_action_search_title">快速搜索</string>
+    <string name="overview_action_delete_title">全部删除</string>
 
     <!-- Item Page-->
     <string name="item_title_location">位置</string>
-    <string name="item_title_type">插座類型</string>
-    <string name="item_title_socket">充電插座</string>
+    <string name="item_title_type">充電站類型</string>
+    <string name="item_title_socket">充電插座類型</string>
     <string name="item_title_availability">充電站狀況</string>
     <string name="item_title_availability_text">總共: </string>
     <string name="item_toast_addToFavorites">成功新增到「收藏」。</string>
@@ -107,23 +107,23 @@
     <string name="share_message"> - 一個簡單的方法來找出在香港島中最近的充電站。</string>
     <string name="share_hint">透過以下程式分享</string>
 
-    <!-- Socket Page-->
-    <string name="socket_type_title">插頭種類</string>
-    <string name="socket_type_standard_title">標準</string>
-    <string name="socket_type_standard_subtitle">13A</string>
-    <string name="socket_type_medium_title">中速</string>
-    <string name="socket_type_medium_subtitle">IEC 62196, SAE J1772, 其他</string>
-    <string name="socket_type_quick_title">快速</string>
-    <string name="socket_type_quick_subtitle">CHAdeMO, 其他</string>
+    <!-- Charger Page-->
+    <string name="charger_type_title">充電站種類</string>
+    <string name="charger_type_standard_title">標準</string>
+    <string name="charger_type_standard_subtitle">13A</string>
+    <string name="charger_type_medium_title">中速</string>
+    <string name="charger_type_medium_subtitle">IEC 62196, SAE J1772, 其他</string>
+    <string name="charger_type_quick_title">快速</string>
+    <string name="charger_type_quick_subtitle">CHAdeMO, 其他</string>
 
-    <!-- Socket List Page-->
-    <string name="socket_list_title">插頭</string>
-    <string name="socket_list_title_standard">標準</string>
-    <string name="socket_list_title_medium">中速</string>
-    <string name="socket_list_title_quick">快速</string>
+    <!-- Charger List Page-->
+    <string name="charger_list_title">充電站</string>
+    <string name="charger_list_title_standard">標準</string>
+    <string name="charger_list_title_medium">中速</string>
+    <string name="charger_list_title_quick">快速</string>
 
-    <!-- Socket List Page-->
-    <string name="socket_listitem_title">插頭</string>
+    <!-- Charger List Item Page-->
+    <string name="charger_list_item_title">插頭</string>
 
     <!-- Nearby Page-->
     <string name="nearby_title">附近</string>
@@ -133,7 +133,20 @@
     <string name="nearby_progressDialog_content">由於處理需時，請耐心等待...</string>
 
     <!-- Real-Time Page-->
-    <string name="realTime_title">實時狀態</string>
+    <string name="realtime_title">實時狀態</string>
+    <string name="realtime_action_record_title">記錄狀態</string>
+    <string name="realtime_alertDialog_no_scanner_title">找不到合適的掃描儀</string>
+    <string name="realtime_alertDialog_no_scanner_text">要立即下載掃描儀嗎？</string>
+    <string name="realtime_alertDialog_no_scanner_yes_option">要</string>
+    <string name="realtime_alertDialog_no_scanner_no_option">不要</string>
+
+    <!-- Real-Time Sort Page-->
+    <string name="realtime_sort_title">查詢</string>
+    <string name="realtime_sort_title_district">按地區</string>
+    <string name="realtime_sort_title_type">按充電站的類型</string>
+    <string name="realtime_sort_title_socket">按充電插座的類型</string>
+    <string name="realtime_sort_title_availability">按充電站的實時狀態</string>
+    <string name="realtime_sort_title_all">全部</string>
 
     <!-- Setting Page-->
     <string name="setting_title">設定</string>

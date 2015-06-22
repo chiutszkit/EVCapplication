@@ -1,37 +1,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/homepage"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/dark_green"
+    android:background="@drawable/home_page"
     android:orientation="vertical">
 
     <TextView
         android:id="@+id/homepage_text_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
+        android:layout_weight="1"
         android:gravity="center"
         android:text="@string/app_name"
         android:textColor="@color/black"
         android:textStyle="bold"
         android:textSize="@dimen/homepage_text_title_textsize" />
 
-    <ImageView
-        android:id="@+id/homepage_image_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        android:layout_gravity="center"
-        android:layout_weight="2"
-        android:adjustViewBounds="true"
-        android:contentDescription="@string/description_icon"
-        android:src="@drawable/evc_icon" />
-
     <TextView
         android:id="@+id/homepage_text_description"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="0.5"
-        android:gravity="center"
+        android:layout_weight="1"
+        android:gravity="bottom|center"
+        android:layout_gravity="bottom"
         android:text="@string/home_slogan"
         android:textColor="@color/black"
         android:textStyle="bold"

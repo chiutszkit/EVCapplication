@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <!--First  row-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/realtime_sort_grid_district"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/menu_background_selector"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/realtime_sort_grid_icon_district"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:src="@drawable/district_sort_icon" />
+
+            <TextView
+                android:id="@+id/realtime_sort_grid_text_district"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/realtime_sort_title_district"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/realtime_sort_grid_title_textsize" />
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/realtime_sort_grid_type"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/menu_background_selector"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/realtime_sort_grid_icon_type"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:src="@drawable/type_sort_icon" />
+
+            <TextView
+                android:id="@+id/realtime_sort_grid_text_type"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/realtime_sort_title_type"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/realtime_sort_grid_title_textsize" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--Second row-->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/realtime_sort_grid_socket"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/menu_background_selector"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/realtime_sort_grid_icon_socket"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:src="@drawable/socket_sort_icon" />
+
+            <TextView
+                android:id="@+id/realtime_sort_grid_text_socket"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/realtime_sort_title_socket"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/realtime_sort_grid_title_textsize" />
+        </LinearLayout>
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/realtime_sort_grid_availability"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/menu_background_selector"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/realtime_sort_grid_icon_availability"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:src="@drawable/availability_sort_icon" />
+
+            <TextView
+                android:id="@+id/realtime_sort_grid_text_availability"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/realtime_sort_title_availability"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/realtime_sort_grid_title_textsize" />
+        </LinearLayout>
+    </LinearLayout>
+    <!-- Third row -->
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:baselineAligned="false"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/realtime_sort_grid_all"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@drawable/menu_background_selector"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/realtime_sort_grid_icon_all"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:layout_weight="1"
+                android:adjustViewBounds="true"
+                android:src="@drawable/selectall_icon" />
+
+            <TextView
+                android:id="@+id/realtime_sort_grid_text_all"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginBottom="10dp"
+                android:gravity="center_horizontal"
+                android:text="@string/realtime_sort_title_all"
+                android:textColor="@color/black"
+                android:textStyle="bold"
+                android:textSize="@dimen/realtime_sort_grid_title_textsize" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

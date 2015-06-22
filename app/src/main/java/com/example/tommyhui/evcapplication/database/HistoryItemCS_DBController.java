@@ -21,8 +21,9 @@ public class HistoryItemCS_DBController {
     private static final String KEY_QUANTITY = "quantity";
     private static final String KEY_LATITUDE = "latitude";
     private static final String KEY_LONGITUDE = "longitude";
+    private static final String KEY_AVAILABILITY = "availability";
 
-    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY, KEY_LATITUDE, KEY_LONGITUDE};
+    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY, KEY_LATITUDE, KEY_LONGITUDE, KEY_AVAILABILITY};
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             KEY_ID + " INTEGER PRIMARY KEY ," +
@@ -33,7 +34,8 @@ public class HistoryItemCS_DBController {
             KEY_SOCKET + " TEXT," +
             KEY_QUANTITY + " INTEGER," +
             KEY_LATITUDE + " TEXT," +
-            KEY_LONGITUDE + " TEXT);";
+            KEY_LONGITUDE + " TEXT," +
+            KEY_AVAILABILITY + " TEXT);";
 
     private SQLiteDatabase db;
 
@@ -58,6 +60,7 @@ public class HistoryItemCS_DBController {
         values.put(KEY_QUANTITY, historyCS.getQuantity()); // get quantity
         values.put(KEY_LATITUDE, historyCS.getLatitude()); // get latitude
         values.put(KEY_LONGITUDE, historyCS.getLongitude()); // get longitude
+        values.put(KEY_AVAILABILITY, historyCS.getAvailability()); // get availability
 
         // 2. insert or update
 
@@ -159,6 +162,7 @@ public class HistoryItemCS_DBController {
         historyCS.setQuantity(cursor.getInt(6));
         historyCS.setLatitude(cursor.getString(7));
         historyCS.setLongitude(cursor.getString(8));
+        historyCS.setAvailability(cursor.getString(9));
 
         historyCS.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID)));
 
@@ -195,6 +199,7 @@ public class HistoryItemCS_DBController {
                 historyCS.setQuantity(Integer.parseInt(cursor.getString(6)));
                 historyCS.setLatitude(cursor.getString(7));
                 historyCS.setLongitude(cursor.getString(8));
+                historyCS.setAvailability(cursor.getString(9));
 
                 // Add cs to list of cs
                 historyCSes.add(historyCS);
@@ -239,7 +244,7 @@ public class HistoryItemCS_DBController {
         values.put("quantity ", historyCS.getQuantity());
         values.put("latitude", historyCS.getLatitude());
         values.put("longitude", historyCS.getLongitude());
-
+        values.put("availability", historyCS.getAvailability());
 
         // 2. updating row
         int i = db.update(TABLE_NAME, //table

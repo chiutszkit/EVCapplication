@@ -10,13 +10,13 @@ import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.R;
 
-public class SocketListViewAdapter extends BaseAdapter {
+public class ChargerListViewAdapter extends BaseAdapter {
     private final Context context;
     private final int[] icons;
     private final int[] titles;
     private final int[] texts;
 
-    public SocketListViewAdapter(Context context, int[] icons, int[] titles, int[] texts) {
+    public ChargerListViewAdapter(Context context, int[] icons, int[] titles, int[] texts) {
         this.context = context;
         this.icons = icons;
         this.titles = titles;
@@ -47,7 +47,7 @@ public class SocketListViewAdapter extends BaseAdapter {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
-        View rowView = inflater.inflate(R.layout.socket_list_item_layout, parent, false);
+        View rowView = inflater.inflate(R.layout.charger_list_item_layout, parent, false);
 
         ViewGroup.LayoutParams layoutParams = rowView.getLayoutParams();
         int totalHeight = parent.getMeasuredHeight();
@@ -55,9 +55,9 @@ public class SocketListViewAdapter extends BaseAdapter {
         layoutParams.height = rowHeight;
         rowView.setLayoutParams(layoutParams);
 
-        TextView textTitleView = (TextView) rowView.findViewById(R.id.socket_list_view_item_title);
-        TextView textView = (TextView) rowView.findViewById(R.id.socket_list_view_item_subtitle);
-        ImageView imageView = (ImageView) rowView.findViewById(R.id.socket_list_view_item_icon);
+        TextView textTitleView = (TextView) rowView.findViewById(R.id.charger_list_view_item_title);
+        TextView textView = (TextView) rowView.findViewById(R.id.charger_list_view_item_subtitle);
+        ImageView imageView = (ImageView) rowView.findViewById(R.id.charger_list_view_item_icon);
         textTitleView.setText(context.getString(titles[position]));
         textView.setText(context.getString(texts[position]));
         imageView.setImageResource(icons[position]);

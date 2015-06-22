@@ -1,4 +1,4 @@
-package com.example.tommyhui.evcapplication.socket;
+package com.example.tommyhui.evcapplication.charger;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,21 +11,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.R;
-import com.example.tommyhui.evcapplication.adapter.SocketListPageListViewAdapter;
+import com.example.tommyhui.evcapplication.adapter.ChargerListPageListViewAdapter;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
-import com.example.tommyhui.evcapplication.nearby.NearbyActivity;
 
 import java.util.ArrayList;
 
 import se.emilsjolander.stickylistheaders.StickyListHeadersListView;
 
-public class SocketListActivity extends ActionBarActivity {
+public class ChargerListActivity extends ActionBarActivity {
 
-    private String type = "";
-    private ArrayList<ItemCS> socketList = new ArrayList<ItemCS>();
-    private SocketListPageListViewAdapter socketListPageListViewAdapter;
+    private String type;
+    private ArrayList<ItemCS> chargerList = new ArrayList<ItemCS>();
+    private ChargerListPageListViewAdapter chargerListPageListViewAdapter;
     private ItemCS_DBController db;
     private StickyListHeadersListView  listView;
     private ArrayList<ItemCS> realTimeInfoList = new ArrayList<ItemCS>();
@@ -33,7 +32,7 @@ public class SocketListActivity extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.socket_listpage_activity);
+        setContentView(R.layout.charger_listpage_activity);
 
         /** Get the data passed **/
         Bundle bundle = getIntent().getExtras();
@@ -45,14 +44,14 @@ public class SocketListActivity extends ActionBarActivity {
 
         /** Set up action bar's title **/
         TextView title = (TextView) findViewById(R.id.action_bar_title);
-        title.setText(type + getString(R.string.socket_list_title));
+        title.setText(type + getString(R.string.charger_list_title));
 
         /** Set up action bar's icon **/
         int resId = 0;
 
-        String standard = getString(R.string.socket_list_title_standard);
-        String medium = getString(R.string.socket_list_title_medium);
-        String quick = getString(R.string.socket_list_title_quick);
+        String standard = getString(R.string.charger_list_title_standard);
+        String medium = getString(R.string.charger_list_title_medium);
+        String quick = getString(R.string.charger_list_title_quick);
 
         if (type.equals(standard))
             resId = R.drawable.standard_icon;
@@ -65,13 +64,13 @@ public class SocketListActivity extends ActionBarActivity {
         myImgView.setImageResource(resId);
 
         db = new ItemCS_DBController(getApplicationContext());
-        socketList = db.inputQueryCSes(this, new String[] {type}, 1);
-        listView = (StickyListHeadersListView) this.findViewById(R.id.socket_listpage_list_view);
+        chargerList = db.inputQueryCSes(this, new String[] {type}, 1);
+        listView = (StickyListHeadersListView) this.findViewById(R.id.charger_listpage_list_view);
         realTimeInfoList = MenuActivity.realTimeInfoList;
 
-        if (socketListPageListViewAdapter == null) {
-            socketListPageListViewAdapter = new SocketListPageListViewAdapter(SocketListActivity.this, socketList, realTimeInfoList);
-            listView.setAdapter(socketListPageListViewAdapter);
+        if (chargerListPageListViewAdapter == null) {
+            chargerListPageListViewAdapter = new ChargerListPageListViewAdapter(ChargerListActivity.this, chargerList, realTimeInfoList);
+            listView.setAdapter(chargerListPageListViewAdapter);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -80,17 +79,16 @@ public class SocketListActivity extends ActionBarActivity {
                                         long id) {
                     // TODO Auto-generated method stub
 
-                    ItemCS cs = socketList.get(position);
+                    ItemCS cs = chargerList.get(position);
 
                     Intent intent = new Intent();
-                    intent.setClass(SocketListActivity.this, SocketListItemActivity.class);
+                    intent.setClass(ChargerListActivity.this, ChargerListItemActivity.class);
 
                     Bundle bundle = new Bundle();
 
                     bundle.putString("type", type);
                     bundle.putString("latitude", cs.getLatitude());
                     bundle.putString("longitude", cs.getLongitude());
-                    intent.putParcelableArrayListExtra("socketVenueList", socketList);
 
                     intent.putExtras(bundle);
                     startActivity(intent);

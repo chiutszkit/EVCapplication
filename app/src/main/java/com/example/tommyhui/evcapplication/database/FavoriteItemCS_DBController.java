@@ -21,8 +21,9 @@ public class FavoriteItemCS_DBController {
     private static final String KEY_QUANTITY = "quantity";
     private static final String KEY_LATITUDE = "latitude";
     private static final String KEY_LONGITUDE = "longitude";
+    private static final String KEY_AVAILABILITY = "availability";
 
-    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY, KEY_LATITUDE, KEY_LONGITUDE};
+    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY, KEY_LATITUDE, KEY_LONGITUDE, KEY_AVAILABILITY};
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             KEY_ID + " INTEGER PRIMARY KEY ," +
@@ -33,7 +34,8 @@ public class FavoriteItemCS_DBController {
             KEY_SOCKET + " TEXT," +
             KEY_QUANTITY + " INTEGER," +
             KEY_LATITUDE + " TEXT," +
-            KEY_LONGITUDE + " TEXT);";
+            KEY_LONGITUDE + " TEXT," +
+            KEY_AVAILABILITY + " TEXT);";
 
     private SQLiteDatabase db;
 
@@ -58,6 +60,7 @@ public class FavoriteItemCS_DBController {
         values.put(KEY_QUANTITY, favoriteCS.getQuantity()); // get quantity
         values.put(KEY_LATITUDE, favoriteCS.getLatitude()); // get latitude
         values.put(KEY_LONGITUDE, favoriteCS.getLongitude()); // get longitude
+        values.put(KEY_AVAILABILITY, favoriteCS.getAvailability()); // get availability
 
         // 2. insert or update
         if (!checkFavoriteCSExist(favoriteCS)) {
@@ -155,6 +158,7 @@ public class FavoriteItemCS_DBController {
         favoriteCS.setQuantity(cursor.getInt(6));
         favoriteCS.setLatitude(cursor.getString(7));
         favoriteCS.setLongitude(cursor.getString(8));
+        favoriteCS.setAvailability(cursor.getString(9));
 
         favoriteCS.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID)));
 
@@ -192,6 +196,7 @@ public class FavoriteItemCS_DBController {
                 favoriteCS.setQuantity(Integer.parseInt(cursor.getString(6)));
                 favoriteCS.setLatitude(cursor.getString(7));
                 favoriteCS.setLongitude(cursor.getString(8));
+                favoriteCS.setAvailability(cursor.getString(9));
 
                 // Add cs to list of cs
                 FavoriteCSes.add(favoriteCS);
@@ -236,6 +241,7 @@ public class FavoriteItemCS_DBController {
         values.put("quantity ", favoriteCS.getQuantity());
         values.put("latitude", favoriteCS.getLatitude());
         values.put("longitude", favoriteCS.getLongitude());
+        values.put("availability", favoriteCS.getAvailability());
 
         // 2. updating row
         int i = db.update(TABLE_NAME, //table

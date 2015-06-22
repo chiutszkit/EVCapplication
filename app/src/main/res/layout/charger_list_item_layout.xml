@@ -6,7 +6,7 @@
     android:orientation="horizontal">
 
     <ImageView
-        android:id="@+id/socket_list_view_item_icon"
+        android:id="@+id/charger_list_view_item_icon"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
@@ -24,7 +24,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/socket_list_view_item_title"
+            android:id="@+id/charger_list_view_item_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="[Title]"
@@ -32,7 +32,7 @@
             android:textStyle="bold" />
 
         <TextView
-            android:id="@+id/socket_list_view_item_subtitle"
+            android:id="@+id/charger_list_view_item_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
@@ -42,7 +42,7 @@
     </LinearLayout>
 
     <ImageView
-        android:id="@+id/socket_list_view_item_arrow"
+        android:id="@+id/charger_list_view_item_arrow"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_vertical"
