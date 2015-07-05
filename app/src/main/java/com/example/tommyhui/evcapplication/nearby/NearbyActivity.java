@@ -21,6 +21,7 @@ import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
 import com.example.tommyhui.evcapplication.JSONParser.DirectionsJSONDrawPath;
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
 import com.example.tommyhui.evcapplication.overview.OverviewActivity;
+import com.example.tommyhui.evcapplication.util.ConnectionDetector;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -60,6 +61,8 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
     private Location myLocation;
     private Marker myLocationMarker;
 
+    private ConnectionDetector cd = new ConnectionDetector(this);
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -87,55 +90,66 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
+
         locateAllChargingStationPosition();
-        locateUserPosition();
 
-        progressDialog = new ProgressDialog(this);
-        progressDialog.setCancelable(false);
-        progressDialog.setProgressStyle(progressDialog.STYLE_HORIZONTAL);
-        progressDialog.setIcon(R.drawable.location_icon);
-        progressDialog.setTitle(getResources().getString(R.string.nearby_progressDialog_title));
-        progressDialog.setMessage(getResources().getString(R.string.nearby_progressDialog_content));
-        progressDialog.show();
+        if (cd.isConnectingToInternet() && cd.isConnectingToGPS()) {
 
-        new LoadRealTimeDataTask().execute((Void[])null);
+            locateUserPosition();
 
-        googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            progressDialog = new ProgressDialog(this);
+            progressDialog.setCancelable(false);
+            progressDialog.setProgressStyle(progressDialog.STYLE_HORIZONTAL);
+            progressDialog.setIcon(R.drawable.location_icon);
+            progressDialog.setTitle(getResources().getString(R.string.nearby_progressDialog_title));
+            progressDialog.setMessage(getResources().getString(R.string.nearby_progressDialog_content));
+            progressDialog.show();
 
-            @Override
-            public boolean onMarkerClick(Marker marker) {
-                for (int i = 0; i < markersLatLng.size(); i++) {
-                    if (marker.getPosition().latitude == markersLatLng.get(i).latitude &&
-                            marker.getPosition().longitude == markersLatLng.get(i).longitude) {
-                        String distance = socketVenueList.get(i).getDistance();
-                        String time = socketVenueList.get(i).getTime();
-                        if(!distance.isEmpty() && !time.isEmpty())
-                            marker.setSnippet(distance + getString(R.string.snippet_distance) + " " + time + getString(R.string.snippet_time));
+            new LoadGoogleMapTask().execute();
+
+            /** Draw the travelling path **/
+            googleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+
+                @Override
+                public boolean onMarkerClick(Marker marker) {
+                    for (int i = 0; i < markersLatLng.size(); i++) {
+                        if (marker.getPosition().latitude == markersLatLng.get(i).latitude &&
+                                marker.getPosition().longitude == markersLatLng.get(i).longitude) {
+                            String distance = socketVenueList.get(i).getDistance();
+                            String time = socketVenueList.get(i).getTime();
+                            if (!distance.isEmpty() && !time.isEmpty())
+                                marker.setSnippet(distance + getString(R.string.snippet_distance) + " " + time + getString(R.string.snippet_time));
+                        }
+                    }
+                    DirectionsJSONDrawPath directionsJSONDrawPath = new DirectionsJSONDrawPath(googleMap, new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), new LatLng(marker.getPosition().latitude, marker.getPosition().longitude));
+                    if (cd.isConnectingToInternet())
+                        directionsJSONDrawPath.drawDirectionPath();
+                    marker.showInfoWindow();
+                    return true;
+                }
+            });
+
+            /** Display the list of charging station of clicked marker **/
+            googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
+                @Override
+                public void onInfoWindowClick(Marker marker) {
+                    Intent intent = new Intent();
+                    intent.setClass(NearbyActivity.this, OverviewActivity.class);
+
+                    if (!marker.getTitle().equals("My Current Location")) {
+                        Bundle bundle = new Bundle();
+                        bundle.putString("query", marker.getTitle());
+
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                     }
                 }
-                /** Draw the travelling path **/
-                DirectionsJSONDrawPath directionsJSONDrawPath = new DirectionsJSONDrawPath(googleMap, new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), new LatLng(marker.getPosition().latitude, marker.getPosition().longitude));
-                directionsJSONDrawPath.drawDirectionPath();
-                marker.showInfoWindow();
-                return true;
-            }
-        });
-        googleMap.setOnInfoWindowClickListener(new GoogleMap.OnInfoWindowClickListener() {
-            @Override
-            public void onInfoWindowClick(Marker marker) {
-                Intent intent = new Intent();
-                intent.setClass(NearbyActivity.this, OverviewActivity.class);
-
-                Bundle bundle = new Bundle();
-                bundle.putString("query", marker.getTitle());
-
-                intent.putExtras(bundle);
-                startActivity(intent);
-            }
-        });
+            });
+        }
     }
 
-    private class LoadRealTimeDataTask extends AsyncTask<Void,Integer,Integer> {
+    /** Fetch data from Google Map **/
+    private class LoadGoogleMapTask extends AsyncTask<Void,Integer,Integer> {
         // Do the long-running work in here
         protected Integer doInBackground(Void... params) {
 
@@ -278,16 +292,18 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
     /** Locate user current position **/
     public void locateUserPosition() {
 
-        googleMap.setMyLocationEnabled(true);
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if(cd.isConnectingToGPS()) {
+            googleMap.setMyLocationEnabled(true);
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        myLocation = HomeActivity.myLocation;
+            myLocation = HomeActivity.myLocation;
 
-        if (myLocation != null) {
-            onLocationChanged(myLocation);
+            if (myLocation != null) {
+                onLocationChanged(myLocation);
+            }
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 10, this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 10, this);
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, this);
     }
 
     /** Handle the case when user position changes **/
@@ -311,9 +327,9 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
             myLocationMarker.showInfoWindow();
             firstTime = false;
         }
-        myLocation = location;
+        HomeActivity.myLocation = location;
 
-        Log.v("Debug", "IN ON LOCATION CHANGE, lat=" + latInDouble + ", lon=" + lonInDouble);
+        Log.v("Location", "Location Change to, lat=" + latInDouble + ", lon=" + lonInDouble);
     }
     @Override
     public void onProviderDisabled(String provider) {

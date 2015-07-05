@@ -4,6 +4,11 @@
     <!-- Home Page-->
     <string name="app_name">EV Charging Station Helper</string>
     <string name="home_slogan">綠色生活，綠色汽車</string>
+    <string name="alertDialog_no_gps_title">全球定位系统(GPS)</string>
+    <string name="alertDialog_no_gps_text">你的裝置沒有全球定位系统(GPS)信號。</string>
+    <string name="alertDialog_no_internet_title">互聯網連接</string>
+    <string name="alertDialog_no_internet_text">你的裝置沒有互聯網連接。</string>
+    <string name="alertDialog_ok_option">知道了</string>
 
     <!-- Menu Page-->
     <string name="menu_title_menu">目錄</string>
@@ -11,7 +16,7 @@
     <string name="menu_title_search">搜索</string>
     <string name="menu_title_favourite">收藏</string>
     <string name="menu_title_nearby">附近</string>
-    <string name="menu_title_socket">插頭種類</string>
+    <string name="menu_title_socket">充電站種類</string>
     <string name="menu_title_realTime">實時狀態</string>
 
     <string name="menu_description_overview">找出所有充電站</string>
@@ -37,7 +42,7 @@
     <string name="about_author_tel">+85298490124</string>
     <string name="about_author_email">aesops0124@gmail.com</string>
     <string name="about_app_version">1.0</string>
-    <string name="about_app_date">2015年6月20日</string>
+    <string name="about_app_date">2015年7月1日</string>
 
     <string name="about_email_subject">有關EV Charging Station Helper的應用查詢</string>
     <string name="about_email_text">我想發問的是...</string>
@@ -52,7 +57,7 @@
     <string name="search_text_title_quantity">數量：</string>
     <string name="search_text_title_sort">排序結果方式</string>
     <string name="search_text_title_nearest">最近的充電站</string>
-    <string name="search_text_title_availability">現在可用的充電站</string>
+    <string name="search_text_title_availability">空閒的充電站</string>
     <string name="search_text_all">所有</string>
     <string name="search_button_search">搜索</string>
     <string name="search_button_clear">清除</string>
@@ -63,8 +68,6 @@
     <string name="searchresult_alertDialog_revise_option">修訂搜索</string>
     <string name="searchresult_title">搜索結果</string>
     <string name="searchresult_searchAgain">再次搜索</string>
-    <!--<string name="searchresult_alertDialog_no_gps_title">No GPS Signal is Found</string>-->
-    <!--<string name="searchresult_alertDialog_no_gps_text">You may turn on the GPS and search again.</string>-->
 
     <!-- Overview Page-->
     <string name="overview_title">概覽</string>
@@ -134,19 +137,57 @@
 
     <!-- Real-Time Page-->
     <string name="realtime_title">實時狀態</string>
-    <string name="realtime_action_record_title">記錄狀態</string>
+    <string name="realtime_scan_title">登記及註銷</string>
+    <string name="realtime_scan_subtitle">掃描充電站的QR碼</string>
+    <string name="realtime_sort_title">查詢</string>
+    <string name="realtime_sort_subtitle">詢問充電站的狀態</string>
+    <string name="realtime_log_title">充電站狀態記錄</string>
+    <string name="realtime_log_subtitle">查看充電站的登記日誌</string>
     <string name="realtime_alertDialog_no_scanner_title">找不到合適的掃描儀</string>
     <string name="realtime_alertDialog_no_scanner_text">要立即下載掃描儀嗎？</string>
     <string name="realtime_alertDialog_no_scanner_yes_option">要</string>
     <string name="realtime_alertDialog_no_scanner_no_option">不要</string>
+    <string name="realtime_confirmDialog_scan_title">請確定以下的掃描無誤</string>
+    <string name="realtime_confirmDialog_scan_text_description">名稱：</string>
+    <string name="realtime_confirmDialog_scan_text_address">地點：</string>
+    <string name="realtime_confirmDialog_scan_text_district">地區：</string>
+    <string name="realtime_confirmDialog_scan_text_type">充電站類型：</string>
+    <string name="realtime_confirmDialog_scan_text_socket">充電插座類型：</string>
+    <string name="realtime_confirmDialog_scan_yes_option">是</string>
+    <string name="realtime_confirmDialog_scan_no_option">不是</string>
+    <string name="realtime_alertDialog_unmatched_location_title">不匹配的位置</string>
+    <string name="realtime_alertDialog_unmatched_location_text">QR碼與您當前的位置不匹配。</string>
+    <string name="realtime_alertDialog_unmatched_ok_option">知道了</string>
+    <string name="realtime_alertDialog_invalid_qr_title">無效的QR碼</string>
+    <string name="realtime_alertDialog_invalid_qr_text">QR碼掃描無效，請與管理員聯繫。</string>
+    <string name="realtime_alertDialog_invalid_qr_ok_option">知道了</string>
+    <string name="realtime_alertDialog_success_register_title">註冊成功</string>
+    <string name="realtime_alertDialog_success_register_text">您已成功註冊了充電站的使用。</string>
+    <string name="realtime_alertDialog_success_register_option">知道了</string>
 
     <!-- Real-Time Sort Page-->
-    <string name="realtime_sort_title">查詢</string>
+    <string name="realtime_sort_page_title">查詢實時狀態</string>
     <string name="realtime_sort_title_district">按地區</string>
-    <string name="realtime_sort_title_type">按充電站的類型</string>
-    <string name="realtime_sort_title_socket">按充電插座的類型</string>
-    <string name="realtime_sort_title_availability">按充電站的實時狀態</string>
-    <string name="realtime_sort_title_all">全部</string>
+    <string name="realtime_sort_title_type">按充電站類型</string>
+    <string name="realtime_sort_title_socket">按充電插座類型</string>
+    <string name="realtime_sort_title_availability">按實時狀態</string>
+
+    <!-- Real-Time Sort Item Page-->
+    <string name="realtime_sort_item_title_district">地區</string>
+    <string name="realtime_sort_item_title_type">充電站類型</string>
+    <string name="realtime_sort_item_title_socket">充電插座類型</string>
+    <string name="realtime_sort_item_title_availability">實時狀態</string>
+    <string name="realtime_sort_item_statistic_text_total">總共: </string>
+    <string name="realtime_sort_item_statistic_text_available">空閒中: </string>
+    <string name="realtime_sort_item_statistic_text_unavailable">已滿: </string>
+    <string name="realtime_sort_item_text_available">空閒中</string>
+    <string name="realtime_sort_item_text_unavailable">已滿</string>
+
+    <!-- Real-Time Log Page-->
+    <string name="realtime_log_page_title">充電站狀態記錄</string>
+    <string name="realtime_log_alertDialog_no_log_title">沒有找到狀態記錄</string>
+    <string name="realtime_log_alertDialog_no_log_text">請與管理員聯繫。</string>
+    <string name="realtime_log_alertDialog_ok_option">知道了</string>
 
     <!-- Setting Page-->
     <string name="setting_title">設定</string>

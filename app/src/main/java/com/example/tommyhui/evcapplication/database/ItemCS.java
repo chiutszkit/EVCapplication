@@ -19,13 +19,13 @@ public class ItemCS implements Parcelable {
 
     private String distance;
     private String time;
-    private String availability;
+    private int matching_index;
     private ArrayList<ItemCS> ItemCSes;
 
     public ItemCS() {
     }
 
-    public ItemCS(String address, String district, String description, String type, String socket, int quantity, String latitude, String longitude, String availability) {
+    public ItemCS(String address, String district, String description, String type, String socket, int quantity, String latitude, String longitude, int matching_index) {
         super();
         this.address = address;
         this.district = district;
@@ -35,7 +35,7 @@ public class ItemCS implements Parcelable {
         this.quantity = quantity;
         this.latitude = latitude;
         this.longitude = longitude;
-        this.availability = availability;
+        this.matching_index = matching_index;
     }
 
     public ItemCS(Parcel in) {
@@ -51,7 +51,7 @@ public class ItemCS implements Parcelable {
         quantity = in.readInt();
         latitude = in.readString();
         longitude = in.readString();
-        availability = in.readString();
+        matching_index = in.readInt();
 
         ItemCSes = in.readArrayList(ItemCS.class.getClassLoader());
     }
@@ -136,12 +136,12 @@ public class ItemCS implements Parcelable {
         this.distance = distance;
     }
 
-    public String getAvailability() {
-        return availability;
+    public int getMatching_index() {
+        return matching_index;
     }
 
-    public void setAvailability(String availability) {
-        this.availability = availability;
+    public void setMatching_index(int matching_index) {
+        this.matching_index = matching_index;
     }
 
     public String getTime() {
@@ -169,7 +169,7 @@ public class ItemCS implements Parcelable {
                 "quantity = '" + quantity + "'; " +
                 "latitude = '" + latitude + "'; " +
                 "longitude = '" + longitude + "'; " +
-                "availability = '" + availability + "']";
+                "matching_index = '" + matching_index + "']";
     }
 
     public void readFromParcel(Parcel in) {
@@ -183,7 +183,7 @@ public class ItemCS implements Parcelable {
         quantity = in.readInt();
         longitude = in.readString();
         latitude = in.readString();
-        availability = in.readString();
+        matching_index = in.readInt();
     }
 
     public static final Parcelable.Creator<ItemCS> CREATOR = new Parcelable.Creator<ItemCS>() {
@@ -200,7 +200,7 @@ public class ItemCS implements Parcelable {
             cs.setQuantity(in.readInt());
             cs.setLatitude(in.readString());;
             cs.setLongitude(in.readString());;
-            cs.setAvailability(in.readString());;
+            cs.setMatching_index(in.readInt());;
             return cs;
         }
 
@@ -226,6 +226,6 @@ public class ItemCS implements Parcelable {
         dest.writeInt(quantity);
         dest.writeString(latitude);
         dest.writeString(longitude);
-        dest.writeString(availability);
+        dest.writeInt(matching_index);
     }
 }

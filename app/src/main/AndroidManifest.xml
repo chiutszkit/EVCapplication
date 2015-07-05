@@ -56,7 +56,8 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".menu.MenuActivity"
+        <activity
+            android:name=".menu.MenuActivity"
             android:screenOrientation="portrait"
             android:configChanges="locale|orientation" />
 
@@ -113,6 +114,10 @@
 
         <activity
             android:name=".realtime.RealTimeSortItemActivity"
+            android:screenOrientation="portrait" />
+
+        <activity
+            android:name=".realtime.RealTimeLogActivity"
             android:screenOrientation="portrait" />
 
         <activity

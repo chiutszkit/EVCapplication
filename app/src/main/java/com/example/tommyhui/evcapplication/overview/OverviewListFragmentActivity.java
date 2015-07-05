@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,7 +63,7 @@ public class OverviewListFragmentActivity extends Fragment {
 
                 ItemCS cs = ListOfCSes.get(position);
 
-                historyItem = new HistoryItemCS((cs.getAddress()), cs.getDistrict(), cs.getDescription(), cs.getType(), cs.getSocket(), cs.getQuantity(), cs.getLatitude(), cs.getLongitude(), cs.getAvailability());
+                historyItem = new HistoryItemCS((cs.getAddress()), cs.getDistrict(), cs.getDescription(), cs.getType(), cs.getSocket(), cs.getQuantity(), cs.getLatitude(), cs.getLongitude(), cs.getMatching_index());
                 db.addHistoryCS(historyItem);
 
                 Intent intent = new Intent();
@@ -80,7 +79,7 @@ public class OverviewListFragmentActivity extends Fragment {
                 bundle.putInt("quantity", cs.getQuantity());
                 bundle.putString("latitude", cs.getLatitude());
                 bundle.putString("longitude", cs.getLongitude());
-                bundle.putString("availability", cs.getAvailability());
+                bundle.putInt("index", cs.getMatching_index());
 
                 intent.putExtras(bundle);
                 startActivity(intent);

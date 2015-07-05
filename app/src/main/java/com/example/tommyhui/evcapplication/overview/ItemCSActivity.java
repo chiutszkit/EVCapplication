@@ -21,6 +21,7 @@ import com.example.tommyhui.evcapplication.database.FavoriteItemCS_DBController;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.JSONParser.DirectionsJSONDrawPath;
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
+import com.example.tommyhui.evcapplication.util.ConnectionDetector;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -44,7 +45,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
     private Integer quantity;
     private String latitude;
     private String longitude;
-    private String availability;
+    private Integer index;
 
     private GoogleMap googleMap;
     private Location myLocation;
@@ -55,6 +56,8 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
 
     private FavoriteItemCS_DBController db;
     private FavoriteItemCS favouriteItem;
+
+    private ConnectionDetector cd = new ConnectionDetector(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
         quantity = bundle.getInt("quantity");
         latitude = bundle.getString("latitude");
         longitude = bundle.getString("longitude");
-        availability = bundle.getString("availability");
+        index = bundle.getInt("index");
 
         /** Use customized action bar **/
         getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM | ActionBar.DISPLAY_HOME_AS_UP);
@@ -93,7 +96,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
         TextView socketText = (TextView) findViewById(R.id.chargingstation_item_text_socket);
         socketText.setText(socket);
         TextView quantityText = (TextView) findViewById(R.id.chargingstation_item_text_quantity);
-        quantityText.setText(getString(R.string.item_title_availability_text) + quantity.toString());
+        quantityText.setText(getString(R.string.item_title_availability_text) + HomeActivity.realTimeQuantityList.get(index) + "/" + quantity.toString());
 
         /** Set up the map fragment **/
         if (!isGooglePlayServicesAvailable()) {
@@ -106,8 +109,10 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
         locateUserPosition();
 
         /** Draw the travelling path **/
-        DirectionsJSONDrawPath directionsJSONDrawPath = new DirectionsJSONDrawPath(googleMap, new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude)));
-        directionsJSONDrawPath.drawDirectionPath();
+        if (cd.isConnectingToInternet() && cd.isConnectingToGPS()) {
+            DirectionsJSONDrawPath directionsJSONDrawPath = new DirectionsJSONDrawPath(googleMap, new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude)));
+            directionsJSONDrawPath.drawDirectionPath();
+        }
 
         locateChargingStationPosition();
     }
@@ -151,16 +156,18 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
     /** Locate user current position **/
     public void locateUserPosition() {
 
-        googleMap.setMyLocationEnabled(true);
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if(cd.isConnectingToGPS()) {
+            googleMap.setMyLocationEnabled(true);
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        myLocation = HomeActivity.myLocation;
+            myLocation = HomeActivity.myLocation;
 
-        if (myLocation != null) {
-            onLocationChanged(myLocation);
+            if (myLocation != null) {
+                onLocationChanged(myLocation);
+            }
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 10, this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 10, this);
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, this);
     }
 
     /** Handle the case when user position changes **/
@@ -180,7 +187,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
                 .title(getResources().getString(R.string.nearby_userLocation))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.usercar_icon)));
 
-        myLocation = location;
+        HomeActivity.myLocation = location;
 
         Log.v("Debug", "IN ON LOCATION CHANGE, lat=" + latInDouble + ", lon=" + lonInDouble);
     }
@@ -216,7 +223,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
         inflater.inflate(R.menu.itemcs_options_menu, menu);
 
         db = new FavoriteItemCS_DBController(getApplicationContext());
-        favouriteItem = new FavoriteItemCS(address, district, description, type, socket, quantity, latitude, longitude, availability);
+        favouriteItem = new FavoriteItemCS(address, district, description, type, socket, quantity, latitude, longitude, index);
         if (db.checkFavoriteCSExist(favouriteItem)) {
             menu.findItem(R.id.itemCS_action_favorite).setIcon(R.drawable.del_favorite_icon);
             menu.findItem(R.id.itemCS_action_favorite).setTitle(R.string.item_button_deleteFromFavorites);
@@ -238,7 +245,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
 
             case R.id.itemCS_action_favorite:
                 db = new FavoriteItemCS_DBController(getApplicationContext());
-                favouriteItem = new FavoriteItemCS(address, district, description, type, socket, quantity, latitude, longitude, availability);
+                favouriteItem = new FavoriteItemCS(address, district, description, type, socket, quantity, latitude, longitude, index);
                 if (db.checkFavoriteCSExist(favouriteItem)) {
                     db.deleteFavoriteCS(db.getFavoriteCS(db.getFavoriteCSId(favouriteItem)));
                     Toast.makeText(getApplicationContext(), R.string.item_toast_deleteFromFavorites, Toast.LENGTH_SHORT).show();

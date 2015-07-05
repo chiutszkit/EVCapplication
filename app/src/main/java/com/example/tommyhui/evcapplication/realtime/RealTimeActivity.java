@@ -2,63 +2,65 @@ package com.example.tommyhui.evcapplication.realtime;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.location.Criteria;
 import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.example.tommyhui.evcapplication.HomeActivity;
 import com.example.tommyhui.evcapplication.JSONParser.RealTimeStatusJSONParser;
 import com.example.tommyhui.evcapplication.R;
+import com.example.tommyhui.evcapplication.adapter.RealTimeListViewAdapter;
+import com.example.tommyhui.evcapplication.database.ItemCS;
+import com.example.tommyhui.evcapplication.util.AESencryption;
+import com.example.tommyhui.evcapplication.util.ConnectionDetector;
 import com.google.android.gms.maps.model.LatLng;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+import java.util.Locale;
 
-public class RealTimeActivity extends ActionBarActivity {
+public class RealTimeActivity extends ActionBarActivity implements LocationListener {
 
-    private Set<String> realTimeStatusSet = new HashSet<String>();
     private RealTimeStatusJSONParser jsonParser = new RealTimeStatusJSONParser();
-    private ProgressDialog pDialog;
     private String index_cs;
+    private String district;
+    private String description;
+    private String address;
+    private String type;
+    private String socket;
     private Location myLocation;
+    String decrypted;
 
-    // url to update product
+    private ConnectionDetector cd = new ConnectionDetector(this);
+
+    // URL to download QR code's scanner
     public static final String ACTION_SCAN = "com.google.zxing.client.android.SCAN";
-
-    // url to update product
-    private static String url_update_status = "http://" + HomeActivity.localhost + "/com.example.tommyhui.evcapplication/update_status.php";
-
-    // JSON Node names
-    private static final String TAG_SUCCESS = HomeActivity.TAG_SUCCESS;
-    private static final String TAG_STATUS = HomeActivity.TAG_STATUS;
-    private static final String TAG_INDEX = HomeActivity.TAG_INDEX;
-    private static final String TAG_AVAILABILITY = HomeActivity.TAG_AVAILABILITY;
-    private static final String TAG_UPDATED = HomeActivity.TAG_UPDATED;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,50 +79,134 @@ public class RealTimeActivity extends ActionBarActivity {
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
         myImgView.setImageResource(R.drawable.realtime_icon);
 
-        /** Set up list of real time status **/
-//        realTimeStatusList
-
         /** Load the real time data **/
         locateUserPosition();
 
-        LinearLayout background=(LinearLayout)findViewById(R.id.homepage);
-        background.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                Intent intent = new Intent();
-                intent.setClass(RealTimeActivity.this, RealTimeSortActivity.class);
-                startActivity(intent);
+        /** Display the list of socket **/
+        final ListView listview = (ListView) findViewById(R.id.realtime_list_view);
+
+        final int[] realTimeTitle = new int[]{
+                R.string.realtime_scan_title, R.string.realtime_sort_title, R.string.realtime_log_title
+        };
+
+        int[] realTimeSubtitle = new int[]{
+                R.string.realtime_scan_subtitle, R.string.realtime_sort_subtitle, R.string.realtime_log_subtitle
+        };
+
+        int[] realTimeIcon = new int[]{
+                R.drawable.qr_icon, R.drawable.inquiry_icon, R.drawable.log_icon
+        };
+
+        RealTimeListViewAdapter adapter = new RealTimeListViewAdapter(this, realTimeIcon, realTimeTitle, realTimeSubtitle);
+        listview.setAdapter(adapter);
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view,
+                                    int position, long id) {
+                if (cd.isConnectingToInternet())
+                    new LoadAllStatus().execute();
+                switch (position) {
+                    case 0:
+                        scanQR(findViewById(android.R.id.content));
+                        break;
+                    case 1:
+                        Intent realTimeSortintent = new Intent();
+                        realTimeSortintent.setClass(RealTimeActivity.this, RealTimeSortActivity.class);
+                        startActivity(realTimeSortintent);
+                        break;
+                    case 2:
+                        Intent realTimeLogintent = new Intent();
+                        realTimeLogintent.setClass(RealTimeActivity.this, RealTimeLogActivity.class);
+                        startActivity(realTimeLogintent);
+                        break;
+                    default:
+                }
             }
         });
     }
 
-     /** Background Async Task to  Save status Details **/
-     class SaveStatusDetails extends AsyncTask<String, String, String> {
+     /** Background Async Task to Save status details and log **/
+     class UpdateDetails extends AsyncTask<String, String, String> {
 
-        /** Saving Status **/
         protected String doInBackground(String... args) {
 
+            /** Update record in realtimechargingstation table **/
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            params.add(new BasicNameValuePair(TAG_INDEX, index_cs));
-            params.add(new BasicNameValuePair(TAG_AVAILABILITY, "1"));
+            params.add(new BasicNameValuePair(HomeActivity.TAG_CHARGINGSTATION_INDEX, index_cs));
+
 
             // sending modified data through http request
-            // Notice that update product url accepts POST method
-            JSONObject json = jsonParser.makeHttpRequest(url_update_status,
+            // Notice that update real time status url accepts POST method
+            JSONObject json = jsonParser.makeHttpRequest(HomeActivity.url_update_charging_station,
                     "POST", params);
 
             // check json success tag
             try {
-                int success = json.getInt(TAG_SUCCESS);
+                int success = json.getInt(HomeActivity.TAG_SUCCESS);
 
                 if (success == 1) {
                     // successfully updated
                     Intent i = getIntent();
-                    // send result code 100 to notify about product update
+                    // send result code 100 to notify about charging station update
                     setResult(100, i);
-                    finish();
+                    Log.v("debug", "charging station OK");
                 } else {
-                    // failed to update product
+                    // failed to update charging station
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            /** Create record in realtimestatus table **/
+            // Building Parameters
+            params.clear();
+            params.add(new BasicNameValuePair(HomeActivity.TAG_STATUS_INDEX, index_cs));
+            params.add(new BasicNameValuePair(HomeActivity.TAG_STATUS_TYPE, type));
+
+            // getting JSON Object
+            // Note that create status url accepts POST method
+            json = jsonParser.makeHttpRequest(HomeActivity.url_create_status,
+                    "POST", params);
+
+            // check for success tag
+            try {
+                int success = json.getInt(HomeActivity.TAG_SUCCESS);
+
+                if (success == 1) {
+                    // successfully created status
+                    Log.v("debug", "status OK");
+                } else {
+                    // failed to create log
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            /** Create record in realtimelog table **/
+            // Building Parameters
+            params.clear();
+            params.add(new BasicNameValuePair(HomeActivity.TAG_LOG_DISTRICT, district));
+            params.add(new BasicNameValuePair(HomeActivity.TAG_LOG_DESCRIPTION, description));
+            params.add(new BasicNameValuePair(HomeActivity.TAG_LOG_TYPE, type));
+            params.add(new BasicNameValuePair(HomeActivity.TAG_LOG_SOCKET, socket));
+
+            // getting JSON Object
+            // Note that create log url accepts POST method
+            json = jsonParser.makeHttpRequest(HomeActivity.url_create_log,
+                    "POST", params);
+
+            // check for success tag
+            try {
+                int success = json.getInt(HomeActivity.TAG_SUCCESS);
+
+                if (success == 1) {
+                    // successfully created log
+                    Log.v("debug", "log OK");
+                } else {
+                    // failed to create log
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
@@ -128,28 +214,53 @@ public class RealTimeActivity extends ActionBarActivity {
 
             return null;
         }
+         protected void onPostExecute(String file_url) {
+             runOnUiThread(new java.lang.Runnable() {
+                 public void run() {
+                     showSuccessDialog();
+                 }
+             });
+         }
     }
+    /** Background Async Task to Load all real time status by making HTTP Request **/
+    class LoadAllStatus extends AsyncTask<String, String, String> {
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.realtime_options_menu, menu);
-        return super.onCreateOptionsMenu(menu);
-    }
+        /** Getting All real time status from url **/
+        protected String doInBackground(String... args) {
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            HomeActivity.realTimeQuantityList.clear();
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // handle item selection
-        switch (item.getItemId()) {
-            case R.id.realTime_action_record:
-                scanQR(this.findViewById(android.R.id.content));
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+            jsonParser.makeHttpRequest(HomeActivity.url_check_status, "GET", params);
+            // getting JSON string from URL
+            JSONObject json = jsonParser.makeHttpRequest(HomeActivity.url_get_all_charging_station, "GET", params);
+
+            try {
+                // Checking for SUCCESS TAG
+                int success = json.getInt(HomeActivity.TAG_SUCCESS);
+
+                if (success == 1) {
+                    // real time charging station found
+                    // Getting Array of real time status
+                    JSONArray status = json.getJSONArray(HomeActivity.TAG_TABLE_CHARGING_STATION);
+
+                    // looping through All real time status
+                    for (int i = 0; i < status.length(); i++) {
+                        JSONObject c = status.getJSONObject(i);
+
+                        // Storing each json item in variable
+                        String quantity = c.getString(HomeActivity.TAG_CHARGINGSTATION_QUANTITY);
+
+                        // adding to ArrayList
+                        HomeActivity.realTimeQuantityList.add(i, quantity);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
         }
     }
-
     /** Enable QR scanning mode */
     private void scanQR(View v) {
         try {
@@ -158,7 +269,7 @@ public class RealTimeActivity extends ActionBarActivity {
             intent.putExtra("SCAN_MODE", "QR_CODE_MODE");
             startActivityForResult(intent, 0);
         } catch (ActivityNotFoundException anfe) {
-            //on catch, show the download dialog
+            // on catch, show the download dialog
             showDownloadDialog(this);
         }
     }
@@ -192,8 +303,38 @@ public class RealTimeActivity extends ActionBarActivity {
         alertDialog.show();
     }
 
+    /** Show confirm dialog for scanning a QR code **/
+    private void showConfirmDialog(final Activity act) {
+
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(act);
+        alertDialog.setTitle(R.string.realtime_confirmDialog_scan_title);
+        String message = decrypted + "\n" + getString(R.string.realtime_confirmDialog_scan_text_description) + description + "\n"
+                            + getString(R.string.realtime_confirmDialog_scan_text_address) + address + "\n"
+                            + getString(R.string.realtime_confirmDialog_scan_text_district) + district + "\n"
+                            + getString(R.string.realtime_confirmDialog_scan_text_type) + type + "\n"
+                            + getString(R.string.realtime_confirmDialog_scan_text_socket) + socket;
+        alertDialog.setMessage(message);
+        alertDialog.setNegativeButton(R.string.realtime_confirmDialog_scan_no_option, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+            }
+        });
+
+        alertDialog.setPositiveButton(R.string.realtime_confirmDialog_scan_yes_option, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                new UpdateDetails().execute();
+            }
+        });
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+    }
+
     /** Get the content of QR code from the scanner */
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        setLocale(HomeActivity.language);
         if (requestCode == 0) {
             if (resultCode == RESULT_OK) {
                 // Get the extras that are returned from the intent
@@ -201,8 +342,16 @@ public class RealTimeActivity extends ActionBarActivity {
                 String format = intent.getStringExtra("SCAN_RESULT_FORMAT");
 
                 // Check if it is QR code
-                if(format.equals("QR_CODE"))
-                    QRCodeDecode(contents);
+                if(format.equals("QR_CODE")) {
+
+                    String strToDecrypt = contents;
+                    String strPssword = "tommyhui";
+
+                    // Decrypt the content of QR code
+                    AESencryption AESencryption = new AESencryption(strPssword);
+                    decrypted = AESencryption.decrypt(strToDecrypt.trim());
+                    QRCodeDecode(decrypted);
+                }
             }
         }
     }
@@ -214,32 +363,75 @@ public class RealTimeActivity extends ActionBarActivity {
             contents = contents.trim();
             int index = Integer.parseInt(contents.split(":")[1]);
             if(validLocation(contents)) {
-//                if (!HomeActivity.realTimeStatusList.get(index).equals("available")) {
-//
-//                    SharedPreferences sharedPref = getSharedPreferences("UserConfigs", Context.MODE_PRIVATE);
-//                    SharedPreferences.Editor editor = sharedPref.edit();
-//
-//                    HomeActivity.realTimeStatusList.add(index, "available");
-//                    realTimeStatusSet.add(Integer.toString(index));
-//                    editor.putStringSet("realTimeStatusList", realTimeStatusSet);
-//                    editor.commit();
+                // Dig out the data of the charging station and put into database
                 index_cs = Integer.toString(index);
 
-                new SaveStatusDetails().execute();
+                ItemCS scannedCS = HomeActivity.matchingList.get(index);
+                district = scannedCS.getDistrict();
+                description = scannedCS.getDescription();
+                address = scannedCS.getAddress();
+                type = scannedCS.getType();
+                socket = scannedCS.getSocket();
 
-//                }
+                showConfirmDialog(this);
             }
-            else {
-                Toast toast = Toast.makeText(this, "Content:" + contents + "Location problem ", Toast.LENGTH_LONG);
-                toast.show();
-            }
+            else
+                // Invalid location
+                showUnmatchedLocationDialog();
         }
-        else {
+        else
             // Invalid QR code
-            Toast toast = Toast.makeText(this, "Content:" + contents + " Invalid QR code ", Toast.LENGTH_LONG);
-            toast.show();
-        }
+            showInvalidQRDialog();
     }
+
+    private void showUnmatchedLocationDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle(R.string.realtime_alertDialog_unmatched_location_title);
+        alertDialog.setMessage(R.string.realtime_alertDialog_unmatched_location_text);
+        alertDialog.setNeutralButton(R.string.realtime_alertDialog_unmatched_ok_option, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+    }
+
+    private void showInvalidQRDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle(R.string.realtime_alertDialog_invalid_qr_title);
+        alertDialog.setMessage(R.string.realtime_alertDialog_invalid_qr_text);
+        alertDialog.setNeutralButton(R.string.realtime_alertDialog_invalid_qr_ok_option, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+    }
+
+    private void showSuccessDialog() {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        alertDialog.setTitle(R.string.realtime_alertDialog_success_register_title);
+        alertDialog.setMessage(R.string.realtime_alertDialog_success_register_text);
+        alertDialog.setNeutralButton(R.string.realtime_alertDialog_success_register_option, new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // TODO Auto-generated method stub
+            }
+        });
+
+        alertDialog.setCancelable(false);
+        alertDialog.show();
+    }
+
 
     /** Check whether it is a valid QR code */
     private boolean validQRCode(String contents) {
@@ -266,7 +458,7 @@ public class RealTimeActivity extends ActionBarActivity {
         LatLng currentLocation = new LatLng(myLocation.getLatitude(), myLocation.getLongitude());
         LatLng referenceLocationOfChargingStation = new LatLng(Double.parseDouble(HomeActivity.matchingList.get(index).getLatitude()), Double.parseDouble(HomeActivity.matchingList.get(index).getLongitude()));
 
-        // To check if the QR code is scanned in a specified position
+        // To check if the QR code is scanned in a specified position *****
         if(getDistance(currentLocation, referenceLocationOfChargingStation) <= 20000)
             result = true;
 
@@ -282,6 +474,37 @@ public class RealTimeActivity extends ActionBarActivity {
 
         String bestProvider = locationManager.getBestProvider(criteria, true);
         myLocation  = locationManager.getLastKnownLocation(bestProvider);
+        if (myLocation != null) {
+            onLocationChanged(myLocation);
+        }
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 10, this);
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 10, this);
+
+    }
+
+    /** Handle the case when user position changes **/
+    public void onLocationChanged(Location location) {
+
+        double latInDouble = location.getLatitude();
+        double lonInDouble = location.getLongitude();
+
+        myLocation = location;
+
+        Log.v("Location", "Location Change to, lat=" + latInDouble + ", lon=" + lonInDouble);
+    }
+    @Override
+    public void onProviderDisabled(String provider) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onProviderEnabled(String provider) {
+        // TODO Auto-generated method stub
+    }
+
+    @Override
+    public void onStatusChanged(String provider, int status, Bundle extras) {
+        // TODO Auto-generated method stub
     }
 
     /** Calculate the displacement between user current position and specific location of charging station **/
@@ -297,5 +520,22 @@ public class RealTimeActivity extends ActionBarActivity {
 
         double distance = locationA.distanceTo(locationB);
         return distance;
+    }
+
+    /** Set up the language of application **/
+    public void setLocale(String lang) {
+
+        Locale myLocale = new Locale(lang);
+        Resources res = getResources();
+
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        conf.locale = myLocale;
+        res.updateConfiguration(conf, dm);
+
+        SharedPreferences sharedPref = getSharedPreferences("UserConfigs", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPref.edit();
+        editor.putString("language", lang);
+        editor.apply();
     }
 }

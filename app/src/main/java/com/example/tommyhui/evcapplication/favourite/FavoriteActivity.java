@@ -88,7 +88,7 @@ public class FavoriteActivity extends ActionBarActivity {
                     bundle.putInt("quantity", cs.getQuantity());
                     bundle.putString("latitude", cs.getLatitude());
                     bundle.putString("longitude", cs.getLongitude());
-                    bundle.putString("availability", cs.getAvailability());
+                    bundle.putInt("index", cs.getMatching_index());
 
                     intent.putExtras(bundle);
                     startActivity(intent);

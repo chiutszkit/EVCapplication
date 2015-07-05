@@ -13,11 +13,11 @@ import com.example.tommyhui.evcapplication.database.ItemCS;
 
 import java.util.ArrayList;
 
-public class OverviewListViewAdapter extends BaseAdapter {
+public class RealTimeSortItemListViewAdapter extends BaseAdapter {
     private final Context context;
     private ArrayList<ItemCS> itemList;
 
-    public OverviewListViewAdapter(Context context, ArrayList<ItemCS> itemList) {
+    public RealTimeSortItemListViewAdapter(Context context, ArrayList<ItemCS> itemList) {
         this.context = context;
         this.itemList = itemList;
     }
@@ -52,12 +52,12 @@ public class OverviewListViewAdapter extends BaseAdapter {
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = (LayoutInflater) context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.overview_list_fragment_list_item_layout, parent, false);
+        View rowView = inflater.inflate(R.layout.realtime_sort_item_list_item_layout, parent, false);
 
-        TextView address = (TextView) rowView.findViewById(R.id.overview_list_fragment_list_view_item_address);
-        TextView chargingStation = (TextView) rowView.findViewById(R.id.overview_list_fragment_list_view_item_chargingStation);
-        TextView type = (TextView) rowView.findViewById(R.id.overview_list_fragment_list_view_item_type);
-        TextView socket = (TextView) rowView.findViewById(R.id.overview_list_fragment_list_view_item_socket);
+        TextView address = (TextView) rowView.findViewById(R.id.realtime_sort_item_list_view_item_address);
+        TextView chargingStation = (TextView) rowView.findViewById(R.id.realtime_sort_item_list_view_item_chargingStation);
+        TextView type = (TextView) rowView.findViewById(R.id.realtime_sort_item_list_view_item_type);
+        TextView socket = (TextView) rowView.findViewById(R.id.realtime_sort_item_list_view_item_socket);
 
         address.setText(itemList.get(position).getAddress());
         chargingStation.setText(itemList.get(position).getDescription());

@@ -1,7 +1,65 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="menu_grid_title_textsize">25sp</dimen>
-    <dimen name="textview_height">25dp</dimen>
-    <dimen name="textview_width">150dp</dimen>
-    <dimen name="ball_radius">30dp</dimen>
+
+    <dimen name="list_view_item_height">200dp</dimen>
+    <dimen name="list_view_item_bigIcon">70dp</dimen>
+    <dimen name="list_view_item_smallIcon">30dp</dimen>
+    <dimen name="list_view_item_chargingStation_textsize">26sp</dimen>
+    <dimen name="list_view_item_district_textsize">18sp</dimen>
+    <dimen name="list_view_item_address_textsize">18sp</dimen>
+    <dimen name="list_view_item_type_textsize">18sp</dimen>
+    <dimen name="list_view_item_socket_textsize">18sp</dimen>
+    <dimen name="list_view_item_time_textsize">18sp</dimen>
+
+    <dimen name="sticky_list_item_text_textsize">30sp</dimen>
+    <dimen name="sticky_list_header_text_textsize">30sp</dimen>
+
+    <!-- Home Page -->
+    <dimen name="homepage_text_description_textsize">50sp</dimen>
+    <dimen name="homepage_text_title_textsize">50sp</dimen>
+
+    <!-- Action Bar -->
+    <dimen name="action_bar_title_textsize">30sp</dimen>
+    <dimen name="action_bar_icon_imagesize">60dp</dimen>
+
+    <!-- Menu Page -->
+    <dimen name="menu_grid_title_textsize">50sp</dimen>
+
+    <!-- About Page -->
+    <dimen name="about_list_view_item_title_textsize">30sp</dimen>
+    <dimen name="about_list_view_item_text_textsize">26sp</dimen>
+
+    <!-- Item Page -->
+    <dimen name="chargingstation_item_title_textsize">30sp</dimen>
+    <dimen name="chargingstation_item_text_textsize">30sp</dimen>
+
+    <!--  Overview Page -->
+    <dimen name="overview_text_status_textsize">30sp</dimen>
+
+    <!--  Search Page -->
+    <dimen name="search_text_title_textsize">30sp</dimen>
+    <dimen name="search_button_textsize">20sp</dimen>
+
+    <!--  Socket Page -->
+    <dimen name="socket_list_view_item_title_textsize">36sp</dimen>
+    <dimen name="socket_list_view_item_subtitle_textsize">30sp</dimen>
+
+    <!--  Socket Item Page -->
+    <dimen name="socket_listpage_list_view_item_chargingStation_textsize">30sp</dimen>
+    <dimen name="socket_listpage_list_view_item_address_textsize">20sp</dimen>
+    <dimen name="socket_listpage_list_view_item_distance_textsize">20sp</dimen>
+    <dimen name="socket_listpage_list_view_item_time_textsize">20sp</dimen>
+
+    <!--  Real-Time Page -->
+    <dimen name="realtime_list_view_item_title_textsize">40sp</dimen>
+    <dimen name="realtime_list_view_item_subtitle_textsize">36sp</dimen>
+
+    <!-- Real-Time Sort Page -->
+    <dimen name="realtime_sort_grid_title_textsize">40sp</dimen>
+
+    <!-- Real-Time Sort Item Page -->
+    <dimen name="realtime_sort_item_text_title_textsize">30sp</dimen>
+    <dimen name="realtime_sort_item_text_content_textsize">30sp</dimen>
+    <dimen name="realtime_sort_item_text_marginsize">20sp</dimen>
+
 </resources>

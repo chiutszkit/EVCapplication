@@ -16,6 +16,7 @@ import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
 import com.example.tommyhui.evcapplication.JSONParser.DirectionsJSONDrawPath;
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
+import com.example.tommyhui.evcapplication.util.ConnectionDetector;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
@@ -43,6 +44,7 @@ public class ChargerListItemActivity extends ActionBarActivity implements Locati
     private Location myLocation;
     private Marker myLocationMarker;
     private LatLngBounds.Builder builder = new LatLngBounds.Builder();
+    private ConnectionDetector cd = new ConnectionDetector(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,8 +81,10 @@ public class ChargerListItemActivity extends ActionBarActivity implements Locati
         locateUserPosition();
 
         /** Draw the travelling path **/
-        DirectionsJSONDrawPath directionsJSONDrawPath = new DirectionsJSONDrawPath(googleMap, new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude)));
-        directionsJSONDrawPath.drawDirectionPath();
+        if (cd.isConnectingToInternet() && cd.isConnectingToGPS()) {
+            DirectionsJSONDrawPath directionsJSONDrawPath = new DirectionsJSONDrawPath(googleMap, new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), new LatLng(Double.parseDouble(latitude), Double.parseDouble(longitude)));
+            directionsJSONDrawPath.drawDirectionPath();
+        }
 
         locateSameTypeChargingStationPosition();
 
@@ -90,9 +94,11 @@ public class ChargerListItemActivity extends ActionBarActivity implements Locati
             public boolean onMarkerClick(Marker marker) {
                 // TODO Auto-generated method stub
                 /** Draw the travelling path **/
-                DirectionsJSONDrawPath directionsJSONDrawPath = new DirectionsJSONDrawPath(googleMap, new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), new LatLng(marker.getPosition().latitude, marker.getPosition().longitude));
-                directionsJSONDrawPath.drawDirectionPath();
-                marker.showInfoWindow();
+                if (cd.isConnectingToInternet() && cd.isConnectingToGPS()) {
+                    DirectionsJSONDrawPath directionsJSONDrawPath = new DirectionsJSONDrawPath(googleMap, new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), new LatLng(marker.getPosition().latitude, marker.getPosition().longitude));
+                    directionsJSONDrawPath.drawDirectionPath();
+                }
+                    marker.showInfoWindow();
                 return true;
             }
         });
@@ -101,16 +107,18 @@ public class ChargerListItemActivity extends ActionBarActivity implements Locati
     /** Locate user current position **/
     public void locateUserPosition() {
 
-        googleMap.setMyLocationEnabled(true);
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (cd.isConnectingToGPS()) {
+            googleMap.setMyLocationEnabled(true);
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
 
-        myLocation = HomeActivity.myLocation;
+            myLocation = HomeActivity.myLocation;
 
-        if (myLocation != null) {
-            onLocationChanged(myLocation);
+            if (myLocation != null) {
+                onLocationChanged(myLocation);
+            }
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 10, this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 10, this);
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 5000, 10, this);
     }
 
     /** Handle the case when user position changes **/
@@ -130,8 +138,8 @@ public class ChargerListItemActivity extends ActionBarActivity implements Locati
                 .title(getResources().getString(R.string.nearby_userLocation))
                 .icon(BitmapDescriptorFactory.fromResource(R.drawable.usercar_icon)));
 
-        myLocation = location;
-        Log.v("Debug", "IN ON LOCATION CHANGE, lat=" + latInDouble + ", lon=" + lonInDouble);
+        HomeActivity.myLocation = location;
+        Log.v("Location", "Location Change to, lat=" + latInDouble + ", lon=" + lonInDouble);
     }
     @Override
     public void onProviderDisabled(String provider) {

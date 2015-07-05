@@ -9,37 +9,36 @@
     android:layout_height="0dp"
     android:layout_weight="1"
     android:layout_gravity="center"
-    android:layout_marginTop="20dp"
+    android:layout_marginTop="@dimen/realtime_sort_item_text_marginsize"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/realtime_sort_item_layout_sort"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:layout_gravity="center"
-        android:orientation="vertical">
-        <TextView
-            android:id="@+id/realtime_sort_item_title_sort"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:text="[Spinner Title]"
-            android:textSize="@dimen/search_text_title_textsize"
-            android:textStyle="bold"/>
-        <Spinner
-            android:id="@+id/realtime_sort_item_spinner_sort"
+        <LinearLayout
+            android:id="@+id/realtime_sort_item_layout_sort"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_margin="20dp"/>
+            android:layout_gravity="center"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/realtime_sort_item_title_sort"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/realtime_sort_item_text_marginsize"
+                android:text="[Spinner Title]"
+                android:textSize="@dimen/realtime_sort_item_text_title_textsize"
+                android:textStyle="bold"/>
+            <Spinner
+                android:id="@+id/realtime_sort_item_spinner_sort"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/realtime_sort_item_text_marginsize"/>
+        </LinearLayout>
     </LinearLayout>
-</LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="8"
+        android:layout_weight="6"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="@dimen/realtime_sort_item_text_marginsize"
         android:orientation="horizontal">
 
         <ListView
@@ -48,5 +47,84 @@
             android:layout_height="match_parent"
             android:background="@color/white">
         </ListView>
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/realtime_sort_item_layout_statistic"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:layout_gravity="center"
+        android:layout_marginTop="@dimen/realtime_sort_item_text_marginsize"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/realtime_sort_item_layout_total"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/realtime_sort_item_title_total"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/realtime_sort_item_text_marginsize"
+                android:text="@string/realtime_sort_item_statistic_text_total"
+                android:textSize="@dimen/realtime_sort_item_text_title_textsize"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/realtime_sort_item_text_total"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/realtime_sort_item_text_marginsize"
+                android:text="[No.]"
+                android:textSize="@dimen/realtime_sort_item_text_content_textsize"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/realtime_sort_item_layout_available"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="center"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/realtime_sort_item_title_available"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/realtime_sort_item_text_marginsize"
+                android:text="@string/realtime_sort_item_statistic_text_available"
+                android:textSize="@dimen/realtime_sort_item_text_title_textsize"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/realtime_sort_item_text_available"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/realtime_sort_item_text_marginsize"
+                android:text="[No.]"
+                android:textSize="@dimen/realtime_sort_item_text_content_textsize"/>
+        </LinearLayout>
+        <LinearLayout
+            android:id="@+id/realtime_sort_item_layout_unavailable"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:layout_gravity="center"
+            android:orientation="horizontal">
+            <TextView
+                android:id="@+id/realtime_sort_item_title_unavailable"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/realtime_sort_item_text_marginsize"
+                android:text="@string/realtime_sort_item_statistic_text_unavailable"
+                android:textSize="@dimen/realtime_sort_item_text_title_textsize"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/realtime_sort_item_text_unavailable"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/realtime_sort_item_text_marginsize"
+                android:text="[No.]"
+                android:textSize="@dimen/realtime_sort_item_text_content_textsize"/>
+        </LinearLayout>
     </LinearLayout>
 </LinearLayout>

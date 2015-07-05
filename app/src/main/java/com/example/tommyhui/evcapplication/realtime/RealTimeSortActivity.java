@@ -6,15 +6,10 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.R;
-import com.example.tommyhui.evcapplication.adapter.ChargerListViewAdapter;
-import com.example.tommyhui.evcapplication.charger.ChargerListActivity;
 
 public class RealTimeSortActivity extends ActionBarActivity {
 
@@ -29,11 +24,11 @@ public class RealTimeSortActivity extends ActionBarActivity {
 
         /** Set up action bar's title **/
         TextView title = (TextView) findViewById(R.id.action_bar_title);
-        title.setText(R.string.realtime_sort_title);
+        title.setText(R.string.realtime_sort_page_title);
 
         /** Set up action bar's icon **/
         ImageView myImgView = (ImageView) findViewById(R.id.action_bar_icon);
-        myImgView.setImageResource(R.drawable.realtime_icon);
+        myImgView.setImageResource(R.drawable.inquiry_icon);
 
         /** Set up menu page's button **/
         final View.OnClickListener mGlobal_OnClickListener = new View.OnClickListener() {
@@ -43,19 +38,20 @@ public class RealTimeSortActivity extends ActionBarActivity {
 
                 switch (v.getId()) {
                     case R.id.realtime_sort_grid_district:
-                        bundle.putString("sort", "District");
+                        bundle.putString("sort", "district");
+                        bundle.putString("title", getString(R.string.realtime_sort_item_title_district));
                         break;
                     case R.id.realtime_sort_grid_type:
-                        bundle.putString("sort", "Type");
+                        bundle.putString("sort", "type");
+                        bundle.putString("title", getString(R.string.realtime_sort_item_title_type));
                         break;
                     case R.id.realtime_sort_grid_socket:
-                        bundle.putString("sort", "Socket");
+                        bundle.putString("sort", "socket");
+                        bundle.putString("title", getString(R.string.realtime_sort_item_title_socket));
                         break;
                     case R.id.realtime_sort_grid_availability:
-                        bundle.putString("sort", "Availability");
-                        break;
-                    case R.id.realtime_sort_grid_all:
-                        bundle.putString("sort", "All");
+                        bundle.putString("sort", "availability");
+                        bundle.putString("title", getString(R.string.realtime_sort_item_title_availability));
                         break;
                     default:
                 }
@@ -70,7 +66,6 @@ public class RealTimeSortActivity extends ActionBarActivity {
         findViewById(R.id.realtime_sort_grid_type).setOnClickListener(mGlobal_OnClickListener);
         findViewById(R.id.realtime_sort_grid_socket).setOnClickListener(mGlobal_OnClickListener);
         findViewById(R.id.realtime_sort_grid_availability).setOnClickListener(mGlobal_OnClickListener);
-        findViewById(R.id.realtime_sort_grid_all).setOnClickListener(mGlobal_OnClickListener);
     }
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {

@@ -8,8 +8,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
@@ -17,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.tommyhui.evcapplication.HomeActivity;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.adapter.SearchResultListViewAdapter;
 import com.example.tommyhui.evcapplication.database.ItemCS;
@@ -150,7 +149,7 @@ public class SearchResultActivity extends ActionBarActivity {
         }
         if(availability) {
             for (ItemCS temp : tempList) {
-                if(temp.getAvailability().equals("0"))
+                if(!HomeActivity.realTimeQuantityList.get(temp.getMatching_index()).equals("0"))
                     resultAvailability.add(temp);
             }
         }

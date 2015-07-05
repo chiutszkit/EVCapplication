@@ -5,9 +5,9 @@
     android:orientation="vertical">
 
     <ListView
-        android:id="@+id/realtime_list_view"
+        android:id="@+id/realtime_log_list_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:background="@color/white">
     </ListView>
 

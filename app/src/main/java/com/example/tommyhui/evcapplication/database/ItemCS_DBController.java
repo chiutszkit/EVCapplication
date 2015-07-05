@@ -32,9 +32,9 @@ public class ItemCS_DBController {
     private static final String KEY_QUANTITY = "quantity";
     private static final String KEY_LATITUDE = "latitude";
     private static final String KEY_LONGITUDE = "longitude";
-    private static final String KEY_AVAILABILITY = "availability";
+    private static final String KEY_INDEX = "matching_index";
 
-    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY, KEY_LATITUDE, KEY_LONGITUDE, KEY_AVAILABILITY};
+    private static final String[] COLUMNS = {KEY_ID, KEY_ADDRESS, KEY_DISTRICT, KEY_DESCRIPTION, KEY_TYPE, KEY_SOCKET, KEY_QUANTITY, KEY_LATITUDE, KEY_LONGITUDE, KEY_INDEX};
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + "(" +
             KEY_ID + " INTEGER PRIMARY KEY ," +
@@ -46,7 +46,7 @@ public class ItemCS_DBController {
             KEY_QUANTITY + " INTEGER," +
             KEY_LATITUDE + " TEXT," +
             KEY_LONGITUDE + " TEXT," +
-            KEY_AVAILABILITY + " TEXT);";
+            KEY_INDEX + " INTEGER);";
 
     private SQLiteDatabase db;
     private Context context;
@@ -73,7 +73,7 @@ public class ItemCS_DBController {
         values.put(KEY_QUANTITY, cs.getQuantity()); // get quantity
         values.put(KEY_LATITUDE, cs.getLatitude()); // get latitude
         values.put(KEY_LONGITUDE, cs.getLongitude()); // get longitude
-        values.put(KEY_AVAILABILITY, cs.getAvailability()); // get availability
+        values.put(KEY_INDEX, cs.getMatching_index()); // get availability
 
         // 2. insert or update
 
@@ -175,7 +175,7 @@ public class ItemCS_DBController {
         cs.setQuantity(cursor.getInt(6));
         cs.setLatitude(cursor.getString(7));
         cs.setLongitude(cursor.getString(8));
-        cs.setAvailability(cursor.getString(9));
+        cs.setMatching_index(cursor.getInt(9));
 
         cs.setId(cursor.getInt(cursor.getColumnIndexOrThrow(KEY_ID)));
 
@@ -209,10 +209,10 @@ public class ItemCS_DBController {
                 cs.setDescription(cursor.getString(3));
                 cs.setType(cursor.getString(4));
                 cs.setSocket(cursor.getString(5));
-                cs.setQuantity(Integer.parseInt(cursor.getString(6)));
+                cs.setQuantity(cursor.getInt(6));
                 cs.setLatitude(cursor.getString(7));
                 cs.setLongitude(cursor.getString(8));
-                cs.setAvailability(cursor.getString(9));
+                cs.setMatching_index(cursor.getInt(9));
 
                 // Add cs to list of cs
                 cses.add(cs);
@@ -284,8 +284,13 @@ public class ItemCS_DBController {
             sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + KEY_TYPE + " LIKE '%" + query[0]
                     + "%' GROUP BY " + KEY_ADDRESS + " ORDER BY " + KEY_DISTRICT;
         }
-        else if (activity instanceof RealTimeSortItemActivity && (numberQuery == 1)) {
-            sql = "SELECT * FROM " + TABLE_NAME + " GROUP BY " + query[0] + " ORDER BY " + query[0];
+        else if (activity instanceof RealTimeSortItemActivity) {
+            if (numberQuery == 1)
+                sql = "SELECT * FROM " + TABLE_NAME + " GROUP BY " + query[0] + " ORDER BY " + query[0];
+            else if (numberQuery == 2)
+                sql = "SELECT * FROM " + TABLE_NAME + " WHERE " + query[0] + " = '" + query[1] + "'";
+            else if (numberQuery == 3)
+                sql = "SELECT * FROM " + TABLE_NAME + " ORDER BY " + KEY_DISTRICT + ", " + KEY_DESCRIPTION;
         }
 
         Cursor cursor = db.rawQuery(sql, null);
@@ -302,10 +307,10 @@ public class ItemCS_DBController {
                 cs.setDescription(cursor.getString(3));
                 cs.setType(cursor.getString(4));
                 cs.setSocket(cursor.getString(5));
-                cs.setQuantity(Integer.parseInt(cursor.getString(6)));
+                cs.setQuantity(cursor.getInt(6));
                 cs.setLatitude(cursor.getString(7));
                 cs.setLongitude(cursor.getString(8));
-                cs.setAvailability(cursor.getString(9));
+                cs.setMatching_index(cursor.getInt(9));
 
                 // Add cs to list of cs
                 cses.add(cs);
@@ -370,7 +375,7 @@ public class ItemCS_DBController {
         values.put("quantity ", cs.getQuantity());
         values.put("latitude", cs.getLatitude());
         values.put("longitude", cs.getLongitude());
-        values.put("availability", cs.getAvailability());
+        values.put("index", cs.getMatching_index());
 
         // 2. updating row
         int i = db.update(TABLE_NAME, //table

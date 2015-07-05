@@ -70,6 +70,7 @@
         <item>100 Cyberport Road, Cyberport</item>
         <item>183 Queen\'s Road East, Wan Chai</item>
         <item>2-38 Yun Ping Road, Causeway Bay</item>
+        <item>83 Tat Chee Avenue, Kowloon Tong</item>
 
     </string-array>
     <string-array name="district">
@@ -142,6 +143,7 @@
         <item> Cyberport</item>
         <item> Wan Chai</item>
         <item> Causeway Bay</item>
+        <item>Kowloon Tong</item>
     </string-array>
     <string-array name="description">
         <item>Star Ferry Car Park</item>
@@ -213,6 +215,7 @@
         <item>Cyberport Tower 2</item>
         <item>Hopewell Centre</item>
         <item>Lee Garden 2 </item>
+        <item>Mong Man-wai Building (For Demo)</item>
     </string-array>
     <string-array name="type">
         <item>Quick - CHAdeMO</item>
@@ -284,6 +287,7 @@
         <item>Quick - Others</item>
         <item>Quick - Others</item>
         <item>Quick - Others</item>
+        <item>Quick - Others</item>
     </string-array>
     <string-array name="socket">
         <item>Single Socket</item>
@@ -350,6 +354,7 @@
         <item>Dual Sockets</item>
         <item>Dual Sockets</item>
         <item>Dual Sockets</item>
+        <item>Single Socket</item>
         <item>Single Socket</item>
         <item>Single Socket</item>
         <item>Single Socket</item>
@@ -426,6 +431,7 @@
         <item>6</item>
         <item>6</item>
         <item>2</item>
+        <item>1</item>
     </integer-array>
     <string-array name="latitude">
         <item>22.282938</item>
@@ -497,6 +503,7 @@
         <item>22.262194</item>
         <item>22.274701</item>
         <item>22.278916</item>
+        <item>22.336259</item>
     </string-array>
     <string-array name="longitude">
         <item>114.160415</item>
@@ -568,5 +575,6 @@
         <item>114.130716</item>
         <item>114.171992</item>
         <item>114.185192</item>
+        <item>114.173979</item>
     </string-array>
 </resources>

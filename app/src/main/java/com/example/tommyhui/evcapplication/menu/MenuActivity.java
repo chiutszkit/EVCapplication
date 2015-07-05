@@ -3,6 +3,7 @@ package com.example.tommyhui.evcapplication.menu;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -15,6 +16,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.HomeActivity;
+import com.example.tommyhui.evcapplication.JSONParser.RealTimeStatusJSONParser;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.about.AboutActivity;
 import com.example.tommyhui.evcapplication.charger.ChargerActivity;
@@ -28,10 +30,17 @@ import com.example.tommyhui.evcapplication.nearby.NearbyActivity;
 import com.example.tommyhui.evcapplication.overview.OverviewActivity;
 import com.example.tommyhui.evcapplication.realtime.RealTimeActivity;
 import com.example.tommyhui.evcapplication.search.SearchActivity;
+import com.example.tommyhui.evcapplication.util.ConnectionDetector;
+
+import org.apache.http.NameValuePair;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 
@@ -42,6 +51,9 @@ public class MenuActivity extends ActionBarActivity {
 
     private Set<String> list_ID_favorite = new HashSet<String>();
     private Set<String> list_ID_history = new HashSet<String>();
+    private RealTimeStatusJSONParser jsonParser = new RealTimeStatusJSONParser();
+
+    private ConnectionDetector cd = new ConnectionDetector(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -105,6 +117,56 @@ public class MenuActivity extends ActionBarActivity {
         findViewById(R.id.menu_grid_nearby).setOnClickListener(mGlobal_OnClickListener);
         findViewById(R.id.menu_grid_socket).setOnClickListener(mGlobal_OnClickListener);
         findViewById(R.id.menu_grid_realTime).setOnClickListener(mGlobal_OnClickListener);
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        /** Load the data of Real Time Status **/
+        if (cd.isConnectingToInternet())
+            new LoadAllStatus().execute();
+    }
+
+    /** Background Async Task to Load all real time status by making HTTP Request **/
+    class LoadAllStatus extends AsyncTask<String, String, String> {
+
+        /**
+         * Getting All real time status from url *
+         */
+        protected String doInBackground(String... args) {
+            // Building Parameters
+            List<NameValuePair> params = new ArrayList<NameValuePair>();
+            HomeActivity.realTimeQuantityList.clear();
+
+            jsonParser.makeHttpRequest(HomeActivity.url_check_status, "GET", params);
+            // getting JSON string from URL
+            JSONObject json = jsonParser.makeHttpRequest(HomeActivity.url_get_all_charging_station, "GET", params);
+
+            try {
+                // Checking for SUCCESS TAG
+                int success = json.getInt(HomeActivity.TAG_SUCCESS);
+
+                if (success == 1) {
+                    // real time charging station found
+                    // Getting Array of real time status
+                    JSONArray status = json.getJSONArray(HomeActivity.TAG_TABLE_CHARGING_STATION);
+
+                    // looping through All real time status
+                    for (int i = 0; i < status.length(); i++) {
+                        JSONObject c = status.getJSONObject(i);
+
+                        // Storing each json item in variable
+                        String quantity = c.getString(HomeActivity.TAG_CHARGINGSTATION_QUANTITY);
+
+                        // adding to ArrayList
+                        HomeActivity.realTimeQuantityList.add(i, quantity);
+                    }
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
     }
 
     /** Share the information of this application to others **/
@@ -231,8 +293,10 @@ public class MenuActivity extends ActionBarActivity {
                 saveUserSetting();
 
                 Intent homeIntent = new Intent();
-                homeIntent.setClass(MenuActivity.this, HomeActivity.class);
+                homeIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                homeIntent.setClass(getApplicationContext(), HomeActivity.class);
                 startActivity(homeIntent);
+                finish();
                 return true;
 
             case R.id.menu_options_about:

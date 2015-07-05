@@ -9,6 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.example.tommyhui.evcapplication.HomeActivity;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.database.HistoryItemCS;
 import com.example.tommyhui.evcapplication.database.HistoryItemCS_DBController;
@@ -67,7 +68,7 @@ public class HistoryListViewAdapter extends BaseAdapter {
         chargingStation.setText(itemList.get(position).getDescription());
         type.setText(itemList.get(position).getType());
         socket.setText(itemList.get(position).getSocket());
-        String availability  = itemList.get(position).getAvailability();
+        String quantity = HomeActivity.realTimeQuantityList.get(itemList.get(position).getMatching_index());
 
         /** Delete the history item selected **/
         imageView.setOnClickListener(new OnClickListener() {
@@ -82,7 +83,7 @@ public class HistoryListViewAdapter extends BaseAdapter {
             }
         });
 
-        if (availability.equals("1")) {
+        if (quantity.equals("0")) {
             rowView.setBackgroundColor(context.getResources().getColor(R.color.dark_grey));
         }
         return rowView;

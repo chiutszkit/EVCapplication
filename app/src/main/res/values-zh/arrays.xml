@@ -11,8 +11,8 @@
         <item>中環皇后大道中16-18號</item>
         <item>中環愛丁堡廣場9號</item>
         <item>中環愛丁堡廣場9號</item>
-        <item>愛丁堡廣場1號</item>
-        <item>愛丁堡廣場1號</item>
+        <item>中環愛丁堡廣場1號</item>
+        <item>中環愛丁堡廣場1號</item>
         <item>上環林士街2號</item>
         <item>上環林士街2號</item>
         <item>中環美利道2號 </item>
@@ -70,6 +70,7 @@
         <item>數碼港數碼港道100號</item>
         <item>灣仔皇后大道東183號</item>
         <item>銅鑼灣恩平道2-38號</item>
+        <item>九龍塘達之路83號</item>
     </string-array>
     <string-array name="district">
         <item>中環</item>
@@ -141,6 +142,7 @@
         <item>數碼港</item>
         <item>灣仔</item>
         <item>銅鑼灣</item>
+        <item>九龍塘</item>
     </string-array>
     <string-array name="description">
         <item>天星碼頭停車場</item>
@@ -212,6 +214,7 @@
         <item>數碼港2座 </item>
         <item>合和中心</item>
         <item>利園2期</item>
+        <item>香港城市大學蒙民偉樓</item>
     </string-array>
     <string-array name="type">
         <item>快速 - CHAdeMO</item>
@@ -280,6 +283,7 @@
         <item>中速- SAE J1772</item>
         <item>中速- 其他</item>
         <item>中速- 其他</item>
+        <item>快速 - 其他</item>
         <item>快速 - 其他</item>
         <item>快速 - 其他</item>
         <item>快速 - 其他</item>
@@ -354,6 +358,8 @@
         <item>單插頭充電器</item>
         <item>單插頭充電器</item>
         <item>單插頭充電器</item>
+        <item>單插頭充電器</item>
+
     </string-array>
     <integer-array name="quantity">
         <item>1</item>
@@ -425,6 +431,8 @@
         <item>6</item>
         <item>6</item>
         <item>2</item>
+        <item>1</item>
+
     </integer-array>
     <string-array name="latitude">
         <item>22.282938</item>
@@ -496,6 +504,7 @@
         <item>22.262194</item>
         <item>22.274701</item>
         <item>22.278916</item>
+        <item>22.336259</item>
     </string-array>
     <string-array name="longitude">
         <item>114.160415</item>
@@ -567,5 +576,6 @@
         <item>114.130716</item>
         <item>114.171992</item>
         <item>114.185192</item>
+        <item>114.173979</item>
     </string-array>
 </resources>

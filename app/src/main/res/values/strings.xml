@@ -4,6 +4,11 @@
     <!-- Home Page-->
     <string name="app_name">EV Charging Station Helper</string>
     <string name="home_slogan">Go Green, Go Electric</string>
+    <string name="alertDialog_no_gps_title">No GPS Signal</string>
+    <string name="alertDialog_no_gps_text">Your device doesn\'t have GPS location.</string>
+    <string name="alertDialog_no_internet_title">No Internet Connection</string>
+    <string name="alertDialog_no_internet_text">Your device doesn\'t have internet connection.</string>
+    <string name="alertDialog_ok_option">OK</string>
 
     <!-- Menu Page-->
     <string name="menu_title_menu">Menu</string>
@@ -11,7 +16,7 @@
     <string name="menu_title_search">Search</string>
     <string name="menu_title_favourite">Favourite</string>
     <string name="menu_title_nearby">Nearby</string>
-    <string name="menu_title_socket">Socket Types</string>
+    <string name="menu_title_socket">Charger Types</string>
     <string name="menu_title_realTime">Real-Time Status</string>
 
     <string name="menu_description_overview">Find out all charging stations</string>
@@ -37,7 +42,7 @@
     <string name="about_author_tel">+85298490124</string>
     <string name="about_author_email">aesops0124@gmail.com</string>
     <string name="about_app_version">1.0</string>
-    <string name="about_app_date">June 20, 2015</string>
+    <string name="about_app_date">July 1, 2015</string>
 
     <string name="about_email_subject">Email Enquiry on EVC application</string>
     <string name="about_email_text">I would like to ask ...</string>
@@ -63,8 +68,6 @@
     <string name="searchresult_alertDialog_revise_option">Revise search</string>
     <string name="searchresult_title">Search Result</string>
     <string name="searchresult_searchAgain">Search Again</string>
-    <!--<string name="searchresult_alertDialog_no_gps_title">No GPS Signal is Found</string>-->
-    <!--<string name="searchresult_alertDialog_no_gps_text">You may turn on the GPS and search again.</string>-->
 
     <!-- Overview Page-->
     <string name="overview_title">Overview</string>
@@ -134,19 +137,57 @@
 
     <!-- Real-Time Page-->
     <string name="realtime_title">Real-Time Status</string>
-    <string name="realtime_action_record_title">Record Status</string>
+    <string name="realtime_scan_title">Register and Unregister</string>
+    <string name="realtime_scan_subtitle">Scan the QR code of charging station</string>
+    <string name="realtime_sort_title">Inquiry</string>
+    <string name="realtime_sort_subtitle">Check the status of charging station</string>
+    <string name="realtime_log_title">Status Log</string>
+    <string name="realtime_log_subtitle">View the registration log of charging station</string>
     <string name="realtime_alertDialog_no_scanner_title">No Scanner Found</string>
     <string name="realtime_alertDialog_no_scanner_text">Do you want to download a scanner now?</string>
     <string name="realtime_alertDialog_no_scanner_yes_option">Yes</string>
     <string name="realtime_alertDialog_no_scanner_no_option">No</string>
+    <string name="realtime_confirmDialog_scan_title">Please make sure the following scan is correct.</string>
+    <string name="realtime_confirmDialog_scan_text_description">Name：</string>
+    <string name="realtime_confirmDialog_scan_text_address">Address：</string>
+    <string name="realtime_confirmDialog_scan_text_district">District：</string>
+    <string name="realtime_confirmDialog_scan_text_type">Type：</string>
+    <string name="realtime_confirmDialog_scan_text_socket">Socket：</string>
+    <string name="realtime_confirmDialog_scan_yes_option">Yes</string>
+    <string name="realtime_confirmDialog_scan_no_option">No</string>
+    <string name="realtime_alertDialog_unmatched_location_title">Mismatched Location</string>
+    <string name="realtime_alertDialog_unmatched_location_text">The QR code is not matched with your current location.</string>
+    <string name="realtime_alertDialog_unmatched_ok_option">OK</string>
+    <string name="realtime_alertDialog_invalid_qr_title">Invalid QR Code</string>
+    <string name="realtime_alertDialog_invalid_qr_text">The QR code scanned is not valid. Please check with administrator.</string>
+    <string name="realtime_alertDialog_invalid_qr_ok_option">OK</string>
+    <string name="realtime_alertDialog_success_register_title">Registration Successfully</string>
+    <string name="realtime_alertDialog_success_register_text">You have successfully registered for the charging station.</string>
+    <string name="realtime_alertDialog_success_register_option">OK</string>
 
     <!-- Real-Time Sort Page-->
-    <string name="realtime_sort_title">Inquiry</string>
+    <string name="realtime_sort_page_title">Inquiry</string>
     <string name="realtime_sort_title_district">By District</string>
     <string name="realtime_sort_title_type">By Type</string>
     <string name="realtime_sort_title_socket">By Socket</string>
     <string name="realtime_sort_title_availability">By Availability</string>
-    <string name="realtime_sort_title_all">By All</string>
+
+    <!-- Real-Time Sort Item Page-->
+    <string name="realtime_sort_item_title_district">District</string>
+    <string name="realtime_sort_item_title_type">Type</string>
+    <string name="realtime_sort_item_title_socket">Socket</string>
+    <string name="realtime_sort_item_title_availability">Availability</string>
+    <string name="realtime_sort_item_statistic_text_total">Total:</string>
+    <string name="realtime_sort_item_statistic_text_available">Available:</string>
+    <string name="realtime_sort_item_statistic_text_unavailable">Not Available:</string>
+    <string name="realtime_sort_item_text_available">Available</string>
+    <string name="realtime_sort_item_text_unavailable">Not Available</string>
+
+    <!-- Real-Time Log Page-->
+    <string name="realtime_log_page_title">Status Log</string>
+    <string name="realtime_log_alertDialog_no_log_title">No Status Log Found</string>
+    <string name="realtime_log_alertDialog_no_log_text">Please check with administrator.</string>
+    <string name="realtime_log_alertDialog_ok_option">OK</string>
 
     <!-- Setting Page-->
     <string name="setting_title">Setting</string>

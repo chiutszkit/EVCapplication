@@ -25,6 +25,7 @@ import com.example.tommyhui.evcapplication.database.HistoryItemCS_DBController;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
+import com.example.tommyhui.evcapplication.util.ConnectionDetector;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Polyline;
 
@@ -48,25 +49,42 @@ import java.util.Set;
 
 public class HomeActivity extends Activity implements LocationListener {
 
+    /** Global variables **/
     public static ArrayList<ItemCS> socketVenueList = new ArrayList<ItemCS>();
     public static ArrayList <ItemCS> matchingList = new ArrayList<ItemCS>();
-    public static ArrayList <String> realTimeStatusList = new ArrayList<String>();
+    public static ArrayList <String> realTimeQuantityList = new ArrayList<String>();
     public static Polyline polyline;
     public static Location myLocation;
-    public static String localhost = "192.168.0.104";
+    public static String language;
 
-    // JSON Node names
+    public static String server = "210.6.85.26:8080";
     public static final String TAG_SUCCESS = "success";
-    public static final String TAG_STATUS = "realtimestatus";
-    public static final String TAG_INDEX = "index_cs";
-    public static final String TAG_AVAILABILITY = "availability";
-    public static final String TAG_UPDATED = "updated_at";
+    public static final String TAG_TABLE_CHARGING_STATION = "realtimechargingstation";
+    public static final String TAG_TABLE_STATUS = "realtimestatus";
+    public static final String TAG_TABLE_LOG = "realtimelog";
 
-    // url to update product
-    private static String url_get_all_status = "http://" + localhost + "/com.example.tommyhui.evcapplication/get_all_status.php";
+    // Table realtimechargingstation
+    public static final String TAG_CHARGINGSTATION_INDEX = "index_cs";
+    public static final String TAG_CHARGINGSTATION_QUANTITY = "quantity";
 
-    // products JSONArray
-    private JSONArray status = null;
+    // Table realtimestatus
+    public static final String TAG_STATUS_INDEX = "index_cs";
+    public static final String TAG_STATUS_TYPE = "type";
+
+    // Table realtimelog
+    public static final String TAG_LOG_DISTRICT = "district";
+    public static final String TAG_LOG_DESCRIPTION = "description";
+    public static final String TAG_LOG_TYPE = "type";
+    public static final String TAG_LOG_SOCKET = "socket";
+    public static final String TAG_LOG_TIME = "created_at";
+
+    // URLs
+    public static String url_get_all_charging_station = "http://" + server + "/com.example.tommyhui.evcapplication/charging_station/get_all.php";
+    public static String url_update_charging_station = "http://" + server + "/com.example.tommyhui.evcapplication/charging_station/update.php";
+    public static String url_create_status = "http://" + server + "/com.example.tommyhui.evcapplication/status/create.php";
+    public static String url_check_status = "http://" + server + "/com.example.tommyhui.evcapplication/status/check.php";
+    public static String url_get_all_log = "http://" + server + "/com.example.tommyhui.evcapplication/log/get_all.php";
+    public static String url_create_log = "http://" + server + "/com.example.tommyhui.evcapplication/log/create.php";
 
     private ArrayList<String> list_ID_favorite;
     private ArrayList<String> list_ID_history;
@@ -84,6 +102,7 @@ public class HomeActivity extends Activity implements LocationListener {
     private int[] quantity;
     private String[] latitude;
     private String[] longitude;
+    private ConnectionDetector cd = new ConnectionDetector(this);
 
     private List<LatLng> markersLatLng;
     private int count = 1;
@@ -103,68 +122,67 @@ public class HomeActivity extends Activity implements LocationListener {
                 setLocale("zh");
         }
         else
-            setLocale(sharedPref.getString("language","no"));
+            setLocale(sharedPref.getString("language", "no"));
+
         editor.apply();
 
         setContentView(R.layout.home_activity);
 
         /** Preload the data of Real Time Status and set up the database afterward**/
-        new LoadAllStatus().execute();
+        if (cd.isConnectingToInternet())
+            new LoadAllStatus().execute();
 
         /** Preload the data of Google Map **/
         if (android.os.Build.VERSION.SDK_INT > 9) {
             StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
             StrictMode.setThreadPolicy(policy);
         }
+
         locateUserPosition();
         locateAllChargingStationPosition();
 
         mProgress = (ProgressBar) findViewById(R.id.homepage_progressBar);
-        new LoadRealTimeDataTask().execute((Void[])null);
 
+        if (cd.isConnectingToInternet() && cd.isConnectingToGPS())
+            new LoadGoogleMapTask().execute();
     }
 
-    /**
-     * Background Async Task to Load all product by making HTTP Request
-     * */
+    /** Background Async Task to Load all real time status by making HTTP Request **/
     class LoadAllStatus extends AsyncTask<String, String, String> {
 
-        /**
-         * getting All products from url
-         * */
+        /** Getting All real time status from url **/
         protected String doInBackground(String... args) {
+
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            // getting JSON string from URL
-            JSONObject json = jsonParser.makeHttpRequest(url_get_all_status, "GET", params);
 
-            // Check your log cat for JSON response
-            Log.d("All Products: ", json.toString());
+            jsonParser.makeHttpRequest(url_check_status, "GET", params);
+            // getting JSON string from URL
+            JSONObject json = jsonParser.makeHttpRequest(url_get_all_charging_station, "GET", params);
 
             try {
                 // Checking for SUCCESS TAG
                 int success = json.getInt(TAG_SUCCESS);
 
                 if (success == 1) {
-                    // products found
-                    // Getting Array of Products
-                    status = json.getJSONArray(TAG_STATUS);
+                    // real time charging station found
+                    // Getting Array of real time status
+                    JSONArray status = json.getJSONArray(TAG_TABLE_CHARGING_STATION);
 
-                    // looping through All Products
+                    // looping through All real time status
                     for (int i = 0; i < status.length(); i++) {
                         JSONObject c = status.getJSONObject(i);
 
                         // Storing each json item in variable
-                        String availability = c.getString(TAG_AVAILABILITY);
+                        String quantity = c.getString(TAG_CHARGINGSTATION_QUANTITY);
 
-                        // adding HashList to ArrayList
-                        realTimeStatusList.add(i, availability);
+                        // adding to ArrayList
+                        realTimeQuantityList.add(i, quantity);
                     }
                 }
             } catch (JSONException e) {
                 e.printStackTrace();
             }
-
             return null;
         }
 
@@ -174,14 +192,14 @@ public class HomeActivity extends Activity implements LocationListener {
         }
     }
 
-    /** Fetches data from Google Map */
-    private class LoadRealTimeDataTask extends AsyncTask<Void,Integer,Integer> {
+    /** Fetch data from Google Map **/
+    private class LoadGoogleMapTask extends AsyncTask<Void,Integer,Integer> {
         // Do the long-running work in here
         protected Integer doInBackground(Void... params) {
 
             if (myLocation != null) {
 
-                for (int i = 0; i < markersLatLng.size()-46; i++) {
+                for (int i = 0; i < markersLatLng.size(); i++) {
 
                     final double lat1 = myLocation.getLatitude();
                     final double lng1 = myLocation.getLongitude();
@@ -200,10 +218,10 @@ public class HomeActivity extends Activity implements LocationListener {
                     }
 
                     // Take a pause in order to prevent blocking from Google Map.
-                    if(i%5 == 0) {
+                    if (i % 5 == 0) {
                         try {
                             Thread.sleep(1800);
-                            Log.i("Pause","Pause");
+                            Log.i("Pause", "Pause");
                         } catch (InterruptedException ex) {
                         }
                     }
@@ -257,15 +275,14 @@ public class HomeActivity extends Activity implements LocationListener {
 
         // Set up database for ItemCS
         for (int i = 0; i < address.length; i++) {
-            db_ItemCS.addCS(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i], realTimeStatusList.get(i)));
-            matchingList.add(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i], realTimeStatusList.get(i)));
+            db_ItemCS.addCS(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i], i));
+            matchingList.add(new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i], i));
         }
         MenuActivity.ItemCSes = db_ItemCS.inputQueryCSes(this, new String[]{}, 1);
 
         SharedPreferences sharedPref = getSharedPreferences("UserConfigs", Context.MODE_PRIVATE);
         Set mySetFavorite = sharedPref.getStringSet("favoriteList", null);
         Set mySetHistory = sharedPref.getStringSet("historyList", null);
-        Set mySetRealTimeStatus = sharedPref.getStringSet("realTimeStatusList", null);
 
         // Set up database for FavoriteItemCS
         if(mySetFavorite != null) {
@@ -273,9 +290,9 @@ public class HomeActivity extends Activity implements LocationListener {
             if (list_ID_favorite.size() > 0) {
                 for (String index : list_ID_favorite) {
                     int i = Integer.parseInt(index);
-                    ItemCS cs = new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i], realTimeStatusList.get(i));
+                    ItemCS cs = new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i], i);
                     FavoriteItemCS favoriteItemCS = new FavoriteItemCS(cs.getAddress(), cs.getDistrict(), cs.getDescription(),
-                            cs.getType(), cs.getSocket(), cs.getQuantity(), cs.getLatitude(), cs.getLongitude(), cs.getAvailability());
+                            cs.getType(), cs.getSocket(), cs.getQuantity(), cs.getLatitude(), cs.getLongitude(), cs.getMatching_index());
                     db_FavoriteItemCS.addFavoriteCS(favoriteItemCS);
                 }
             }
@@ -287,33 +304,30 @@ public class HomeActivity extends Activity implements LocationListener {
             if (list_ID_history.size() > 0) {
                 for (String index : list_ID_history) {
                     int i = Integer.parseInt(index);
-                    ItemCS cs = new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i], realTimeStatusList.get(i));
+                    ItemCS cs = new ItemCS(address[i], district[i], description[i], type[i], socket[i], quantity[i], latitude[i], longitude[i], i);
                     HistoryItemCS historyItemCS = new HistoryItemCS(cs.getAddress(), cs.getDistrict(), cs.getDescription(),
-                            cs.getType(), cs.getSocket(), cs.getQuantity(), cs.getLatitude(), cs.getLongitude(), cs.getAvailability());
+                            cs.getType(), cs.getSocket(), cs.getQuantity(), cs.getLatitude(), cs.getLongitude(), cs.getMatching_index());
                     db_HistoryItemCS.addHistoryCS(historyItemCS);
                 }
             }
-        }
-
-        // Set up database for Real Time Status
-        if(mySetRealTimeStatus != null) {
-            realTimeStatusList = new ArrayList<String>(mySetRealTimeStatus);
         }
     }
 
     /** Locate user current position **/
     public void locateUserPosition() {
 
-        LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-        Criteria criteria = new Criteria();
+        if (cd.isConnectingToGPS()) {
+            LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+            Criteria criteria = new Criteria();
 
-        String bestProvider = locationManager.getBestProvider(criteria, true);
-        myLocation  = locationManager.getLastKnownLocation(bestProvider);
-        if (myLocation != null) {
-            onLocationChanged(myLocation);
+            String bestProvider = locationManager.getBestProvider(criteria, true);
+            myLocation = locationManager.getLastKnownLocation(bestProvider);
+            if (myLocation != null) {
+                onLocationChanged(myLocation);
+            }
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 10, this);
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 10, this);
         }
-        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 2000, 10, this);
-        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 2000, 10, this);
     }
 
     /** Handle the case when user position changes **/
@@ -324,22 +338,16 @@ public class HomeActivity extends Activity implements LocationListener {
 
         myLocation = location;
 
-        Log.v("Home", "IN ON LOCATION CHANGE, lat=" + latInDouble + ", lon=" + lonInDouble);
+        Log.v("Location", "Location Change to, lat=" + latInDouble + ", lon=" + lonInDouble);
     }
     @Override
-    public void onProviderDisabled(String provider) {
-        // TODO Auto-generated method stub
-    }
+    public void onProviderDisabled(String provider) { }
 
     @Override
-    public void onProviderEnabled(String provider) {
-        // TODO Auto-generated method stub
-    }
+    public void onProviderEnabled(String provider) { }
 
     @Override
-    public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
-    }
+    public void onStatusChanged(String provider, int status, Bundle extras) { }
 
     /** Locate all the markers of charging stations **/
     public void locateAllChargingStationPosition() {
@@ -392,6 +400,7 @@ public class HomeActivity extends Activity implements LocationListener {
 
         return new String[] {distance, time};
     }
+
     /** Get the distances from charging stations to user position **/
     public String calculateDistance(StringBuilder stringBuilder) {
 
@@ -414,7 +423,6 @@ public class HomeActivity extends Activity implements LocationListener {
             }
 
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return fDistance;
@@ -440,28 +448,10 @@ public class HomeActivity extends Activity implements LocationListener {
             }
 
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return fTime;
     }
-
-//    private void showNoGPSDialog() {
-//        AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
-//        alertDialog.setTitle(R.string.searchresult_alertDialog_no_gps_title);
-//        alertDialog.setMessage(R.string.searchresult_alertDialog_no_gps_text);
-//        alertDialog.setNeutralButton(R.string.searchresult_alertDialog_revise_option, new DialogInterface.OnClickListener() {
-//
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                // TODO Auto-generated method stub
-//                SearchResultActivity.this.finish();
-//            }
-//        });
-//
-//        alertDialog.setCancelable(false);
-//        alertDialog.show();
-//    }
 
     /** Set up the language of application **/
     public void setLocale(String lang) {
@@ -478,5 +468,7 @@ public class HomeActivity extends Activity implements LocationListener {
         SharedPreferences.Editor editor = sharedPref.edit();
         editor.putString("language", lang);
         editor.apply();
+
+        language = lang;
     }
 }

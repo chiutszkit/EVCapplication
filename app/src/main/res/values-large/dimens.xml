@@ -5,9 +5,11 @@
     <dimen name="list_view_item_bigIcon">50dp</dimen>
     <dimen name="list_view_item_smallIcon">25dp</dimen>
     <dimen name="list_view_item_chargingStation_textsize">20sp</dimen>
+    <dimen name="list_view_item_district_textsize">15sp</dimen>
     <dimen name="list_view_item_address_textsize">15sp</dimen>
     <dimen name="list_view_item_type_textsize">15sp</dimen>
     <dimen name="list_view_item_socket_textsize">15sp</dimen>
+    <dimen name="list_view_item_time_textsize">15sp</dimen>
 
     <dimen name="sticky_list_item_text_textsize">22sp</dimen>
     <dimen name="sticky_list_header_text_textsize">22sp</dimen>
@@ -48,7 +50,16 @@
     <dimen name="socket_listpage_list_view_item_distance_textsize">18sp</dimen>
     <dimen name="socket_listpage_list_view_item_time_textsize">18sp</dimen>
 
+    <!--  Real-Time Page -->
+    <dimen name="realtime_list_view_item_title_textsize">25sp</dimen>
+    <dimen name="realtime_list_view_item_subtitle_textsize">20sp</dimen>
+
     <!-- Real-Time Sort Page -->
     <dimen name="realtime_sort_grid_title_textsize">25sp</dimen>
+
+    <!-- Real-Time Sort Item Page -->
+    <dimen name="realtime_sort_item_text_title_textsize">20sp</dimen>
+    <dimen name="realtime_sort_item_text_content_textsize">20sp</dimen>
+    <dimen name="realtime_sort_item_text_marginsize">10sp</dimen>
 
 </resources>

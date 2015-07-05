@@ -144,44 +144,4 @@
                 android:textSize="@dimen/realtime_sort_grid_title_textsize" />
         </LinearLayout>
     </LinearLayout>
-    <!-- Third row -->
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1"
-        android:baselineAligned="false"
-        android:gravity="center"
-        android:orientation="horizontal">
-
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:id="@+id/realtime_sort_grid_all"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_weight="1"
-            android:background="@drawable/menu_background_selector"
-            android:orientation="vertical">
-
-            <ImageView
-                android:id="@+id/realtime_sort_grid_icon_all"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginTop="10dp"
-                android:layout_weight="1"
-                android:adjustViewBounds="true"
-                android:src="@drawable/selectall_icon" />
-
-            <TextView
-                android:id="@+id/realtime_sort_grid_text_all"
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:layout_marginBottom="10dp"
-                android:gravity="center_horizontal"
-                android:text="@string/realtime_sort_title_all"
-                android:textColor="@color/black"
-                android:textStyle="bold"
-                android:textSize="@dimen/realtime_sort_grid_title_textsize" />
-        </LinearLayout>
-    </LinearLayout>
-
 </LinearLayout>
