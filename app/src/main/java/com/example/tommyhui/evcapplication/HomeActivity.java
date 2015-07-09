@@ -53,7 +53,7 @@ public class HomeActivity extends Activity implements LocationListener {
     public static Location myLocation;
     public static String language;
 
-    public static String server = "210.6.85.26:8080";
+    public static String server = "evcapplication.ddns.net:8080";
     public static final String TAG_SUCCESS = "success";
     public static final String TAG_TABLE_CHARGING_STATION = "realtimechargingstation";
     public static final String TAG_TABLE_STATUS = "realtimestatus";
