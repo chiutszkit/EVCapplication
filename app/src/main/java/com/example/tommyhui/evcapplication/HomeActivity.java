@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -17,7 +16,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.widget.ProgressBar;
 
-import com.example.tommyhui.evcapplication.JSONParser.RealTimeStatusJSONParser;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS_DBController;
 import com.example.tommyhui.evcapplication.database.HistoryItemCS;
@@ -31,7 +29,6 @@ import com.google.android.gms.maps.model.Polyline;
 
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
@@ -52,7 +49,6 @@ public class HomeActivity extends Activity implements LocationListener {
     /** Global variables **/
     public static ArrayList<ItemCS> socketVenueList = new ArrayList<ItemCS>();
     public static ArrayList <ItemCS> matchingList = new ArrayList<ItemCS>();
-    public static ArrayList <String> realTimeQuantityList = new ArrayList<String>();
     public static Polyline polyline;
     public static Location myLocation;
     public static String language;
@@ -90,7 +86,6 @@ public class HomeActivity extends Activity implements LocationListener {
     private ArrayList<String> list_ID_history;
 
     private ProgressBar mProgress;
-    private RealTimeStatusJSONParser jsonParser = new RealTimeStatusJSONParser();
     private ItemCS_DBController db_ItemCS;
     private FavoriteItemCS_DBController db_FavoriteItemCS;
     private HistoryItemCS_DBController db_HistoryItemCS;
@@ -128,9 +123,8 @@ public class HomeActivity extends Activity implements LocationListener {
 
         setContentView(R.layout.home_activity);
 
-        /** Preload the data of Real Time Status and set up the database afterward**/
-        if (cd.isConnectingToInternet())
-            new LoadAllStatus().execute();
+        /** Set up the database **/
+        setUpDataBase();
 
         /** Preload the data of Google Map **/
         if (android.os.Build.VERSION.SDK_INT > 9) {
@@ -145,51 +139,6 @@ public class HomeActivity extends Activity implements LocationListener {
 
         if (cd.isConnectingToInternet() && cd.isConnectingToGPS())
             new LoadGoogleMapTask().execute();
-    }
-
-    /** Background Async Task to Load all real time status by making HTTP Request **/
-    class LoadAllStatus extends AsyncTask<String, String, String> {
-
-        /** Getting All real time status from url **/
-        protected String doInBackground(String... args) {
-
-            // Building Parameters
-            List<NameValuePair> params = new ArrayList<NameValuePair>();
-
-            jsonParser.makeHttpRequest(url_check_status, "GET", params);
-            // getting JSON string from URL
-            JSONObject json = jsonParser.makeHttpRequest(url_get_all_charging_station, "GET", params);
-
-            try {
-                // Checking for SUCCESS TAG
-                int success = json.getInt(TAG_SUCCESS);
-
-                if (success == 1) {
-                    // real time charging station found
-                    // Getting Array of real time status
-                    JSONArray status = json.getJSONArray(TAG_TABLE_CHARGING_STATION);
-
-                    // looping through All real time status
-                    for (int i = 0; i < status.length(); i++) {
-                        JSONObject c = status.getJSONObject(i);
-
-                        // Storing each json item in variable
-                        String quantity = c.getString(TAG_CHARGINGSTATION_QUANTITY);
-
-                        // adding to ArrayList
-                        realTimeQuantityList.add(i, quantity);
-                    }
-                }
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        // Called when doInBackground() is finished
-        protected void onPostExecute(String file_url) {
-            setUpDataBase();
-        }
     }
 
     /** Fetch data from Google Map **/
@@ -261,7 +210,7 @@ public class HomeActivity extends Activity implements LocationListener {
         db_FavoriteItemCS.removeAll();
         db_HistoryItemCS.removeAll();
 
-        // Get resources from array.xml
+        // Get resources from ChargingStationArrays.xml
         address = getResources().getStringArray(R.array.address);
         district = getResources().getStringArray(R.array.district);
         description = getResources().getStringArray(R.array.description);
@@ -318,15 +267,17 @@ public class HomeActivity extends Activity implements LocationListener {
 
         if (cd.isConnectingToGPS()) {
             LocationManager locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-            Criteria criteria = new Criteria();
 
-            String bestProvider = locationManager.getBestProvider(criteria, true);
-            myLocation = locationManager.getLastKnownLocation(bestProvider);
+            myLocation = locationManager.getLastKnownLocation(LocationManager.PASSIVE_PROVIDER);
             if (myLocation != null) {
                 onLocationChanged(myLocation);
             }
-            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 10, this);
-            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 10, this);
+
+            if (locationManager.getAllProviders().contains(LocationManager.NETWORK_PROVIDER))
+                locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 4000, 10, this);
+
+            if (locationManager.getAllProviders().contains(LocationManager.GPS_PROVIDER))
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 4000, 10, this);
         }
     }
 

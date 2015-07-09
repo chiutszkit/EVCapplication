@@ -31,6 +31,7 @@
         android:id="@+id/homepage_progressBar"
         style="@android:style/Widget.ProgressBar.Horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:progressDrawable="@drawable/progressbar"/>
 
 </LinearLayout>

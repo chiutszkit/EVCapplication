@@ -40,6 +40,9 @@
     <dimen name="search_text_title_textsize">15sp</dimen>
     <dimen name="search_button_textsize">10sp</dimen>
 
+    <!--  Search Result Page -->
+    <dimen name="searchresult_text_status_textsize">15sp</dimen>
+
     <!--  Socket Page -->
     <dimen name="socket_list_view_item_title_textsize">18sp</dimen>
     <dimen name="socket_list_view_item_subtitle_textsize">15sp</dimen>
@@ -52,7 +55,7 @@
 
     <!--  Real-Time Page -->
     <dimen name="realtime_list_view_item_title_textsize">20sp</dimen>
-    <dimen name="realtime_list_view_item_subtitle_textsize">18sp</dimen>
+    <dimen name="realtime_list_view_item_subtitle_textsize">15sp</dimen>
 
     <!-- Real-Time Sort Page -->
     <dimen name="realtime_sort_grid_title_textsize">20sp</dimen>

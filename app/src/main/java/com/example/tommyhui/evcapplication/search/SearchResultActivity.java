@@ -7,15 +7,17 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
+import android.text.Html;
+import android.text.Spanned;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.tommyhui.evcapplication.HomeActivity;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.adapter.SearchResultListViewAdapter;
 import com.example.tommyhui.evcapplication.database.ItemCS;
@@ -89,12 +91,18 @@ public class SearchResultActivity extends ActionBarActivity {
         searchResultListViewAdapter = new SearchResultListViewAdapter(SearchResultActivity.this, searchResultList);
         listView.setAdapter(searchResultListViewAdapter);
 
+        // To show the search result
+        TextView status = (TextView) findViewById(R.id.searchresult_text_status);
+        Spanned result = Html.fromHtml("<strong>" + searchResultList.size() + "</strong>" + getString(R.string.searchresult_search_result_text));
+        status.setText(result);
+        LinearLayout layout = (LinearLayout) findViewById(R.id.searchresult_layout_status);
+        layout.setVisibility(View.VISIBLE);
+
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position,
                                     long id) {
-                // TODO Auto-generated method stub
 
                 ItemCS cs = searchResultList.get(position);
 
@@ -149,7 +157,7 @@ public class SearchResultActivity extends ActionBarActivity {
         }
         if(availability) {
             for (ItemCS temp : tempList) {
-                if(!HomeActivity.realTimeQuantityList.get(temp.getMatching_index()).equals("0"))
+                if(!MenuActivity.realTimeQuantityList.get(temp.getMatching_index()).equals("0"))
                     resultAvailability.add(temp);
             }
         }
@@ -191,7 +199,7 @@ public class SearchResultActivity extends ActionBarActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
+
                 SearchResultActivity.this.finish();
             }
         });

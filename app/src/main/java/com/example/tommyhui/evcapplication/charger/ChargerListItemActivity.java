@@ -11,10 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.tommyhui.evcapplication.HomeActivity;
+import com.example.tommyhui.evcapplication.JSONParser.DirectionsJSONDrawPath;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
-import com.example.tommyhui.evcapplication.JSONParser.DirectionsJSONDrawPath;
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
 import com.example.tommyhui.evcapplication.util.ConnectionDetector;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -177,10 +177,18 @@ public class ChargerListItemActivity extends ActionBarActivity implements Locati
                 builder.include(latLng);
 
                 // Add a marker to the map.
-                Marker marker = googleMap.addMarker(new MarkerOptions()
-                        .position(latLng)
-                        .title(chargerList.get(i).getDescription())
-                        .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+                MarkerOptions markerOptions = new MarkerOptions();
+
+                markerOptions.position(latLng);
+                markerOptions.title(chargerList.get(i).getDescription());
+                String quantity = MenuActivity.realTimeQuantityList.get(chargerList.get(i).getMatching_index());
+
+                if(quantity.equals("0"))
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+                else
+                    markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+                Marker marker = googleMap.addMarker(markerOptions);
 
                 for (ItemCS socket : MenuActivity.realTimeInfoList) {
                     if (socket.getLatitude().equals(chargerList.get(i).getLatitude()) && socket.getLongitude().equals(chargerList.get(i).getLongitude()))

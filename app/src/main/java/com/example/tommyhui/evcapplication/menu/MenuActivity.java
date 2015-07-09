@@ -48,6 +48,7 @@ public class MenuActivity extends ActionBarActivity {
 
     public static ArrayList<ItemCS> ItemCSes = new ArrayList<ItemCS>();
     public static ArrayList<ItemCS> realTimeInfoList = new ArrayList<ItemCS>();
+    public static ArrayList <String> realTimeQuantityList = new ArrayList<String>();
 
     private Set<String> list_ID_favorite = new HashSet<String>();
     private Set<String> list_ID_history = new HashSet<String>();
@@ -136,7 +137,7 @@ public class MenuActivity extends ActionBarActivity {
         protected String doInBackground(String... args) {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            HomeActivity.realTimeQuantityList.clear();
+            realTimeQuantityList.clear();
 
             jsonParser.makeHttpRequest(HomeActivity.url_check_status, "GET", params);
             // getting JSON string from URL
@@ -159,7 +160,7 @@ public class MenuActivity extends ActionBarActivity {
                         String quantity = c.getString(HomeActivity.TAG_CHARGINGSTATION_QUANTITY);
 
                         // adding to ArrayList
-                        HomeActivity.realTimeQuantityList.add(i, quantity);
+                        realTimeQuantityList.add(i, quantity);
                     }
                 }
             } catch (JSONException e) {

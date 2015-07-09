@@ -13,11 +13,11 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
-import com.example.tommyhui.evcapplication.HomeActivity;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.adapter.RealTimeSortItemListViewAdapter;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 import com.example.tommyhui.evcapplication.database.ItemCS_DBController;
+import com.example.tommyhui.evcapplication.menu.MenuActivity;
 
 import java.util.ArrayList;
 
@@ -109,13 +109,13 @@ public class RealTimeSortItemActivity extends ActionBarActivity {
 
                     if(option.equals(getString(R.string.realtime_sort_item_text_available))) {
                         for (ItemCS temp : tempList) {
-                            if (!HomeActivity.realTimeQuantityList.get(temp.getMatching_index()).equals("0"))
+                            if (!MenuActivity.realTimeQuantityList.get(temp.getMatching_index()).equals("0"))
                             queryItemCSes.add(temp);
                         }
                     }
                     else {
                         for (ItemCS temp : tempList) {
-                            if (HomeActivity.realTimeQuantityList.get(temp.getMatching_index()).equals("0"))
+                            if (MenuActivity.realTimeQuantityList.get(temp.getMatching_index()).equals("0"))
                                 queryItemCSes.add(temp);
                         }
                     }
@@ -140,7 +140,7 @@ public class RealTimeSortItemActivity extends ActionBarActivity {
         int count = 0;
 
         for (int i = 0; i < itemList.size(); i++) {
-            String quantity = HomeActivity.realTimeQuantityList.get(itemList.get(i).getMatching_index());
+            String quantity = MenuActivity.realTimeQuantityList.get(itemList.get(i).getMatching_index());
 
             if (!quantity.equals("0"))
                 count++;

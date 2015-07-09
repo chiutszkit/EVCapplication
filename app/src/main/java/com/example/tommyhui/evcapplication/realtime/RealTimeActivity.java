@@ -31,6 +31,7 @@ import com.example.tommyhui.evcapplication.JSONParser.RealTimeStatusJSONParser;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.adapter.RealTimeListViewAdapter;
 import com.example.tommyhui.evcapplication.database.ItemCS;
+import com.example.tommyhui.evcapplication.menu.MenuActivity;
 import com.example.tommyhui.evcapplication.util.AESencryption;
 import com.example.tommyhui.evcapplication.util.ConnectionDetector;
 import com.google.android.gms.maps.model.LatLng;
@@ -55,7 +56,7 @@ public class RealTimeActivity extends ActionBarActivity implements LocationListe
     private String type;
     private String socket;
     private Location myLocation;
-    String decrypted;
+    private String decrypted;
 
     private ConnectionDetector cd = new ConnectionDetector(this);
 
@@ -229,7 +230,7 @@ public class RealTimeActivity extends ActionBarActivity implements LocationListe
         protected String doInBackground(String... args) {
             // Building Parameters
             List<NameValuePair> params = new ArrayList<NameValuePair>();
-            HomeActivity.realTimeQuantityList.clear();
+            MenuActivity.realTimeQuantityList.clear();
 
             jsonParser.makeHttpRequest(HomeActivity.url_check_status, "GET", params);
             // getting JSON string from URL
@@ -252,7 +253,7 @@ public class RealTimeActivity extends ActionBarActivity implements LocationListe
                         String quantity = c.getString(HomeActivity.TAG_CHARGINGSTATION_QUANTITY);
 
                         // adding to ArrayList
-                        HomeActivity.realTimeQuantityList.add(i, quantity);
+                        MenuActivity.realTimeQuantityList.add(i, quantity);
                     }
                 }
             } catch (JSONException e) {
@@ -308,11 +309,12 @@ public class RealTimeActivity extends ActionBarActivity implements LocationListe
 
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(act);
         alertDialog.setTitle(R.string.realtime_confirmDialog_scan_title);
-        String message = decrypted + "\n" + getString(R.string.realtime_confirmDialog_scan_text_description) + description + "\n"
+        String message = getString(R.string.realtime_confirmDialog_scan_text_description) + description + "\n"
                             + getString(R.string.realtime_confirmDialog_scan_text_address) + address + "\n"
                             + getString(R.string.realtime_confirmDialog_scan_text_district) + district + "\n"
                             + getString(R.string.realtime_confirmDialog_scan_text_type) + type + "\n"
                             + getString(R.string.realtime_confirmDialog_scan_text_socket) + socket;
+        // + decrypted + "\n"
         alertDialog.setMessage(message);
         alertDialog.setNegativeButton(R.string.realtime_confirmDialog_scan_no_option, new DialogInterface.OnClickListener() {
 
@@ -459,7 +461,7 @@ public class RealTimeActivity extends ActionBarActivity implements LocationListe
         LatLng referenceLocationOfChargingStation = new LatLng(Double.parseDouble(HomeActivity.matchingList.get(index).getLatitude()), Double.parseDouble(HomeActivity.matchingList.get(index).getLongitude()));
 
         // To check if the QR code is scanned in a specified position *****
-        if(getDistance(currentLocation, referenceLocationOfChargingStation) <= 20000)
+        if(getDistance(currentLocation, referenceLocationOfChargingStation) <= 50)
             result = true;
 
         Log.v("Distance", getDistance(currentLocation, referenceLocationOfChargingStation) + "");

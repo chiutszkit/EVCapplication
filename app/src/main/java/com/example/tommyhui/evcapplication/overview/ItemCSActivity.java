@@ -15,11 +15,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.tommyhui.evcapplication.HomeActivity;
+import com.example.tommyhui.evcapplication.JSONParser.DirectionsJSONDrawPath;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS;
 import com.example.tommyhui.evcapplication.database.FavoriteItemCS_DBController;
 import com.example.tommyhui.evcapplication.database.ItemCS;
-import com.example.tommyhui.evcapplication.JSONParser.DirectionsJSONDrawPath;
 import com.example.tommyhui.evcapplication.menu.MenuActivity;
 import com.example.tommyhui.evcapplication.util.ConnectionDetector;
 import com.google.android.gms.common.ConnectionResult;
@@ -96,7 +96,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
         TextView socketText = (TextView) findViewById(R.id.chargingstation_item_text_socket);
         socketText.setText(socket);
         TextView quantityText = (TextView) findViewById(R.id.chargingstation_item_text_quantity);
-        quantityText.setText(getString(R.string.item_title_availability_text) + HomeActivity.realTimeQuantityList.get(index) + "/" + quantity.toString());
+        quantityText.setText(getString(R.string.item_title_availability_text) + MenuActivity.realTimeQuantityList.get(index) + "/" + quantity.toString());
 
         /** Set up the map fragment **/
         if (!isGooglePlayServicesAvailable()) {
@@ -126,10 +126,18 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
             LatLng latLng = new LatLng(latInDouble, lonInDouble);
             builder.include(latLng);
 
-            chargingStationMarker = googleMap.addMarker(new MarkerOptions()
-                    .position(latLng)
-                    .title(description)
-                    .icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN)));
+            MarkerOptions markerOptions = new MarkerOptions();
+
+            markerOptions.position(latLng);
+            markerOptions.title(description);
+            String quantity = MenuActivity.realTimeQuantityList.get(index);
+
+            if(quantity.equals("0"))
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_RED));
+            else
+                markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN));
+
+            chargingStationMarker = googleMap.addMarker(markerOptions);
         }
 
         if(myLocation != null) {
@@ -140,7 +148,7 @@ public class ItemCSActivity extends ActionBarActivity implements LocationListene
                 @Override
                 public void onCameraChange(CameraPosition arg0) {
                     // Move camera to the position that shows all markers.
-                    googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 300));
+                    googleMap.moveCamera(CameraUpdateFactory.newLatLngBounds(bounds, 100));
                     // Remove listener to prevent position reset on camera move.
                     googleMap.setOnCameraChangeListener(null);
                 }

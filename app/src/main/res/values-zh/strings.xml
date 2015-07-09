@@ -2,7 +2,7 @@
 <resources>
 
     <!-- Home Page-->
-    <string name="app_name">EV Charging Station Helper</string>
+    <string name="app_name">電動汽車充電站小幫手</string>
     <string name="home_slogan">綠色生活，綠色汽車</string>
     <string name="alertDialog_no_gps_title">全球定位系统(GPS)</string>
     <string name="alertDialog_no_gps_text">你的裝置沒有全球定位系统(GPS)信號。</string>
@@ -68,6 +68,7 @@
     <string name="searchresult_alertDialog_revise_option">修訂搜索</string>
     <string name="searchresult_title">搜索結果</string>
     <string name="searchresult_searchAgain">再次搜索</string>
+    <string name="searchresult_search_result_text">個匹配的充電站項目</string>
 
     <!-- Overview Page-->
     <string name="overview_title">概覽</string>

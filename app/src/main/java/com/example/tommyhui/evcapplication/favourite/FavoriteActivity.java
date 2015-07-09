@@ -113,6 +113,7 @@ public class FavoriteActivity extends ActionBarActivity {
                 // TODO Auto-generated method stub
 
                 Intent intent = new Intent();
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 intent.setClass(FavoriteActivity.this, MenuActivity.class);
                 startActivity(intent);
                 FavoriteActivity.this.finish();

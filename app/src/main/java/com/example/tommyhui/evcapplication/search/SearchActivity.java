@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.view.View;
-
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -149,23 +148,20 @@ public class SearchActivity extends ActionBarActivity {
         list.clear();
         queryItemCSes = db.inputQueryCSes(this, new String[] {column}, 1);
         for (int i = 0; i < queryItemCSes.size(); i++) {
-            switch(column) {
-                case "description":
-                    list.add(i, queryItemCSes.get(i).getDescription());
-                    break;
-                case "district":
-                    list.add(i, queryItemCSes.get(i).getDistrict());
-                    break;
-                case "type":
-                    list.add(i, queryItemCSes.get(i).getType());
-                    break;
-                case "socket":
-                    list.add(i, queryItemCSes.get(i).getSocket());
-                    break;
-                case "quantity":
-                    list.add(i, queryItemCSes.get(i).getQuantity() + "");
-                    break;
-            }
+            if(column.equals("description"))
+                list.add(i, queryItemCSes.get(i).getDescription());
+
+            else if(column.equals("district"))
+                list.add(i, queryItemCSes.get(i).getDistrict());
+
+            else if(column.equals("type"))
+                list.add(i, queryItemCSes.get(i).getType());
+
+            else if(column.equals("socket"))
+                list.add(i, queryItemCSes.get(i).getSocket());
+
+            else if(column.equals("quantity"))
+                list.add(i, queryItemCSes.get(i).getQuantity() + "");
         }
         list.add(0,all);
     }

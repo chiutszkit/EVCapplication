@@ -68,6 +68,7 @@
     <string name="searchresult_alertDialog_revise_option">Revise search</string>
     <string name="searchresult_title">Search Result</string>
     <string name="searchresult_searchAgain">Search Again</string>
+    <string name="searchresult_search_result_text">&#160; matched charging stations found.</string>
 
     <!-- Overview Page-->
     <string name="overview_title">Overview</string>
