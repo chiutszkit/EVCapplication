@@ -77,7 +77,6 @@ public class ChargerListActivity extends ActionBarActivity {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position,
                                         long id) {
-                    // TODO Auto-generated method stub
 
                     ItemCS cs = chargerList.get(position);
 

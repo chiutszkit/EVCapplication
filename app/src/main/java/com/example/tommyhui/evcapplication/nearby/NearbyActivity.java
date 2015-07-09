@@ -257,7 +257,6 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
             }
 
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
         return fDistance;
@@ -283,7 +282,7 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
             }
 
         } catch (JSONException e) {
-            // TODO Auto-generated catch block
+
             e.printStackTrace();
         }
         return fTime;
@@ -333,17 +332,14 @@ public class NearbyActivity extends ActionBarActivity implements LocationListene
     }
     @Override
     public void onProviderDisabled(String provider) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
     }
 
     /** Locate all the markers of charging stations in the map **/

@@ -39,7 +39,6 @@ public class OverviewListFragmentActivity extends Fragment {
     }
 
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
 
         super.onActivityCreated(savedInstanceState);
         db = new HistoryItemCS_DBController(getActivity());

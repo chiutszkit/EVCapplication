@@ -18,7 +18,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.astuetz.PagerSlidingTabStrip;
-import com.example.tommyhui.evcapplication.HomeActivity;
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.adapter.OverviewListViewAdapter;
 import com.example.tommyhui.evcapplication.adapter.OverviewPagerAdapter;
@@ -148,7 +147,6 @@ public class OverviewActivity extends ActionBarActivity {
             @Override
             /** To handle the case when texts on SearchView are submit **/
             public boolean onQueryTextSubmit(String query) {
-                // TODO Auto-generated method stub
 
                 // To go back to the view page of list
                 mViewPager.setCurrentItem(0);

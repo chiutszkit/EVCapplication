@@ -71,7 +71,6 @@ public class FavoriteActivity extends ActionBarActivity {
 
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                    // TODO Auto-generated method stub
 
                     FavoriteItemCS cs = favoriteList.get(position);
 
@@ -110,7 +109,6 @@ public class FavoriteActivity extends ActionBarActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
 
                 Intent intent = new Intent();
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
@@ -124,7 +122,6 @@ public class FavoriteActivity extends ActionBarActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
 
                 Intent intent = new Intent();
                 intent.setClass(FavoriteActivity.this, OverviewActivity.class);
@@ -137,7 +134,6 @@ public class FavoriteActivity extends ActionBarActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
 
                 Intent intent = new Intent();
                 intent.setClass(FavoriteActivity.this, SearchActivity.class);

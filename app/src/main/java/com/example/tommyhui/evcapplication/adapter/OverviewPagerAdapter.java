@@ -22,7 +22,6 @@ public class OverviewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public android.support.v4.app.Fragment getItem(int position) {
-        // TODO Auto-generated method stub
         switch (position) {
             case 0:
                 return new OverviewListFragmentActivity();
@@ -35,7 +34,6 @@ public class OverviewPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return tabTitles.length;
     }
 

@@ -62,7 +62,6 @@ public class ConnectionDetector {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
             }
         });
 
@@ -79,7 +78,6 @@ public class ConnectionDetector {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
             }
         });
 

@@ -40,7 +40,6 @@ public class OverviewHistoryFragmentActivity extends Fragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        // TODO Auto-generated method stub
         super.onActivityCreated(savedInstanceState);
         db = new HistoryItemCS_DBController(getActivity());
         setHasOptionsMenu(true);
@@ -48,7 +47,6 @@ public class OverviewHistoryFragmentActivity extends Fragment {
 
     @Override
     public void onResume() {
-        // TODO Auto-generated method stub
         super.onResume();
 
         historyList = db.getAllHistoryCSes();
@@ -63,7 +61,6 @@ public class OverviewHistoryFragmentActivity extends Fragment {
                 @Override
                 public void onItemClick(AdapterView<?> parent, View view, int position,
                                         long id) {
-                    // TODO Auto-generated method stub
 
                     HistoryItemCS cs = historyList.get(position);
 
@@ -123,7 +120,6 @@ public class OverviewHistoryFragmentActivity extends Fragment {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
             }
         });
@@ -132,7 +128,6 @@ public class OverviewHistoryFragmentActivity extends Fragment {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
 
                 db = new HistoryItemCS_DBController(getActivity().getApplicationContext());
                 for (int i = 0; i < historyList.size(); i++) {

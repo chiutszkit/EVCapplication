@@ -53,7 +53,6 @@ class DistinctMultiHashMap<TKey,TItemValue> {
     }
 
     public List<TItemValue> get(TKey key){
-        //todo immutable
         return mKeyToValuesMap.get(mIDMapper.keyToKeyId(key));
     }
     public TKey getKey(TItemValue value){

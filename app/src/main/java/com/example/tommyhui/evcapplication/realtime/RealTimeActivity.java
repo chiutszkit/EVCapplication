@@ -394,7 +394,6 @@ public class RealTimeActivity extends ActionBarActivity implements LocationListe
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
             }
         });
 
@@ -410,7 +409,6 @@ public class RealTimeActivity extends ActionBarActivity implements LocationListe
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
             }
         });
 
@@ -426,7 +424,7 @@ public class RealTimeActivity extends ActionBarActivity implements LocationListe
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
+
             }
         });
 
@@ -496,17 +494,15 @@ public class RealTimeActivity extends ActionBarActivity implements LocationListe
     }
     @Override
     public void onProviderDisabled(String provider) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
+
     }
 
     /** Calculate the displacement between user current position and specific location of charging station **/

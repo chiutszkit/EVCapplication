@@ -33,19 +33,17 @@ public class FavoriteListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
         return itemList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
         return itemList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
+
         return position;
     }
 
@@ -114,7 +112,6 @@ public class FavoriteListViewAdapter extends BaseAdapter {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
                 dialog.dismiss();
             }
         });
@@ -123,7 +120,6 @@ public class FavoriteListViewAdapter extends BaseAdapter {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
                 db = new FavoriteItemCS_DBController(context);
                 db.deleteFavoriteCS(itemList.get(position));
                 imageView.setImageResource(R.drawable.delfavorite_icon);

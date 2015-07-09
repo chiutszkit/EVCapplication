@@ -92,7 +92,6 @@ public class ChargerListItemActivity extends ActionBarActivity implements Locati
 
             @Override
             public boolean onMarkerClick(Marker marker) {
-                // TODO Auto-generated method stub
                 /** Draw the travelling path **/
                 if (cd.isConnectingToInternet() && cd.isConnectingToGPS()) {
                     DirectionsJSONDrawPath directionsJSONDrawPath = new DirectionsJSONDrawPath(googleMap, new LatLng(myLocation.getLatitude(), myLocation.getLongitude()), new LatLng(marker.getPosition().latitude, marker.getPosition().longitude));
@@ -143,17 +142,14 @@ public class ChargerListItemActivity extends ActionBarActivity implements Locati
     }
     @Override
     public void onProviderDisabled(String provider) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void onProviderEnabled(String provider) {
-        // TODO Auto-generated method stub
     }
 
     @Override
     public void onStatusChanged(String provider, int status, Bundle extras) {
-        // TODO Auto-generated method stub
     }
 
     /** Locate all the markers of charging stations with specific type in the map **/

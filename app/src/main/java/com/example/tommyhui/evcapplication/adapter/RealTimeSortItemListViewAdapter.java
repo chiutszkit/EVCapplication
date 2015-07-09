@@ -24,19 +24,19 @@ public class RealTimeSortItemListViewAdapter extends BaseAdapter {
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
+
         return itemList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
+
         return itemList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
+
         return position;
     }
 

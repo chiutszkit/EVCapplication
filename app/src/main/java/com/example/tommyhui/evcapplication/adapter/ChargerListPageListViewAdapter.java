@@ -7,12 +7,12 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
-
 import com.example.tommyhui.evcapplication.R;
 import com.example.tommyhui.evcapplication.database.ItemCS;
 
 import java.util.ArrayList;
+
+import se.emilsjolander.stickylistheaders.StickyListHeadersAdapter;
 
 public class ChargerListPageListViewAdapter extends BaseAdapter implements StickyListHeadersAdapter {
     private final Context context;
@@ -27,19 +27,19 @@ public class ChargerListPageListViewAdapter extends BaseAdapter implements Stick
 
     @Override
     public int getCount() {
-        // TODO Auto-generated method stub
+
         return itemList.size();
     }
 
     @Override
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
+
         return itemList.get(position);
     }
 
     @Override
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
+
         return position;
     }
 

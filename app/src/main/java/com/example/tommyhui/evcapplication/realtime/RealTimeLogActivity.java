@@ -142,7 +142,7 @@ public class RealTimeLogActivity extends ActionBarActivity {
 
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // TODO Auto-generated method stub
+
                 RealTimeLogActivity.this.finish();
             }
         });
